@@ -1,0 +1,57 @@
+/* Preset de expresión «expresivo»: se carga DESPUÉS de design/styles.css y solo redefine tokens de forma, ritmo, brillo,
+   textura y movimiento. Los colores siguen siendo los de styles.css (el brillo se deriva de --brand).
+   Personalidad visible dentro del presupuesto de efectos del brief: brillos suaves, líneas con alfa ≤ 8 %, solo
+   opacity y transform en movimiento, y todo apagado con prefers-reduced-motion (ver design/FRONTEND.md).
+   Mismo contrato de tokens que sobrio.css (lo comprueba una prueba). */
+
+:root {
+  --expresion: expresivo;
+
+  /* Escala tipográfica: cuerpo 18 px, piso 15 px, y un salto de 3x o más hasta el título de página. */
+  --t-0: 18px;
+  --t-1: 22px;
+  --t-2: 30px;
+  --t-3: 48px;
+  --t-note: 15px;
+  --t-page: clamp(56px, 6vw, 96px);
+
+  /* Forma: esquinas moderadas, sin exagerar. */
+  --radius-control: 6px;
+  --radius-frame: 10px;
+  --radius-data: 2px;
+
+  /* Ritmo vertical entre secciones. */
+  --espacio-seccion: 96px;
+
+  /* Movimiento: una entrada orquestada y escalonada; los ciclos infinitos son lentos (nada parpadea: ciclo ≥ 340 ms). */
+  --dur-fast: 120ms;
+  --dur: 240ms;
+  --dur-entrada: 600ms;
+  --stagger: 60ms;
+  --ciclo-lento: 4s;
+
+  /* Brillo suave derivado del color de marca. El contraste de texto con brillo se mide contra el peor caso. */
+  --glow-c: color-mix(in srgb, var(--brand) 32%, transparent);
+  --glow: 0 0 12px var(--glow-c);
+  --glow-box: 0 0 16px var(--glow-c), 0 0 2px var(--glow-c);
+
+  /* Texturas como imagen SVG (no degradados): líneas finas con alfa ≤ 0,08. */
+  --textura-lineas: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect y='3' width='4' height='1' fill='%23000000' fill-opacity='.06'/%3E%3C/svg%3E");
+  --textura-puntos: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='1' cy='1' r='1' fill='%23000000' fill-opacity='.05'/%3E%3C/svg%3E");
+}
+
+/* Sobre fondo oscuro las líneas negras no se ven: se usan blancas, con el mismo tope de alfa. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --textura-lineas: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect y='3' width='4' height='1' fill='%23ffffff' fill-opacity='.05'/%3E%3C/svg%3E");
+    --textura-puntos: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='1' cy='1' r='1' fill='%23ffffff' fill-opacity='.05'/%3E%3C/svg%3E");
+  }
+}
+
+/* Con movimiento reducido, quietud: sin escalonado ni entrada. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-entrada: 0ms;
+    --stagger: 0ms;
+  }
+}

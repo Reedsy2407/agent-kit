@@ -1,0 +1,79 @@
+{
+  "_ayuda": "Ficha «Infra del proyecto». Sin secretos: los inicios de sesión son pasos manuales y aquí solo se documentan. Los permisos son reglas de Claude Code con su sintaxis (p. ej. Bash(mi-cli logs:*)). Una denegación gana a una autorización: el generador falla si alguna autorización queda tapada. El bloque ops declara qué operaciones permite la ficha (scripts de salud y de sondeo, y acciones de operación con comandos exactos; reversa y rotación siempre preguntan) y kit.preset elige las comprobaciones del sello por stack (java-maven, java-gradle, dotnet, node, python). Después de editarla: node infra/generate-settings.mjs --ficha <esta ficha> --destino <proyecto>.",
+  "version": 1,
+  "proyecto": "",
+  "tipo": "A",
+  "despliegue": {
+    "proveedor": "",
+    "cli": "",
+    "servicios": [],
+    "primerDespliegueHecho": false,
+    "permitidosTrasPrimerDespliegue": [],
+    "permitidos": [],
+    "denegados": [],
+    "comoSeVerifica": ""
+  },
+  "baseDeDatos": {
+    "proveedor": "",
+    "cli": "",
+    "puntoDeRestauracion": {
+      "metodo": "rama, instantánea o copia de seguridad antes de toda migración; el borrado de ramas o bases lo hace el humano",
+      "permitidos": [],
+      "denegados": []
+    }
+  },
+  "logs": {
+    "metodo": "siempre con filtro de recurso, formato JSON a un archivo, timeout y < /dev/null; nunca seguir el flujo",
+    "permitidos": []
+  },
+  "urlsPublicas": [],
+  "loginManual": [],
+  "permisos": {
+    "permitidos": [],
+    "denegados": []
+  },
+  "ops": {
+    "salud": {
+      "permitida": false,
+      "config": "ops/salud.config.json"
+    },
+    "sondeoAcceso": {
+      "permitida": false,
+      "config": "ops/dependencias.json"
+    },
+    "acciones": {
+      "estado": {
+        "permitida": false,
+        "comandos": []
+      },
+      "arranque": {
+        "permitida": false,
+        "comandos": []
+      },
+      "parada": {
+        "permitida": false,
+        "comandos": []
+      },
+      "reversa": {
+        "permitida": false,
+        "comandos": []
+      },
+      "rotacion": {
+        "permitida": false,
+        "comandos": []
+      }
+    }
+  },
+  "kit": {
+    "baseBranch": "main",
+    "maxBranchCommits": 10,
+    "modules": [],
+    "commitScopes": [],
+    "preset": "",
+    "checks": [],
+    "gitleaks": true,
+    "autoria": {
+      "correosPermitidos": []
+    }
+  }
+}

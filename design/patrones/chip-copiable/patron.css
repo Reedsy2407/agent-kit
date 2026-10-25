@@ -1,0 +1,35 @@
+.chip-grupo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-input);
+  border-radius: var(--radius-control);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--t-0);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.chip:hover {
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+
+/* El aviso existe desde el principio (región en vivo) y solo cambia su texto. */
+.chip-aviso {
+  min-width: var(--space-12);
+  font-size: var(--t-note);
+  color: var(--ink-soft);
+}

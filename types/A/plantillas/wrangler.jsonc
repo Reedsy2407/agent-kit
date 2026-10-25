@@ -1,0 +1,11 @@
+{
+  // Solo archivos estáticos: sin main ni binding. Se publica dist/, que genera «npm run publicar». Verifica los campos con la documentación oficial antes de cada uso.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "{{proyecto}}",
+  "compatibility_date": "{{fecha}}",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

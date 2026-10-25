@@ -1,0 +1,5 @@
+{
+  "_ayuda": "Datos que no deben aparecer en el sitio y que no se versionan: este archivo está ignorado por git. Nombres reales de clientes, personas o proyectos van aquí y no en front.config.json. Cada patrón: { \"nombre\": \"...\", \"regex\": \"...\", \"flags\": \"i\", \"ambitos\": [\"visible\", \"atributos\", \"codigo\"] }. Si borras este archivo, la prueba «datos» avisa de que no comprueba nada privado.",
+  "nombresProhibidos": [],
+  "patrones": []
+}

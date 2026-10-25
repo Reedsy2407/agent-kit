@@ -1,0 +1,12 @@
+# Sin base de datos ni clientes salientes. APP_ENTORNO (obligatoria) se enlaza sola con app.entorno: si falta, el servicio no
+# arranca (AjustesApp la valida). PORT y HOST son opcionales. Los secretos, cuando existan, se leerán de variables de entorno
+# SIN valor por defecto en application.yml.
+server:
+  port: ${PORT:8080}
+  address: ${HOST:127.0.0.1}
+  shutdown: graceful
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 10s
+  main:
+    banner-mode: "off"

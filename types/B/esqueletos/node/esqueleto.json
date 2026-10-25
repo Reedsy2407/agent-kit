@@ -1,0 +1,14 @@
+{
+  "_ayuda": "Metadatos del esqueleto (los lee el instalador y types/B/esqueletos/verificar.mjs). El esqueleto se instala solo si la ficha del proyecto declara kit.preset igual a «preset».",
+  "stack": "node",
+  "nombre": "Node (solo biblioteca estándar)",
+  "preset": "node",
+  "gitignore": ["/.env", "/node_modules/", "!/.env.ejemplo"],
+  "verificacion": {
+    "puerto": 18080,
+    "env": { "APP_ENTORNO": "desarrollo", "HOST": "127.0.0.1" },
+    "sello": "npm test",
+    "arrancar": ["node", "src/server.mjs"],
+    "imagen": { "puertoInterno": 8080 }
+  }
+}

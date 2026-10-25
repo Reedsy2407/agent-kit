@@ -1,0 +1,32 @@
+/* Una tarjeta destacada, no una rejilla de tarjetas idénticas. */
+.tarjeta {
+  max-width: 44rem;
+  padding: var(--space-8);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-frame);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.tarjeta h3 {
+  margin-bottom: var(--space-3);
+  font-size: var(--t-2);
+}
+
+.tarjeta p {
+  margin: 0 0 var(--space-4);
+}
+
+.tarjeta .enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin: var(--space-4) 0 0;
+}
+
+.tarjeta .enlaces a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch);
+}

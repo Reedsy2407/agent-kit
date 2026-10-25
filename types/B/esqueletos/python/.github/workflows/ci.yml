@@ -1,0 +1,30 @@
+name: integracion-continua
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+
+  imagen:
+    needs: pruebas
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Construir la imagen (no se publica)
+        run: docker build -t servicio-esqueleto:ci .

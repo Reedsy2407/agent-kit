@@ -1,0 +1,241 @@
+{
+  "tipo": "B",
+  "nombre": "sistema con servicios",
+  "estado": "disponible",
+  "perfilExpresion": "sobrio",
+  "puntos": {
+    "aplican": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "noAplican": []
+  },
+  "ficha": "types/B/ficha-infra.json",
+  "esqueletos": "types/B/esqueletos",
+  "archivos": [
+    {
+      "origen": "core/CLAUDE.md",
+      "destino": "CLAUDE.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/HANDOFF.md",
+      "destino": "HANDOFF.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/PROCESO-MODULOS-Y-REVISION.md",
+      "destino": "kit/PROCESO-MODULOS-Y-REVISION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/PROMPT-MODULO.md",
+      "destino": "kit/PROMPT-MODULO.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/MERGE-AUTORIZADO.md",
+      "destino": "kit/MERGE-AUTORIZADO.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/hooks",
+      "destino": ".claude/hooks",
+      "excluir": [
+        "test"
+      ],
+      "versionado": false
+    },
+    {
+      "origen": "core/agents",
+      "destino": ".claude/agents",
+      "versionado": false
+    },
+    {
+      "origen": "core/skills",
+      "destino": ".claude/skills",
+      "versionado": false
+    },
+    {
+      "origen": "design/skills",
+      "destino": ".claude/skills",
+      "versionado": false
+    },
+    {
+      "origen": "design/DESIGN-BRIEF.md",
+      "destino": "design/DESIGN-BRIEF.md",
+      "plantilla": true,
+      "versionado": true
+    },
+    {
+      "origen": "design/styles.css",
+      "destino": "design/styles.css",
+      "versionado": true
+    },
+    {
+      "origen": "design/TOOLING.md",
+      "destino": "design/TOOLING.md",
+      "plantilla": true,
+      "versionado": true
+    },
+    {
+      "origen": "core/gitattributes.plantilla",
+      "destino": ".gitattributes",
+      "versionado": true
+    },
+    {
+      "origen": "design/FRONTEND.md",
+      "destino": "design/FRONTEND.md",
+      "plantilla": true,
+      "versionado": true
+    },
+    {
+      "origen": "design/presets",
+      "destino": "design/presets",
+      "versionado": true
+    },
+    {
+      "origen": "design/patrones",
+      "destino": "design/patrones",
+      "versionado": true
+    },
+    {
+      "origen": "front/lib",
+      "destino": "tests/front/lib",
+      "versionado": true
+    },
+    {
+      "origen": "front/pruebas",
+      "destino": "tests/front/pruebas",
+      "versionado": true
+    },
+    {
+      "origen": "front/herramientas",
+      "destino": "tests/front/herramientas",
+      "versionado": true
+    },
+    {
+      "origen": "front/run.mjs",
+      "destino": "tests/front/run.mjs",
+      "versionado": true
+    },
+    {
+      "origen": "front/datos-privados.ejemplo.json",
+      "destino": "tests/front/datos-privados.json",
+      "versionado": false,
+      "propio": true
+    },
+    {
+      "origen": "types/B/skills",
+      "destino": ".claude/skills",
+      "versionado": false
+    },
+    {
+      "origen": "types/B/GUIA-DECISION.md",
+      "destino": "kit/GUIA-DECISION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/B/FRONT.md",
+      "destino": "kit/FRONT-TIPO-B.md",
+      "versionado": false
+    },
+    {
+      "origen": "types/B/catalogo",
+      "destino": "kit/catalogo",
+      "versionado": false
+    },
+    {
+      "origen": "types/B/ejemplos-adr",
+      "destino": "kit/ejemplos-adr",
+      "versionado": false
+    },
+    {
+      "origen": "types/B/plantillas/DECISION-VIABILIDAD.md",
+      "destino": "kit/plantillas/DECISION-VIABILIDAD.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/B/plantillas/ADR.md",
+      "destino": "kit/plantillas/ADR.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/B/plantillas/front.config.ejemplo.json",
+      "destino": "tests/front/front.config.ejemplo.json",
+      "versionado": true
+    },
+    {
+      "origen": "ops/skills",
+      "destino": ".claude/skills",
+      "versionado": false
+    },
+    {
+      "origen": "ops/plantillas",
+      "destino": "ops",
+      "plantilla": true,
+      "versionado": true
+    },
+    {
+      "origen": "ops/scripts/salud.mjs",
+      "destino": "scripts/salud.mjs",
+      "versionado": true
+    },
+    {
+      "origen": "ops/salud.config.ejemplo.json",
+      "destino": "ops/salud.config.json",
+      "versionado": true,
+      "propio": true
+    },
+    {
+      "origen": "types/B/plantillas/scripts/sondeo-acceso.mjs",
+      "destino": "scripts/sondeo-acceso.mjs",
+      "versionado": true
+    },
+    {
+      "origen": "types/B/plantillas/dependencias.ejemplo.json",
+      "destino": "ops/dependencias.json",
+      "versionado": true,
+      "propio": true
+    },
+    {
+      "origen": "types/B/casos-privados",
+      "destino": "kit/casos-privados",
+      "privado": true,
+      "versionado": false
+    }
+  ],
+  "gitignore": [
+    "/CLAUDE.md",
+    "/HANDOFF.md",
+    "/kit/",
+    "/tasks/",
+    "/.claude/",
+    "/design/refs/",
+    "/node_modules/",
+    "/tests/front/datos-privados.json"
+  ]
+}

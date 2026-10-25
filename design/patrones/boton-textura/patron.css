@@ -1,0 +1,35 @@
+/* Botón con textura de líneas finas (token --textura-lineas, alfa ≤ 8 %). En el preset sobrio la textura es «none». */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--control);
+  padding: 0 var(--space-6);
+  border: 1px solid var(--brand);
+  border-radius: var(--radius-control);
+  background-color: var(--brand);
+  background-image: var(--textura-lineas);
+  color: var(--paper);
+  font: inherit;
+  font-size: var(--t-0);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
+}
+
+.boton:hover {
+  background-color: var(--brand-deep);
+  box-shadow: var(--glow-box);
+  transform: translateY(-1px);
+}
+
+.boton-secundario {
+  background-color: var(--paper);
+  background-image: none;
+  color: var(--brand);
+}
+
+.boton-secundario:hover {
+  background-color: var(--row-hover);
+}

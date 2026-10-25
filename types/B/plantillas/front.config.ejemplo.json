@@ -1,0 +1,21 @@
+{
+  "_ayuda": "Ejemplo de configuración de las pruebas de front del tipo B: se corren contra una dirección ya desplegada (origen.url), no contra una carpeta. Cópialo a tests/front/front.config.json, pon la dirección https de tu front y las páginas reales. Mientras tests/front/front.config.json no exista, el sello de pre-merge solo avisa. Todo lo que no pongas aquí toma el valor por defecto de la biblioteca (ver design/FRONTEND.md).",
+  "version": 1,
+  "paginas": [
+    { "ruta": "/", "tipo": "portada" }
+  ],
+  "temas": ["dark", "light"],
+  "origen": { "carpeta": "dist", "url": "https://reemplaza-con-la-direccion-del-front.example", "cabeceras": true },
+  "datosSensibles": {
+    "telefonos": true,
+    "patrones": [],
+    "nombresProhibidos": [],
+    "ignorar": [],
+    "archivoPrivado": "tests/front/datos-privados.json",
+    "archivoPrivadoObligatorio": false
+  },
+  "contenido": { "minCaracteres": 200, "textoEsperado": [], "externosEnPestanaNueva": false, "sinEmoji": true },
+  "contraste": { "texturas": "auto" },
+  "fuentes": { "licencias": "design/TOOLING.md" },
+  "pruebas": { "dist": false, "cpu": true }
+}

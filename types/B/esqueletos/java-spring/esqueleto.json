@@ -1,0 +1,14 @@
+{
+  "_ayuda": "Metadatos del esqueleto (los lee el instalador y types/B/esqueletos/verificar.mjs). El esqueleto se instala solo si la ficha del proyecto declara kit.preset igual a «preset».",
+  "stack": "java-spring",
+  "nombre": "Java 21 con Spring Boot y Maven",
+  "preset": "java-maven",
+  "gitignore": ["/.env", "/target/", "/.idea/", "*.iml", "!/.env.ejemplo"],
+  "verificacion": {
+    "puerto": 18081,
+    "env": { "APP_ENTORNO": "desarrollo", "HOST": "127.0.0.1" },
+    "sello": "mvn -B verify",
+    "arrancar": ["java", "-jar", "target/servicio-esqueleto.jar"],
+    "imagen": { "puertoInterno": 8080 }
+  }
+}

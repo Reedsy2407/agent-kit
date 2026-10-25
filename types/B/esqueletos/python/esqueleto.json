@@ -1,0 +1,16 @@
+{
+  "_ayuda": "Metadatos del esqueleto (los lee el instalador y types/B/esqueletos/verificar.mjs). El esqueleto se instala solo si la ficha del proyecto declara kit.preset igual a «preset».",
+  "stack": "python",
+  "nombre": "Python (FastAPI)",
+  "preset": "python",
+  "gitignore": ["/.env", "/.venv/", "__pycache__/", ".pytest_cache/", "!/.env.ejemplo"],
+  "verificacion": {
+    "puerto": 18082,
+    "env": { "APP_ENTORNO": "desarrollo", "HOST": "127.0.0.1" },
+    "venv": true,
+    "preparar": ["python -m pip install -r requirements-dev.txt"],
+    "sello": "python -m pytest -q",
+    "arrancar": ["{python}", "-m", "app"],
+    "imagen": { "puertoInterno": 8080 }
+  }
+}

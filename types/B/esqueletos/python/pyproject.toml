@@ -1,0 +1,9 @@
+[project]
+name = "servicio-esqueleto"
+version = "0.1.0"
+description = "Esqueleto que camina: servicio mínimo con salud, un endpoint, una prueba y contenedor."
+requires-python = ">=3.13"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

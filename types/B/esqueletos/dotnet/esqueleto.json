@@ -1,0 +1,14 @@
+{
+  "_ayuda": "Metadatos del esqueleto (los lee el instalador y types/B/esqueletos/verificar.mjs). El esqueleto se instala solo si la ficha del proyecto declara kit.preset igual a «preset».",
+  "stack": "dotnet",
+  "nombre": ".NET 10 (ASP.NET Core, API mínima)",
+  "preset": "dotnet",
+  "gitignore": ["/.env", "bin/", "obj/", "/.vs/", "!/.env.ejemplo"],
+  "verificacion": {
+    "puerto": 18083,
+    "env": { "APP_ENTORNO": "desarrollo", "HOST": "127.0.0.1" },
+    "sello": "dotnet test --nologo",
+    "arrancar": ["dotnet", "src/Servicio/bin/Debug/net10.0/Servicio.dll"],
+    "imagen": { "puertoInterno": 8080 }
+  }
+}

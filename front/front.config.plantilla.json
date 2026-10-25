@@ -1,0 +1,48 @@
+{
+  "_ayuda": "Configuración de las pruebas de front de este proyecto. Corre con «node tests/front/run.mjs» (o «npm run front»). Todo lo que no pongas aquí toma el valor por defecto de la biblioteca (ver design/FRONTEND.md). origen.carpeta es lo que se sirve en proceso; origen.url (https) prueba un sitio ya publicado en vez de una carpeta. Las pruebas usan selectores y umbrales de este archivo, no nombres de clase: cambiar de género visual no obliga a tocar las pruebas.",
+  "version": 1,
+  "paginas": [
+    { "ruta": "/index.html", "tipo": "portada" },
+    { "ruta": "/404.html", "tipo": "404" }
+  ],
+  "temas": ["dark", "light"],
+  "origen": { "carpeta": "dist", "url": null, "cabeceras": true },
+  "viewports": { "movil": [360, 740], "tableta": [768, 1024], "escritorio": [1280, 800] },
+  "umbrales": {
+    "contrasteTexto": 4.5,
+    "contrasteTextoGrande": 3,
+    "texturaAlfaMax": 0.08,
+    "anchosSinDesborde": [360, 768, 1280],
+    "objetivoPx": 44,
+    "focoPx": 3,
+    "textoMinimoPx": 15,
+    "textoBasePx": 18,
+    "cicloMinimoMs": 340,
+    "pesoPortadaKB": 150,
+    "jsKB": 15,
+    "fuentesMax": 4,
+    "cpuLimitePct": 10,
+    "cpuObjetivoPct": 2,
+    "cpuMuestras": 3,
+    "cpuVentanaMs": 6000
+  },
+  "selectores": {
+    "objetivos": "button, [role=\"button\"], summary, input:not([type=\"hidden\"]), select, textarea, nav a, header a, footer a",
+    "excluirObjetivos": [".skip"],
+    "decorativos": [],
+    "ignorarTexto": [".sr-only", "[hidden]"]
+  },
+  "contenido": { "minCaracteres": 200, "textoEsperado": [], "externosEnPestanaNueva": false, "sinEmoji": true },
+  "contraste": { "texturas": "auto" },
+  "datosSensibles": {
+    "telefonos": true,
+    "patrones": [],
+    "nombresProhibidos": [],
+    "ignorar": [],
+    "archivoPrivado": "tests/front/datos-privados.json",
+    "archivoPrivadoObligatorio": false
+  },
+  "fuentes": { "licencias": "design/TOOLING.md" },
+  "dist": { "carpeta": "dist", "permitidos": ["index.html", "404.html", "_headers", "en/**", "assets/**"], "prohibidos": [] },
+  "pruebas": { "cpu": true }
+}

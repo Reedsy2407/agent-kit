@@ -1,0 +1,37 @@
+/* Preset de expresión «sobrio»: se carga DESPUÉS de design/styles.css y solo redefine tokens de forma, ritmo y movimiento.
+   Los colores siguen siendo los de styles.css. Densidad de información, movimiento mínimo, sin brillos ni texturas.
+   Mismo contrato de tokens que expresivo.css (lo comprueba una prueba): se puede cambiar de uno a otro sin tocar componentes. */
+
+:root {
+  --expresion: sobrio;
+
+  /* Escala tipográfica: cuerpo 18 px, piso 15 px, y un salto de 3x o más hasta el título de página. */
+  --t-0: 18px;
+  --t-1: 20px;
+  --t-2: 24px;
+  --t-3: 34px;
+  --t-note: 15px;
+  --t-page: clamp(54px, 4vw, 72px);
+
+  /* Forma: esquinas casi rectas. */
+  --radius-control: 2px;
+  --radius-frame: 4px;
+  --radius-data: 0;
+
+  /* Ritmo vertical entre secciones. */
+  --espacio-seccion: 64px;
+
+  /* Movimiento: corto y sin escalonado. */
+  --dur-fast: 100ms;
+  --dur: 160ms;
+  --dur-entrada: 0ms;
+  --stagger: 0ms;
+  --ciclo-lento: 6s;
+
+  /* Sin brillos ni texturas. */
+  --glow-c: transparent;
+  --glow: none;
+  --glow-box: none;
+  --textura-lineas: none;
+  --textura-puntos: none;
+}

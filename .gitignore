@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.ejemplo
+*.log
+.DS_Store
+Thumbs.db
+/core/test/datos-privados.json
+/types/B/casos-privados/
+/.claude/settings.local.json

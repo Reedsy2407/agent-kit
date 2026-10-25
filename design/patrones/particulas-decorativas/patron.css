@@ -1,0 +1,45 @@
+/* Partículas decorativas: aria-hidden, sin eventos, solo opacity y transform, y apagadas con movimiento reducido,
+   en pantallas estrechas y (por JavaScript) en pestaña oculta. Colócalas lejos de las columnas de texto. */
+.particulas {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 18vw;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particulas i {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--space-1);
+  height: var(--space-1);
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: var(--glow);
+  opacity: 0;
+  animation: particula var(--d) ease-in-out var(--r) infinite alternate;
+}
+
+.particulas.pausada i {
+  animation-play-state: paused;
+}
+
+@keyframes particula {
+  from {
+    opacity: 0.15;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0.5;
+    transform: translateY(calc(var(--space-6) * -1));
+  }
+}
+
+@media (max-width: 48rem), (prefers-reduced-motion: reduce) {
+  .particulas {
+    display: none;
+  }
+}

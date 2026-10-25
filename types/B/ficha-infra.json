@@ -1,0 +1,88 @@
+{
+  "_ayuda": "Ficha «Infra del proyecto» del tipo B (sistema con servicios). Sin secretos. El kit no impone proveedor ni stack: rellena proveedor, cli, base de datos y logs cuando los elijas (skill elegir-stack-proporcional) y define las pruebas del proyecto: elige un kit.preset (java-maven, java-gradle, dotnet, node o python; el sello avisa si no está verificado) o escribe tus kit.checks (sin ellas el sello de pre-merge se niega: un sello sin pruebas no prueba nada). Vuelve a generar con: node infra/generate-settings.mjs --ficha kit/FICHA-INFRA.json --destino <proyecto>. Una denegación gana a una autorización. despliegue.primerDespliegueHecho: ponlo en true solo después de que el humano haga el primer despliegue; entonces quedan autorizados, exactos, los comandos de permitidosTrasPrimerDespliegue. kit.front apunta a la configuración de las pruebas de front contra una dirección ya desplegada (kit/FRONT-TIPO-B.md); mientras ese archivo no exista, el sello solo lo avisa.",
+  "version": 1,
+  "proyecto": "",
+  "tipo": "B",
+  "despliegue": {
+    "proveedor": "",
+    "cli": "",
+    "servicios": [],
+    "primerDespliegueHecho": false,
+    "permitidosTrasPrimerDespliegue": [],
+    "permitidos": [],
+    "denegados": [],
+    "comoSeVerifica": "prueba de humo contra la dirección pública (salud y una ruta real) tras cada despliegue, y revisión humana; el despliegue se hace desde la primera rebanada"
+  },
+  "baseDeDatos": {
+    "proveedor": "",
+    "cli": "",
+    "puntoDeRestauracion": {
+      "metodo": "rama, instantánea o copia de seguridad antes de toda migración; el borrado de ramas o bases lo hace el humano",
+      "permitidos": [],
+      "denegados": []
+    }
+  },
+  "logs": {
+    "metodo": "siempre con filtro de recurso, formato JSON a un archivo, timeout y < /dev/null; nunca seguir el flujo",
+    "permitidos": []
+  },
+  "urlsPublicas": [],
+  "loginManual": [],
+  "permisos": {
+    "permitidos": [
+      "Bash(node tests/front/run.mjs:*)",
+      "Bash(node tests/front/herramientas/capturas.mjs:*)",
+      "Bash(node tests/front/herramientas/hoja.mjs:*)",
+      "Bash(node tests/front/herramientas/video.mjs:*)"
+    ],
+    "denegados": []
+  },
+  "ops": {
+    "salud": {
+      "permitida": false,
+      "config": "ops/salud.config.json"
+    },
+    "sondeoAcceso": {
+      "permitida": false,
+      "config": "ops/dependencias.json"
+    },
+    "acciones": {
+      "estado": {
+        "permitida": false,
+        "comandos": []
+      },
+      "arranque": {
+        "permitida": false,
+        "comandos": []
+      },
+      "parada": {
+        "permitida": false,
+        "comandos": []
+      },
+      "reversa": {
+        "permitida": false,
+        "comandos": []
+      },
+      "rotacion": {
+        "permitida": false,
+        "comandos": []
+      }
+    }
+  },
+  "kit": {
+    "baseBranch": "main",
+    "maxBranchCommits": 10,
+    "modules": [],
+    "commitScopes": [],
+    "preset": "",
+    "checks": [],
+    "gitleaks": true,
+    "autoria": {
+      "correosPermitidos": []
+    },
+    "front": {
+      "config": "tests/front/front.config.json",
+      "comando": "node tests/front/run.mjs"
+    }
+  }
+}

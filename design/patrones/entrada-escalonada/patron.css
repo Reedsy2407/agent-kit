@@ -1,0 +1,25 @@
+/* Entrada escalonada solo con opacity y transform. El retraso de cada hijo es su posición por --stagger (hasta 8). */
+.escalona > * {
+  animation: entrada var(--dur-entrada) var(--ease) both;
+}
+
+.escalona > :nth-child(2) { animation-delay: calc(1 * var(--stagger)); }
+.escalona > :nth-child(3) { animation-delay: calc(2 * var(--stagger)); }
+.escalona > :nth-child(4) { animation-delay: calc(3 * var(--stagger)); }
+.escalona > :nth-child(5) { animation-delay: calc(4 * var(--stagger)); }
+.escalona > :nth-child(6) { animation-delay: calc(5 * var(--stagger)); }
+.escalona > :nth-child(7) { animation-delay: calc(6 * var(--stagger)); }
+.escalona > :nth-child(n + 8) { animation-delay: calc(7 * var(--stagger)); }
+
+@keyframes entrada {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-3));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .escalona > * {
+    animation: none;
+  }
+}

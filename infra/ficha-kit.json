@@ -1,0 +1,57 @@
+{
+  "_ayuda": "Ficha del propio kit (auto-aplicación, ADR 0014). Fuente de verdad de lo que el kit se exige a sí mismo: node install/install.mjs --auto la copia a kit/FICHA-INFRA.json y genera .claude/kit.json y .claude/settings.local.generado.json. Sin secretos. El humano copia a mano settings.local.generado.json sobre .claude/settings.local.json (los hooks no dejan que el agente edite sus propias reglas).",
+  "version": 1,
+  "proyecto": "agent-kit",
+  "tipo": "kit",
+  "despliegue": {
+    "proveedor": "ninguno (el kit no se despliega: se copia con el instalador)",
+    "cli": "",
+    "servicios": [],
+    "primerDespliegueHecho": false,
+    "permitidosTrasPrimerDespliegue": [],
+    "permitidos": [],
+    "denegados": [],
+    "comoSeVerifica": "node --test (con y sin PLAYWRIGHT_CORE), sello de pre-merge y revisión con el subagente"
+  },
+  "baseDeDatos": {
+    "proveedor": "ninguna",
+    "cli": "",
+    "puntoDeRestauracion": {
+      "metodo": "no aplica",
+      "permitidos": [],
+      "denegados": []
+    }
+  },
+  "logs": {
+    "metodo": "no aplica: el kit no tiene servicios",
+    "permitidos": []
+  },
+  "urlsPublicas": [],
+  "loginManual": [],
+  "permisos": {
+    "permitidos": [
+      "Bash(timeout * node --test:*)",
+      "Bash(timeout * node .claude/hooks/premerge-check.mjs:*)",
+      "Bash(node install/install.mjs --auto:*)",
+      "Bash(timeout * node install/install.mjs --auto:*)"
+    ],
+    "denegados": []
+  },
+  "kit": {
+    "baseBranch": "main",
+    "maxBranchCommits": 10,
+    "modules": [],
+    "commitScopes": ["kit"],
+    "preset": "",
+    "checks": [
+      {
+        "commands": ["node --test"],
+        "timeoutSeconds": 900
+      }
+    ],
+    "gitleaks": true,
+    "autoria": {
+      "correosPermitidos": []
+    }
+  }
+}

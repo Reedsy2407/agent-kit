@@ -1,0 +1,106 @@
+{
+  "_ayuda": "Ficha «Infra del proyecto» del tipo A (sitio estático, sin servicios). Sin secretos. Rellénala cuando elijas hosting y vuelve a generar: node infra/generate-settings.mjs --ficha kit/FICHA-INFRA.json --destino <proyecto>. Una denegación gana a una autorización. despliegue.primerDespliegueHecho: ponlo en true solo después de que el humano haga el primer despliegue; entonces quedan autorizados, exactos, los comandos de permitidosTrasPrimerDespliegue.",
+  "version": 1,
+  "proyecto": "",
+  "tipo": "A",
+  "despliegue": {
+    "proveedor": "Cloudflare Workers (archivos estáticos)",
+    "cli": "wrangler",
+    "servicios": [],
+    "primerDespliegueHecho": false,
+    "permitidosTrasPrimerDespliegue": [
+      "Bash(npm run deploy)",
+      "Bash(npx wrangler deploy)"
+    ],
+    "permitidos": [],
+    "denegados": [
+      "Bash(npx wrangler delete:*)",
+      "Bash(wrangler delete:*)",
+      "Bash(npx wrangler secret:*)",
+      "Bash(wrangler secret:*)",
+      "Bash(npx wrangler logout:*)",
+      "Bash(wrangler logout:*)",
+      "Bash(npx wrangler pages project delete:*)",
+      "Bash(wrangler pages project delete:*)"
+    ],
+    "comoSeVerifica": "node scripts/humo.mjs <dirección pública> (200 en / y /en/, 404 con estilos, PDF, cabeceras, sin teléfono) y revisión humana en Chrome"
+  },
+  "baseDeDatos": {
+    "proveedor": "ninguna",
+    "cli": "",
+    "puntoDeRestauracion": {
+      "metodo": "no aplica: sitio estático",
+      "permitidos": [],
+      "denegados": []
+    }
+  },
+  "logs": {
+    "metodo": "no aplica: sin backend propio",
+    "permitidos": []
+  },
+  "urlsPublicas": [],
+  "loginManual": [
+    "npx wrangler login (en una shell real, no la del agente)",
+    "registrar el subdominio de workers.dev en el primer despliegue",
+    "npx wrangler logout al terminar de desplegar"
+  ],
+  "permisos": {
+    "permitidos": [
+      "Bash(node tests/front/run.mjs:*)",
+      "Bash(node tests/front/herramientas/capturas.mjs:*)",
+      "Bash(node tests/front/herramientas/hoja.mjs:*)",
+      "Bash(node tests/front/herramientas/video.mjs:*)"
+    ],
+    "denegados": []
+  },
+  "ops": {
+    "salud": {
+      "permitida": false,
+      "config": "ops/salud.config.json"
+    },
+    "acciones": {
+      "estado": {
+        "permitida": false,
+        "comandos": []
+      },
+      "arranque": {
+        "permitida": false,
+        "comandos": []
+      },
+      "parada": {
+        "permitida": false,
+        "comandos": []
+      },
+      "reversa": {
+        "permitida": false,
+        "comandos": []
+      },
+      "rotacion": {
+        "permitida": false,
+        "comandos": []
+      }
+    }
+  },
+  "kit": {
+    "baseBranch": "main",
+    "maxBranchCommits": 10,
+    "modules": [],
+    "commitScopes": [],
+    "preset": "",
+    "checks": [
+      {
+        "commands": [
+          "npm test"
+        ]
+      }
+    ],
+    "gitleaks": true,
+    "autoria": {
+      "correosPermitidos": []
+    },
+    "front": {
+      "config": "tests/front/front.config.json",
+      "comando": "node tests/front/run.mjs"
+    }
+  }
+}

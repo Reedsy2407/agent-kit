@@ -1,0 +1,26 @@
+{
+  "baseBranch": "main",
+  "maxBranchCommits": 10,
+  "modules": [],
+  "commitScopes": [
+    "kit"
+  ],
+  "checks": [
+    {
+      "commands": [
+        "node --test"
+      ],
+      "timeoutSeconds": 900
+    }
+  ],
+  "preset": null,
+  "gitleaks": true,
+  "autoria": {
+    "correosPermitidos": []
+  },
+  "front": null,
+  "ops": {
+    "salud": false,
+    "sondeoAcceso": false
+  }
+}

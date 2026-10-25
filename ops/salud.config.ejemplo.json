@@ -1,0 +1,15 @@
+{
+  "_ayuda": "Configuración de scripts/salud.mjs (comprobación de salud posdespliegue). Se copia a ops/salud.config.json y se ajusta al proyecto. Solo lecturas (GET/HEAD) al origen indicado. Sin secretos: esto es lo que cualquiera vería sin iniciar sesión.",
+  "muestras": 5,
+  "timeoutMs": 10000,
+  "medianaMaxMs": 1500,
+  "cspSinUnsafeInline": true,
+  "cabeceras": ["x-content-type-options", "referrer-policy", "x-frame-options", "permissions-policy", "content-security-policy"],
+  "cabecerasValores": { "x-content-type-options": "nosniff" },
+  "rutas": [
+    { "ruta": "/", "estado": 200, "contiene": [], "noContiene": [] },
+    { "ruta": "/__no-existe__", "estado": 404, "cabeceras": false, "muestras": 1 }
+  ],
+  "enlaces": [],
+  "descubrirEnlaces": { "desde": "/", "max": 20 }
+}

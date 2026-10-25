@@ -1,0 +1,15 @@
+{
+  "_ayuda": "Dependencias externas para scripts/sondeo-acceso.mjs (skill evaluar-viabilidad). Una petición de solo lectura (GET o HEAD) por dependencia, sin credenciales: aquí no se escriben claves, tokens, cabeceras ni cuerpos, y la URL no lleva usuario ni claves en la consulta. requiereCredencial: true significa que se espera que el servicio la pida (se sondea SIN ella). El sondeo no lee términos de uso ni comprueba legalidad. Solo corre si la ficha lo permite (ops.sondeoAcceso.permitida).",
+  "dependencias": [
+    {
+      "nombre": "Servicio de datos de ejemplo",
+      "tipo": "datos",
+      "importancia": "crítica",
+      "url": "https://api.ejemplo.org/v1/indicadores",
+      "metodo": "GET",
+      "espera": { "estado": 200, "tipoContenido": "application/json" },
+      "requiereCredencial": false,
+      "nota": "Hace falta el dato por registro, no solo agregado por zona."
+    }
+  ]
+}

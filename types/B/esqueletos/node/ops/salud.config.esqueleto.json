@@ -1,0 +1,14 @@
+{
+  "_ayuda": "Configuración de scripts/salud.mjs para este esqueleto: solo /salud y las cabeceras que el esqueleto envía. Úsala con --config ops/salud.config.esqueleto.json o cópiala sobre ops/salud.config.json.",
+  "muestras": 3,
+  "timeoutMs": 5000,
+  "medianaMaxMs": 1000,
+  "cspSinUnsafeInline": false,
+  "cabeceras": ["x-content-type-options"],
+  "cabecerasValores": { "x-content-type-options": "nosniff" },
+  "rutas": [
+    { "ruta": "/salud", "estado": 200, "contiene": ["\"estado\":\"ok\""] },
+    { "ruta": "/__no-existe__", "estado": 404, "cabeceras": false, "muestras": 1 }
+  ],
+  "enlaces": []
+}

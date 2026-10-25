@@ -1,0 +1,128 @@
+/* Tokens de design/DESIGN-BRIEF.md. Genérico: cada proyecto sustituye los valores en su primera maqueta.
+   Regla: el CSS de los componentes usa solo estos tokens. Un valor nuevo se añade primero aquí y al brief,
+   con su contraste calculado (AA: 4.5:1 en texto normal, 3:1 en texto grande y controles). */
+
+/* Fuentes autoalojadas: declara aquí las @font-face (woff2, subconjunto latin) y un respaldo local con
+   size-adjust / ascent-override / descent-override para que el cambio de fuente no mueva la maquetación. */
+
+:root {
+  /* Color — sustituir por los valores muestreados del logo; anotar el contraste junto a cada token. */
+  --brand: #1f4e79; /* acción primaria y enlaces: blanco 8.7:1 sobre ella; 8.5:1 sobre paper */
+  --brand-deep: #163a5a; /* pulsado y hover: blanco 11.8:1 sobre ella */
+  --ink: #1a1d21; /* texto: 16.5:1 sobre paper */
+  --ink-soft: #4a525b; /* texto secundario: 7.7:1 sobre paper */
+  --ground: #e6e8ea; /* fondo de página */
+  --paper: #fcfcfd; /* superficies: tablas, formularios, tarjetas */
+  --line: #aab0b6; /* filetes */
+  --line-input: #4a525b; /* bordes de campos: 7.7:1 sobre paper */
+  --row-hover: #eaf0f5;
+  --focus: #1f4e79;
+  --disabled-bg: #e4e6e8;
+  --disabled-ink: #5b636b; /* 4.9:1 sobre disabled-bg */
+  /* Estados: solo para su significado, nunca como color de interfaz, y nunca como único canal. */
+  --ok: #1a7a48; /* 5.2:1 sobre paper */
+  --warn: #9a5b00; /* 5.3:1 sobre paper */
+  --danger: #b3261e; /* 6.4:1 sobre paper */
+
+  /* Tipografía: sustituir por las familias del brief (nunca Inter, Roboto ni Arial como voz). */
+  --font-sans: 'Familia Sans', 'Familia Sans Fallback', sans-serif;
+  --font-mono: 'Familia Mono', 'Familia Mono Fallback', monospace;
+
+  /* Escala: cuerpo 18 px, piso 15 px, saltos de 3x o más entre cuerpo y título. */
+  --t-0: 18px;
+  --t-1: 20px;
+  --t-2: 26px;
+  --t-3: 40px;
+  --t-note: 15px;
+  --t-page: clamp(44px, 4.6vw, 88px);
+
+  /* Espaciado: base de 4 px. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --gutter: clamp(16px, 3.4vw, 64px);
+
+  --control: 56px; /* alto de controles y botones */
+  --touch: 44px; /* área táctil mínima */
+  --max-width: 1920px;
+
+  --radius-data: 0;
+  --radius-control: 0;
+  --radius-frame: 0;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur: 240ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--t-0);
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+h1 {
+  font-size: var(--t-page);
+  letter-spacing: -0.03em;
+}
+h2 {
+  font-size: var(--t-2);
+}
+
+a {
+  color: var(--brand);
+  text-underline-offset: 4px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  min-height: var(--control);
+  border-radius: var(--radius-control);
+}
+
+/* Movimiento reducido: todo se reduce a un instante. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

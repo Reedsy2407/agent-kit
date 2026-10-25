@@ -1,0 +1,13 @@
+{
+  "name": "agent-kit",
+  "version": "0.6.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Núcleo reutilizable para trabajar proyectos con un agente constructor: reglas en hooks y permisos, plantillas, instalador.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test",
+    "instalar": "node install/install.mjs"
+  }
+}
