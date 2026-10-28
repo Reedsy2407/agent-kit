@@ -18,6 +18,7 @@ Cierre de módulo, en este orden. Si un paso falla, corrige o reporta; no mergee
    - qué quedó (rebanadas hechas);
    - commits de la rama y de cada módulo tocado;
    - resultado de las pruebas (con las cifras reales) y de gitleaks;
+   - criterios de aceptación de la especificación: cuáles `CA-n` quedaron cubiertos y con qué evidencia (prueba, captura, salida), y cuáles no y por qué; si no hay especificación, dilo;
    - veredicto del revisor;
    - desvíos del alcance y decisiones tomadas por tu cuenta;
    - evidencias para la revisión del humano (rutas de capturas, informes).

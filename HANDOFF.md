@@ -1,4 +1,4 @@
-# Handoff — agent-kit (0.6.0, etapa 2F)
+# Handoff — agent-kit (0.7.0, etapa 2H)
 
 Plantilla de arranque para una terminal nueva en este repo. Léelo primero; es corto a propósito. Reglas: `CLAUDE.md`. Decisiones: `docs/adr/`. Referencias oficiales consultadas: sección «Referencias» del `README.md`.
 
@@ -10,6 +10,8 @@ Plantilla de arranque para una terminal nueva en este repo. Léelo primero; es c
 - Etapa 2D cerrada: tipo B como guía de decisión (ADR 0013): skills `evaluar-viabilidad`, `elegir-stack-proporcional` y `consultar-catalogo`, catálogo de dieciocho problemas (`types/B/catalogo/`), ADR de ejemplo, `GUIA-DECISION.md`, front por URL, instalador con lo privado solo si git lo ignora, pruebas de pureza, y los pendientes de la 0.3.1 (capas de textura apiladas, `pruebas.<id>: false`, resumen en `--diff`).
 - Etapa 2E cerrada: auto-aplicación (`node install/install.mjs --auto`, ADR 0014), `ops/` con la skill `operar`, plantillas y `scripts/salud.mjs` (ADR 0015), presets de sello por stack (`kit.preset`: java-maven, java-gradle, dotnet, node, python; solo `node` verificado), `scripts/sondeo-acceso.mjs` para la viabilidad del tipo B, y la limpieza de nombres ajenos en las pruebas con pureza ampliada a todo lo versionado.
 - Etapa 2F cerrada: esqueletos ejecutables por stack (`types/B/esqueletos/`: `java-spring`, `dotnet`, `node`, `python`; ADR 0016), instalados solo si la ficha declara `kit.preset` del stack; registro de verificación con fecha en `types/B/esqueletos/VERIFICACION.md` (repetible con `node types/B/esqueletos/verificar.mjs <stack>`, necesita red y no forma parte de `node --test`); presets `node`, `java-maven`, `dotnet` y `python` verificados; notas por stack del catálogo con fuente y fecha (o «No verificado»).
+- Etapa 2G cerrada: alineación con la copia pública y `infra/exportar-publico.mjs` (`infra/PUBLICAR.md`; nunca hace push; se detiene ante material privado, términos de la lista local, secretos o correos no permitidos; no exporta el propio script, su prueba ni `PUBLICAR.md`).
+- Etapa 2H cerrada: especificar antes de construir (ADR 0017). Skill de núcleo `especificar-funcionalidad` y plantilla `kit/plantillas/ESPECIFICACION.md` (instaladas en A y B): `docs/specs/<nombre>.md` con criterios `CA-n` y tabla de contraste con las rebanadas; `prompt-de-modulo` y `cierre-de-modulo` los citan. Es una guía, no un hook (límite dicho en el ADR). Orden: viabilidad o brief → (stack, en B) → especificar → prompt del módulo → construir → cierre.
 - Tipos A y B disponibles. El tipo B no impone stack: su ficha deja `kit.checks` vacío hasta que el proyecto elija el suyo (sin pruebas el sello se niega).
 - Pruebas: `node --test` (sin dependencias, ADR 0001/0004).
 - El kit se aplica a sí mismo: `.claude/` (hooks, agentes, skills, `kit.json`), `kit/FICHA-INFRA.json` y `.claude/settings.local.generado.json` están **generados** desde `core/` y `infra/ficha-kit.json` con `node install/install.mjs --auto`; una prueba falla si se desvían (tras tocar `core/` o la ficha del kit, corre `--auto` y commitea). Para activar las reglas en esta carpeta el humano copia `.claude/settings.local.generado.json` sobre `.claude/settings.local.json` (git lo ignora; el agente no puede editarlo). Instalar en otro proyecto sigue siendo decisión del humano (empezar con `--dry-run`).
@@ -25,6 +27,10 @@ Plantilla de arranque para una terminal nueva en este repo. Léelo primero; es c
 - `design/presets/` (`sobrio`, `expresivo`: mismos tokens) y `design/patrones/` (siete patrones probados). Herramientas de capturas, hoja y video escriben solo en `design/refs/`.
 - La ficha declara `kit.front` y el sello corre las pruebas de front si existe su configuración.
 - Sin medir (se declara): GPU real, equipos de gama baja, pausa con la pestaña oculta fuera de los patrones, contraste sobre imágenes de fondo complejas.
+
+## Siguiente paso
+- Exportar a la copia pública: `node infra/exportar-publico.mjs --destino ..\agent-kit-publico --dry-run` (y sin `--dry-run` solo si el humano lo decide; el push siempre es suyo).
+- Probar `especificar-funcionalidad` en un módulo real y recoger si se omite o resulta larga; si se omite con frecuencia, reabrir la decisión del ADR 0017.
 
 ## Pendiente tras la etapa 2F
 - **Sin verificar (y por qué):** Python en local (desde la máquina de la etapa `pip` no validó el certificado de PyPI; solo se probó en contenedor) y .NET en local (el SDK instalado era el 9 y el esqueleto apunta a .NET 10; solo se probó con el SDK 10 de la imagen); `java-gradle` (no hay Gradle ni esqueleto); Java 25; los flujos de integración continua (`.github/workflows/ci.yml`, no ejecutados: solo su sintaxis); el despliegue de cualquier esqueleto (sin cuenta); las etiquetas de imagen base sin fijar por resumen. Las versiones de acciones de GitHub (`checkout@v7`, `setup-node@v7`, `setup-java@v6`, `setup-dotnet@v6`, `setup-python@v7`) salen de los README oficiales del 2026-10-23.

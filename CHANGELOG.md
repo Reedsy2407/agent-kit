@@ -2,8 +2,16 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
-## [Sin publicar]
+## [0.7.0] - 2026-10-28
 
+Etapa 2H: especificar antes de construir (ADR 0017).
+
+### Añadido
+- Skill de núcleo `especificar-funcionalidad` y plantilla `core/plantillas/ESPECIFICACION.md` (se instala en `kit/plantillas/`): especificación en `docs/specs/<nombre>.md` con criterios de aceptación `CA-n` (Dado/Cuando/Entonces), fuera de alcance, máximo tres preguntas abiertas (la skill se detiene a hacerlas) y tabla de contraste con las rebanadas del plan. Es una guía, no un hook. Instalada en los tipos A y B.
+- `prompt-de-modulo`, `PROMPT-MODULO.md`, `cierre-de-modulo`, el proceso, el `CLAUDE.md` de la plantilla y `GUIA-DECISION.md` incorporan el paso: el prompt lee la especificación y cita los `CA-n`; el informe de cierre dice cuáles quedaron cubiertos y con qué evidencia.
+
+### Cambiado
+- La prueba de `confirmar` del exportador comprueba con un remoto de prueba que no se sube nada.
 - Se quitan las huellas SHA-256 de las pruebas de pureza (`HUELLAS_VETADAS` queda vacío y opcional); la comprobación depende de la lista local de cada persona.
 - La sección de cada ficha del catálogo pasa a llamarse «Cómo suele resolverse».
 - Se quitan referencias a repositorios y listas externos al kit (HANDOFF, ADR 0003 y 0006) y se documenta en el README el flujo que impone.

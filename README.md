@@ -2,7 +2,7 @@
 
 Núcleo reutilizable para trabajar un proyecto con un agente constructor (Claude Code) y un revisor independiente. Lo que debe cumplirse siempre vive en **hooks** y en **permisos deny**; el `CLAUDE.md` que se instala es corto y solo lleva lo que requiere juicio.
 
-Versión 0.6.0 (etapa 2F): esqueletos ejecutables por stack para el tipo B (Java/Spring, .NET, Node y Python) con verificación registrada y notas por stack del catálogo contrastadas con la documentación oficial; antes, el kit se aplica a sí mismo (`--auto`), operación posterior a la publicación (`ops/`), sello y guarda por stack y sondeo de acceso para la viabilidad, núcleo, tipo A (portafolio estático) y tipo B (sistema con servicios) como guía de decisión —viabilidad, stack proporcional y catálogo de problemas, sin imponer tecnología—, más la biblioteca de front reutilizable (pruebas configurables, herramientas de capturas, presets y patrones).
+Versión 0.7.0 (etapa 2H): especificar cada funcionalidad antes de construirla (skill `especificar-funcionalidad`, criterios `CA-n` y contraste con el plan; una guía, no un bloqueo); antes, esqueletos ejecutables por stack para el tipo B (Java/Spring, .NET, Node y Python) con verificación registrada y notas por stack del catálogo contrastadas con la documentación oficial; antes, el kit se aplica a sí mismo (`--auto`), operación posterior a la publicación (`ops/`), sello y guarda por stack y sondeo de acceso para la viabilidad, núcleo, tipo A (portafolio estático) y tipo B (sistema con servicios) como guía de decisión —viabilidad, stack proporcional y catálogo de problemas, sin imponer tecnología—, más la biblioteca de front reutilizable (pruebas configurables, herramientas de capturas, presets y patrones).
 
 ## Requisitos y alcance
 

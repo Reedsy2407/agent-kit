@@ -14,6 +14,7 @@
     { "origen": "core/hooks", "destino": ".claude/hooks", "excluir": ["test"], "versionado": false },
     { "origen": "core/agents", "destino": ".claude/agents", "versionado": false },
     { "origen": "core/skills", "destino": ".claude/skills", "versionado": false },
+    { "origen": "core/plantillas/ESPECIFICACION.md", "destino": "kit/plantillas/ESPECIFICACION.md", "plantilla": true, "versionado": false },
     { "origen": "design/skills", "destino": ".claude/skills", "versionado": false },
     { "origen": "design/DESIGN-BRIEF.md", "destino": "design/DESIGN-BRIEF.md", "plantilla": true, "versionado": true },
     { "origen": "design/styles.css", "destino": "design/styles.css", "versionado": true },

@@ -5,9 +5,10 @@ El tipo B no impone un stack. Enseña **cómo piensa un proyecto real**: primero
 ## El recorrido
 1. **Viabilidad** (`evaluar-viabilidad`). Dependencias externas con evidencia de acceso. Salida: `DECISION-VIABILIDAD.md`. Con NO-GO, o REDISEÑO sin aprobar, se para y no se construye.
 2. **Stack proporcional** (`elegir-stack-proporcional`). Al menos dos alternativas reales, una la más simple posible; criterios; checklist anti-sobreingeniería. Salida: ADRs con lo descartado.
-3. **Catálogo** (`consultar-catalogo`). Cuando aparece un problema (consistencia, errores, concurrencia, dinero…), se lee su ficha: señales de que aplica y de que sobra, opciones incluida «no hacer nada», costo y comprobación. Si existe `kit/casos-privados/`, se consulta para ver cómo se resolvió un caso parecido (sin copiar nada a lo versionado).
-4. **ADRs** (`kit/plantillas/ADR.md`). Cada decisión grande queda escrita con alternativas descartadas, lo que no se construye todavía y la señal para revisarla. `kit/ejemplos-adr/` trae ejemplos breves.
-5. **Construcción por rebanadas verticales**, con el proceso del núcleo (`kit/PROCESO-MODULOS-Y-REVISION.md`): una rebanada cruza todas sus capas, lleva sus pruebas y se despliega. **La primera rebanada ya se despliega** (ficha `despliegue-desde-semana-uno`).
+3. **Especificación** (`especificar-funcionalidad`). Por cada funcionalidad, antes del prompt del módulo: criterios de aceptación `CA-n` comprobables, fuera de alcance y como máximo tres preguntas abiertas, enlazando `DECISION-VIABILIDAD.md` para las dependencias externas. Salida: `docs/specs/<nombre>.md` (plantilla `kit/plantillas/ESPECIFICACION.md`), contrastada con las rebanadas del plan antes de construir.
+4. **Catálogo** (`consultar-catalogo`). Cuando aparece un problema (consistencia, errores, concurrencia, dinero…), se lee su ficha: señales de que aplica y de que sobra, opciones incluida «no hacer nada», costo y comprobación. Si existe `kit/casos-privados/`, se consulta para ver cómo se resolvió un caso parecido (sin copiar nada a lo versionado).
+5. **ADRs** (`kit/plantillas/ADR.md`). Cada decisión grande queda escrita con alternativas descartadas, lo que no se construye todavía y la señal para revisarla. `kit/ejemplos-adr/` trae ejemplos breves.
+6. **Construcción por rebanadas verticales**, con el proceso del núcleo (`kit/PROCESO-MODULOS-Y-REVISION.md`): una rebanada cruza todas sus capas, lleva sus pruebas y se despliega. **La primera rebanada ya se despliega** (ficha `despliegue-desde-semana-uno`).
 
 ## Cuándo preguntar al humano
 - **Solo dudas técnicas** y solo cuando la proporcionalidad no las resuelve: una pregunta, con tu recomendación.

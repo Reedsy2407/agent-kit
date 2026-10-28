@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 Redacta el prompt del módulo que pida el humano siguiendo `kit/PROMPT-MODULO.md` al pie de la letra: el orden de las secciones no cambia y una sección sin contenido dice «ninguno».
 
-1. Lee `HANDOFF.md` y los documentos del módulo antes de escribir; no repitas decisiones ya tomadas ni las conviertas en preguntas.
+1. Lee `HANDOFF.md`, los documentos del módulo y su especificación (`docs/specs/<nombre>.md`) antes de escribir; no repitas decisiones ya tomadas ni las conviertas en preguntas. Sin especificación, escríbela primero con la skill `especificar-funcionalidad`. El objetivo sale de su resumen, los criterios de calidad citan sus ids `CA-n` sin copiarlos, y el informe de cierre pide qué CA quedaron cubiertos y con qué evidencia.
 2. Reúne **todos** los pasos manuales del humano y ponlos al inicio. Un paso que aparezca a mitad del módulo es un defecto del prompt.
 3. Escribe las autorizaciones permanentes que el módulo necesita (migraciones, configuración de despliegue ligada al módulo, commits, especificaciones, documentación) para que la terminal no vuelva a preguntar.
 4. Criterios de calidad, no soluciones: ante un problema de diseño, el prompt pide el mejor criterio y las skills, no dicta la solución. Si hay interfaz, exige los tokens de `design/styles.css` y cita `frontend-design`, `impeccable` y `revision-visual`.

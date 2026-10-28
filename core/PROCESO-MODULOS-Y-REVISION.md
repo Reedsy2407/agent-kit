@@ -17,6 +17,9 @@ Documento genérico de {{proyecto}}. Las reglas que deben cumplirse siempre las 
 6. Al cerrar, el constructor entrega un único informe (skill `cierre-de-modulo`).
 7. La revisión externa es una sola, rigurosa, leyendo el código real y las capturas reales, nunca un resumen. Cierra con un prompt autocontenido de correcciones, si hacen falta.
 
+### Antes del módulo: especificar
+Tras la viabilidad (si la hay) o el brief, y antes del prompt, la funcionalidad se especifica con la skill `especificar-funcionalidad` (`docs/specs/<nombre>.md`, plantilla en `kit/plantillas/ESPECIFICACION.md`): criterios de aceptación `CA-n`, comprobables, y contrastados con las rebanadas del plan. El prompt los cita y el informe de cierre dice cuáles quedaron cubiertos. Es un paso de proceso que guía: ningún hook lo exige, así que el revisor interno también revisa el diff contra la especificación.
+
 ## 3. La deriva a evitar
 Es fácil convertir cada rebanada en una puerta de revisión humana: pasa cuando las primeras rebanadas tienen defectos visibles y el revisor externo empieza a corregirlos uno a uno. Es útil para las primeras (fijan el sistema de diseño o los patrones); una vez validados, se vuelve a la regla: la revisión externa es del módulo. Señal de alerta: la persona está pegando resultados de cada rebanada y recibiendo un prompt nuevo cada vez. Se corrige el prompt del módulo, no se añade otro paso.
 

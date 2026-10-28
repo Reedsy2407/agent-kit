@@ -77,6 +77,12 @@
       "versionado": false
     },
     {
+      "origen": "core/plantillas/ESPECIFICACION.md",
+      "destino": "kit/plantillas/ESPECIFICACION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
       "origen": "design/skills",
       "destino": ".claude/skills",
       "versionado": false

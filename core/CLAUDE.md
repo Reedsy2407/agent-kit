@@ -11,7 +11,7 @@ Las reglas mecánicas **no están aquí**: las hacen cumplir los hooks de `.clau
 - **El humano:** decide el negocio y el dinero, y hace los pasos manuales de infraestructura (inicios de sesión).
 
 ## Cómo trabajar un módulo
-1. Un módulo es una unidad de entrega completa; una rebanada vertical cruza todas sus capas. El prompt del módulo sigue la estructura de `kit/PROMPT-MODULO.md`.
+1. Un módulo es una unidad de entrega completa; una rebanada vertical cruza todas sus capas. Antes del prompt, la funcionalidad se especifica (skill `especificar-funcionalidad`, en `docs/specs/`). El prompt del módulo sigue la estructura de `kit/PROMPT-MODULO.md` y cita los criterios `CA-n`.
 2. Un commit por rebanada vertical, con código, pruebas y documentación juntos. Ramas `etapa/<nombre>` desde `{{rama_base}}`; en `{{rama_base}}` entra **un** commit por etapa con `git merge --squash` (máximo {{max_rama}} commits en la rama; {{max_modulo}} en toda la vida de un módulo). Si un límite no alcanza por una razón real, avisa antes de pasarlo.
 3. Antes de pedir el cierre: corre `node .claude/hooks/premerge-check.mjs` (comprobaciones de la ficha, las pruebas de front si el proyecto las configura, y gitleaks o, si falta, el escaneo de secretos propio; el sello dice si no hubo ninguno). Sin ese sello no se integra ni se empuja.
 4. El informe de cierre usa la skill `cierre-de-modulo`: rebanadas, commits de la rama y de cada módulo, resultados, desvíos y evidencias.

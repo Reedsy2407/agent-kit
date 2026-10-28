@@ -4,11 +4,11 @@ Se escribe para ser pegado tal cual en una terminal nueva. Orden obligatorio; la
 
 ```
 OBJETIVO
-<qué construye el módulo, en pocas líneas>
-No se toca: <carpetas, módulos o decisiones fuera de alcance>
+<qué construye el módulo, en pocas líneas; si hay especificación, el objetivo sale de su resumen y no se reescribe>
+No se toca: <carpetas, módulos o decisiones fuera de alcance; lo «fuera de alcance» de la especificación>
 
 LEE PRIMERO
-<documentos de referencia y el HANDOFF.md>
+<el HANDOFF.md, la especificación `docs/specs/<nombre>.md` (skill `especificar-funcionalidad`) y los documentos de referencia>
 
 PASOS MANUALES DEL HUMANO
 <todos juntos, al inicio: cuentas, inicios de sesión, tokens, puntos de restauración, variables del panel. Si no hay: «Ninguno».>
@@ -17,7 +17,7 @@ AUTORIZACIONES PERMANENTES
 <lo que la terminal puede hacer sin volver a preguntar: migraciones del módulo, cambios de configuración de despliegue ligados al módulo, commits, especificaciones, documentación y tareas>
 
 CRITERIOS DE CALIDAD
-<criterios, no soluciones prescritas. Ante un problema de diseño: «usa tu mejor criterio y tus skills».>
+<los criterios de aceptación de la especificación, citados por id (CA-n) y sin copiarlos; después los de calidad. Criterios, no soluciones prescritas. Ante un problema de diseño: «usa tu mejor criterio y tus skills».>
 <Si hay interfaz: usar solo tokens de design/styles.css; un valor nuevo se añade primero como token y al brief, con su contraste calculado; citar frontend-design e impeccable en el informe y pasar por revision-visual.>
 
 LÍMITES DE COMMITS
@@ -27,7 +27,7 @@ PARADAS LEGÍTIMAS
 <solo las del módulo, una línea cada una, tomadas de la lista cerrada: seguridad/auth; contratos fuera de la especificación; despliegue y cierre; decisión de negocio fuera del brief; paso manual que solo el humano puede hacer>
 
 INFORME DE CIERRE
-<qué debe decir: rebanadas, commits de la rama y de cada módulo, resultados de pruebas, desvíos, decisiones tomadas por su cuenta, evidencias>
+<qué debe decir: rebanadas, commits de la rama y de cada módulo, resultados de pruebas, qué criterios CA-n quedaron cubiertos y con qué evidencia, desvíos, decisiones tomadas por su cuenta, evidencias>
 
 <bloque final de kit/MERGE-AUTORIZADO.md, si el humano autoriza el merge; si no, la línea «SIN MERGE: te detienes en la rama»>
 ```
@@ -36,6 +36,7 @@ INFORME DE CIERRE
 Un ajuste pequeño sigue la misma estructura (las secciones vacías dicen «ninguno») e **incluye el cierre y el merge en el mismo prompt**: revisor interno sobre el árbol final, sello y el bloque de `kit/MERGE-AUTORIZADO.md`. No se deja el merge para un segundo prompt. Si el humano no quiere el merge, el prompt lo dice con «SIN MERGE: te detienes en la rama»; sin el bloque y sin esa línea, la terminal igualmente se detiene en la rama.
 
 ## Autoverificación antes de entregarlo
+- ¿Existe la especificación del módulo y el prompt la lee y cita sus CA-n? Si falta, se escribe antes con `especificar-funcionalidad` (en un ajuste pequeño basta una especificación de pocas líneas).
 - ¿Hay alguna parada que no esté en la lista cerrada?
 - ¿Algún paso manual que se pide a mitad de camino y pudo pedirse al inicio?
 - ¿Falta alguna autorización permanente?

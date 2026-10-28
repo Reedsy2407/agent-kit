@@ -206,14 +206,20 @@ test('VERIFICACION.md existe, tiene fecha y marca lo verificado, lo no verificad
   assert.match(v, /node types\/B\/esqueletos\/verificar\.mjs/);
 });
 
-test('versión, CHANGELOG, ADR 0016 y HANDOFF cuentan lo mismo sobre la etapa 2F', () => {
-  const { version } = JSON.parse(readFileSync(join(raiz, 'package.json'), 'utf8'));
-  assert.equal(version, '0.6.0');
+test('CHANGELOG, ADR 0016 y HANDOFF siguen contando la etapa 2F', () => {
   assert.match(readFileSync(join(raiz, 'CHANGELOG.md'), 'utf8'), /^## \[0\.6\.0\] - \d{4}-\d{2}-\d{2}/m);
   assert.match(readFileSync(join(raiz, 'docs', 'adr', '0016-esqueletos-por-stack-y-notas-verificadas.md'), 'utf8'), /^# 0016\./);
   const handoff = readFileSync(join(raiz, 'HANDOFF.md'), 'utf8');
-  assert.match(handoff, /0\.6\.0, etapa 2F/);
+  assert.match(handoff, /Etapa 2F cerrada/);
   assert.match(handoff, /autoría/);
   assert.match(handoff, /Sin verificar \(y por qué\)/);
-  assert.match(readFileSync(join(raiz, 'README.md'), 'utf8'), /Versión 0\.6\.0/);
+});
+
+test('versión 0.7.0 en package.json, README, CHANGELOG y HANDOFF; ADR 0017 aceptada', () => {
+  const { version } = JSON.parse(readFileSync(join(raiz, 'package.json'), 'utf8'));
+  assert.equal(version, '0.7.0');
+  assert.match(readFileSync(join(raiz, 'CHANGELOG.md'), 'utf8'), /^## \[0\.7\.0\] - \d{4}-\d{2}-\d{2}/m);
+  assert.match(readFileSync(join(raiz, 'README.md'), 'utf8'), /Versión 0\.7\.0/);
+  assert.match(readFileSync(join(raiz, 'HANDOFF.md'), 'utf8'), /0\.7\.0, etapa 2H/);
+  assert.match(readFileSync(join(raiz, 'docs', 'adr', '0017-especificar-antes-de-construir.md'), 'utf8'), /^# 0017\.[\s\S]*Estado: aceptada/);
 });
