@@ -1,6 +1,6 @@
 ---
 name: elegir-stack-proporcional
-description: Elige la tecnología y la arquitectura de un sistema con servicios en proporción al problema, con al menos dos alternativas reales (una la más simple posible), criterios explícitos y un ADR con lo descartado. Incluye el protocolo de cuestionar un encargo que lleve a una mala elección. Úsala tras un veredicto de viabilidad favorable y antes de escribir código, y cada vez que una decisión técnica grande aparezca.
+description: Elige la tecnología y la arquitectura de un sistema con servicios (o, en el tipo C, el lenguaje de una herramienta entre Go, Rust y Python) en proporción al problema, con al menos dos alternativas reales (una la más simple posible), criterios explícitos y un ADR con lo descartado. Incluye el protocolo de cuestionar un encargo que lleve a una mala elección. Úsala tras un veredicto de viabilidad favorable y antes de escribir código, y cada vez que una decisión técnica grande aparezca.
 ---
 
 El kit no impone un stack. La tecnología se elige para **este** negocio y **este** tamaño de problema: Java sin framework si basta, .NET sin bandeja de salida si hay algo mejor, un solo proceso y una sola base si eso cumple. Lo que ya se hizo en otros sistemas es **material de consulta** (`kit/catalogo/`), no un molde.
@@ -66,3 +66,33 @@ Cuestionar no es rediseñar: no cambias el alcance del negocio por tu cuenta. Cu
 
 ## 7. Cierre
 Resumen en pocas líneas: la decisión, la alternativa más simple y por qué ganó o perdió, lo que no se construye y sus señales. Después sigue `kit/GUIA-DECISION.md`: catálogo → ADRs → rebanadas verticales, desplegando desde la primera rebanada. Si el stack elegido tiene esqueleto (Java/Spring con Maven, .NET, Node o Python), el humano declara `kit.preset` en la ficha y vuelve a correr el instalador (con `--dry-run` antes): el esqueleto trae `/salud`, prueba, contenedor e integración continua ya comprobados; el sello deja de avisar de preset sin verificar.
+
+## 8. Rama del tipo C (herramientas y software de sistemas)
+**Solo aplica a proyectos del tipo C, en construcción (hoy no se instala).** Requisito: `DECISION-VIABILIDAD.md` del tipo C con **GO** (`evaluar-viabilidad`, sección 7). Las secciones 1 a 7 siguen valiendo; esta rama cambia las alternativas y los criterios, porque el entregable es un binario o paquete instalable y no un servicio desplegado.
+
+- **Mínimo dos alternativas entre Go, Rust y Python, con la más simple primero.** «Más simple» es la que menos cuesta construir, mantener y distribuir *para este problema y este equipo*, no la que se escribe más rápido: se razona en el ADR. Una alternativa de paja no cuenta.
+- **Criterios** (una frase con evidencia por cada uno, para cada alternativa):
+
+| Criterio | Pregunta |
+|---|---|
+| Binario único | ¿El usuario recibe un archivo que funciona sin instalar un intérprete ni dependencias? Si no, ¿cómo se empaqueta y cuánto cuesta que el usuario lo instale? |
+| Rendimiento medido | ¿Hay una medición (un prototipo, una carga real) que muestre que la alternativa simple no alcanza? «Será lento» sin medir no es una razón. |
+| Seguridad de memoria | ¿El programa procesa entrada no confiable o corre con privilegios? Cuanto mayor el radio de daño del eje de privilegios, más pesa este criterio. |
+| Ecosistema | ¿Existen bibliotecas mantenidas y con licencia compatible para los protocolos y las plataformas que exige la viabilidad? |
+| Curva de aprendizaje | ¿Quién lo mantiene y cuánto tarda en ser productivo? Una herramienta que solo entiende su autora es un riesgo de mantenimiento. |
+| Costo de mantenimiento | ¿Cuánto cuestan las actualizaciones del lenguaje y de las dependencias, la compilación para cada plataforma y los parches de seguridad durante el horizonte declarado? |
+
+- **ADR con lo descartado y por qué** (`kit/plantillas/ADR.md`; ejemplo en `kit/ejemplos-adr-c/` al instalar el tipo C, etapa C2; hoy en `types/C/ejemplos-adr/` del kit): cada alternativa descartada con su motivo y su costo, y la señal para revisar la decisión (por ejemplo, una medición de rendimiento que la simple no cumple).
+- **Qué no construir todavía:**
+
+| Qué NO construir todavía | Señal para construirlo |
+|---|---|
+| Actualizador propio | Los usuarios no pueden actualizar con su gestor de paquetes o a mano, y hay un canal de integridad definido |
+| Sistema de extensiones | Una segunda persona distinta del autor necesita añadir comportamiento sin tocar el código |
+| Proceso residente (daemon) | Hay estado o eventos que no caben en una ejecución bajo demanda |
+| Interfaz de red | Un cliente remoto real que no puede usar la línea de órdenes |
+| Soporte de una plataforma no verificada | Un usuario real en esa plataforma y pruebas ejecutándose en ella |
+| Código inseguro o llamadas a código nativo ajeno | Una medición o una biblioteca imprescindible que no tiene alternativa segura, aislada en un módulo |
+| Criptografía propia | Nunca: se usa una biblioteca revisada y mantenida |
+
+Lo que **nunca** se recorta en el tipo C: validar la entrada en el borde, privilegios mínimos, los valores por defecto seguros de la puerta de uso responsable, secretos fuera de archivos y de argumentos, y registro de la actividad que cambia algo.

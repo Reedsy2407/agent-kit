@@ -2,6 +2,20 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [0.8.0] - 2026-10-29
+
+Etapa C1: tipo C (herramientas y software de sistemas) como guía de decisión, en construcción (ADR 0018).
+
+### Añadido
+- `types/C/`: manifiesto con estado `en-construccion` (el instalador avisa y no instala nada), `GUIA-DECISION.md`, plantilla `plantillas/VIABILIDAD-TIPO-C.md`, un ADR de ejemplo y tres casos de viabilidad abstractos (GO, REDISEÑO por privilegios excesivos y NO-GO por función ofensiva) con una referencia ejecutable de la tabla de veredictos en las pruebas.
+- `evaluar-viabilidad`, sección 7: puerta de uso responsable (ofensivo sin uso defensivo claro es NO-GO sin excepciones; defensivo o de doble uso declara quién lo usa, sobre qué sistemas tiene autorización y qué puede hacer a sistemas ajenos, con lista de objetivos, registro y solo lectura por defecto) y seis ejes con evidencia: plataformas, privilegios, entrada no confiable, distribución y actualización, acceso a lo externo y mantenimiento.
+- `elegir-stack-proporcional`, sección 8: al menos dos alternativas entre Go, Rust y Python (la más simple primero), seis criterios, ADR con lo descartado y «qué no construir todavía» propio del tipo C.
+- Pruebas del tipo C (`types/C/test/`) y del exportador contra la lista local de términos (se detiene ante cada término y no se detiene en el estado limpio, sin imprimir nunca un término).
+
+### Cambiado
+- README, ADR 0006 y HANDOFF documentan el tipo C junto a A y B y la decisión de que no hay tipo D.
+- La prueba de versión pasa a 0.8.0.
+
 ## [0.7.0] - 2026-10-28
 
 Etapa 2H: especificar antes de construir (ADR 0017).

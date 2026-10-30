@@ -1,0 +1,8 @@
+{
+  "tipo": "C",
+  "nombre": "herramientas y software de sistemas",
+  "estado": "en-construccion",
+  "nota": "Guía de decisión (etapa C1). Los esqueletos de Go y Rust y el catálogo llegan en C2 a C5; hasta entonces el instalador avisa y no instala nada.",
+  "archivos": [],
+  "gitignore": []
+}

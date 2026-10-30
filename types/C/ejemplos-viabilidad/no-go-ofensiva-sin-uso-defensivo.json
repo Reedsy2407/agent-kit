@@ -1,0 +1,21 @@
+{
+  "titulo": "Herramienta ofensiva sin uso defensivo (ejemplo abstracto)",
+  "descripcion": "Una herramienta cuya función principal es recorrer sistemas de terceros para encontrar los que tienen debilidades y aprovecharlas, sin que nadie declare un uso defensivo ni una autorización sobre esos sistemas. El ejemplo describe solo la función, no cómo se logra.",
+  "puerta": {
+    "funcionPrincipal": "atacar-escanear-explotar-terceros",
+    "usoDefensivoClaro": false,
+    "usuario": "",
+    "autorizacion": "",
+    "efectoEnAjenos": "es precisamente su función",
+    "porDefecto": { "listaObjetivos": false, "registro": false, "soloLectura": false, "soloLecturaExiste": false }
+  },
+  "ejes": {
+    "plataformas": { "verificadas": ["linux-x86_64"], "sinVerificar": [] },
+    "privilegios": { "nivel": "minimo", "radioDeDano": "no aplica", "alternativaMenor": false, "acotado": true },
+    "amenazasEntrada": { "modeloEscrito": true, "confianza": "" },
+    "distribucion": { "canal": "binario publicado", "integridad": true, "nota": "" },
+    "externo": { "dependeDeTerceros": false, "evidencia": true },
+    "mantenimiento": { "responsable": true, "horizonte": "indefinido", "alDejarDeMantenerse": "" }
+  },
+  "esperado": "NO-GO"
+}

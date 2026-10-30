@@ -1,6 +1,6 @@
 ---
 name: evaluar-viabilidad
-description: Puerta cero antes de diseñar un sistema con servicios. Lista las dependencias externas de la idea (datos, APIs, accesos, convenios, licencias, costos, legalidad), exige evidencia de acceso para cada una crítica y emite un veredicto GO, GO-CONDICIONADO, REDISEÑO o NO-GO en DECISION-VIABILIDAD.md. Úsala al empezar un proyecto o cuando una idea gane una dependencia externa nueva, antes de elegir stack o escribir código.
+description: Puerta cero antes de diseñar un sistema con servicios o una herramienta de sistemas (tipo C, con puerta de uso responsable). Lista las dependencias externas de la idea (datos, APIs, accesos, convenios, licencias, costos, legalidad), exige evidencia de acceso para cada una crítica y emite un veredicto GO, GO-CONDICIONADO, REDISEÑO o NO-GO en DECISION-VIABILIDAD.md. Úsala al empezar un proyecto o cuando una idea gane una dependencia externa nueva, antes de elegir stack o escribir código.
 ---
 
 Antes de diseñar, comprueba que el mundo permite construir la idea. Esta skill no pregunta por el negocio (ya está organizado): pregunta si **los accesos que el negocio necesita existen de verdad**. Una idea que depende de un dato que nadie puede obtener es una idea que se descarta o se rediseña **antes** de escribir una línea, no después.
@@ -72,7 +72,35 @@ Reglas:
 ## 6. Cierre
 1. Rellena `DECISION-VIABILIDAD.md`: veredicto, dependencias con su evidencia y fecha, riesgos y plan B por dependencia.
 2. La evidencia envejece: anota cuándo caduca y reverifica antes de construir si ha pasado tiempo, si cambia el alcance o si aparece una dependencia nueva.
-3. Solo con GO o GO-CONDICIONADO sigues con `elegir-stack-proporcional`.
+3. Solo con GO o GO-CONDICIONADO sigues con `elegir-stack-proporcional` (en el tipo C, solo con GO: ver la sección 7).
+
+## 7. Rama del tipo C (herramientas y software de sistemas)
+**Solo aplica a proyectos del tipo C, que está en construcción (hoy no se instala; los archivos de apoyo están en `types/C/` del kit).** Aplica cuando el entregable es un binario o paquete instalable: una CLI, un daemon, una librería, un proxy, un servidor de protocolo o un gestor de procesos. Haz primero las secciones 1 a 6 para lo externo (acceso con evidencia, plan B) y añade esto. Los veredictos del tipo C son tres: **GO**, **REDISEÑO** y **NO-GO**; no hay GO-CONDICIONADO, porque un permiso o una autorización pendientes no se «verifican después». Salida: `DECISION-VIABILIDAD.md` más la sección del tipo C de `kit/plantillas/VIABILIDAD-TIPO-C.md`.
+
+### 7.1 Puerta de uso responsable (va antes que todo lo demás)
+Responde por escrito: ¿cuál es la **función principal**?, ¿**quién** lo usa?, ¿**sobre qué sistemas** tiene autorización quien lo usa?
+- **Atacar, escanear o explotar sistemas de terceros sin un uso defensivo claro: NO-GO, sin excepciones.** No se evalúan los demás ejes, no se propone «reformularlo» y no se escribe nada de la herramienta. No existe un tipo D que la acoja: lo ofensivo queda fuera del kit.
+- **Defensiva o de doble uso:** se construye bajo el tipo C solo si el documento declara (a) quién la usa, (b) sobre qué sistemas tiene autorización —propios, de su organización o con autorización escrita— y (c) qué puede hacer a sistemas ajenos si alguien la apunta mal. Valores por defecto seguros: **lista explícita de objetivos permitidos** (vacía por defecto: sin objetivo declarado no actúa), **registro de actividad** y **modo de solo lectura** si existe (y entonces es el predeterminado). Falta alguna declaración o algún valor por defecto → REDISEÑO.
+- Ni los documentos de esta evaluación ni el catálogo, los ejemplos o los ADR describen técnicas de ataque ni cargas útiles: se habla de la función, del permiso y del efecto, no del cómo.
+
+### 7.2 Ejes de evidencia
+| Eje | Pregunta | Evidencia que se anota |
+|---|---|---|
+| Plataformas objetivo | ¿En qué sistemas operativos y arquitecturas debe funcionar? | Por cada una, cómo se verifica que funciona (ejecución real de las pruebas en esa plataforma; compilar para ella no basta). Las que no se pueden verificar se declaran «sin verificar», con fecha. |
+| Privilegios y radio de daño | ¿Qué permisos pide (administrador o root, capacidades del sistema, pertenencia a grupos, acceso al socket de control de un runtime de contenedores, captura global de teclado o de pantalla, puertos reservados)? ¿Qué pasaría si alguien tomara el control del proceso? | El mínimo necesario y por qué; el radio de daño en una frase («lee un directorio», «controla el equipo entero»). El acceso al socket de control de un runtime de contenedores, o pertenecer a un grupo equivalente a administrador, **es control total del equipo**: REDISEÑO salvo que se demuestre que no hay alternativa y se acote (usuario dedicado, modo sin privilegios del runtime, intermediario de solo lectura). |
+| Modelo de amenazas de la entrada | ¿Qué recibe (argumentos, archivos, red, entrada estándar, variables de entorno, extensiones) y de quién (el propio usuario, la red local, internet)? | Qué se confía y qué no, qué se valida en el borde, límites de tamaño, de tiempo y de rutas; escucha solo en la interfaz local por defecto. Sin modelo escrito: REDISEÑO. |
+| Distribución y actualización | ¿Cómo llega al usuario y cómo sabe este que lo recibido es lo publicado? ¿Cómo se actualiza y cómo se retira? | Canal de distribución, sumas o firmas publicadas por un canal distinto al del binario, cómo se actualiza (por el gestor del usuario o a mano; un actualizador propio es algo que «no se construye todavía») y qué hace el instalador con permisos elevados. Un script que se descarga y se ejecuta a ciegas no es una vía aceptable como única. |
+| Acceso a lo externo | ¿Depende de servicios, protocolos, bibliotecas o datos de terceros? | La misma evidencia de las secciones 1 y 2: sondeo real, términos leídos, credencial o camino concreto. Una biblioteca sin licencia detectada no se copia ni se vendoriza. |
+| Mantenimiento | ¿Quién lo mantiene y por cuánto tiempo? | Responsable con nombre o rol, horizonte («demostración de un mes», «tres años»), qué pasa cuando deja de mantenerse (aviso de fin de soporte, relevo) y quién atiende un parche de seguridad. Un binario que vive años sin dueño es un riesgo para quien lo instale. |
+
+### 7.3 Veredicto del tipo C
+| Veredicto | Cuándo |
+|---|---|
+| **GO** | La puerta de uso responsable superada, cada eje con evidencia y los privilegios mínimos justificados. |
+| **REDISEÑO** | La puerta superada, pero falta una declaración o un valor por defecto seguro; o los privilegios son excesivos y existe una alternativa menor; o falta el modelo de amenazas, el canal de integridad o el responsable. Se rediseña con el humano antes de construir. |
+| **NO-GO** | La función principal es ofensiva sin uso defensivo claro (sin excepciones); o el privilegio total es imprescindible, no se puede acotar y no hay alternativa que conserve el valor. |
+
+En NO-GO, o en REDISEÑO sin aprobar, te detienes (sección 3). Ejemplos abstractos de los tres veredictos: `kit/ejemplos-viabilidad-c/` (al instalar el tipo C, etapa C2; hoy en `types/C/ejemplos-viabilidad/` del kit).
 
 ## Caso de estudio (público, abstracto): esg-trazabilidad
 Idea: un certificado de cumplimiento ambiental para empresas, que cruzaba registros propios con una cifra por empresa publicada en una plataforma estatal de reporte.

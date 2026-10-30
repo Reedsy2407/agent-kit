@@ -1,0 +1,21 @@
+{
+  "titulo": "Verificador de integridad de copias de archivos (ejemplo abstracto)",
+  "descripcion": "Una herramienta de línea de órdenes que lee un directorio local indicado por quien la lanza y compara las sumas de sus archivos con las de una copia, sin escribir nada ni abrir conexiones.",
+  "puerta": {
+    "funcionPrincipal": "otra",
+    "usoDefensivoClaro": false,
+    "usuario": "la persona que mantiene sus propias copias de seguridad",
+    "autorizacion": "solo los directorios de su propia máquina que ella misma indica",
+    "efectoEnAjenos": "ninguno: no abre conexiones y solo lee",
+    "porDefecto": { "listaObjetivos": true, "registro": true, "soloLectura": true, "soloLecturaExiste": true }
+  },
+  "ejes": {
+    "plataformas": { "verificadas": ["linux-x86_64", "windows-x86_64"], "sinVerificar": ["macos"] },
+    "privilegios": { "nivel": "minimo", "radioDeDano": "lee el directorio indicado", "alternativaMenor": false, "acotado": true },
+    "amenazasEntrada": { "modeloEscrito": true, "confianza": "los archivos leídos no son de confianza; se limita el tamaño y no se siguen enlaces fuera del directorio" },
+    "distribucion": { "canal": "binario publicado por versión", "integridad": true, "nota": "sumas publicadas por un canal distinto al del binario" },
+    "externo": { "dependeDeTerceros": false, "evidencia": true },
+    "mantenimiento": { "responsable": true, "horizonte": "tres años", "alDejarDeMantenerse": "aviso de fin de soporte" }
+  },
+  "esperado": "GO"
+}

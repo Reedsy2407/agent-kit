@@ -1,0 +1,21 @@
+{
+  "titulo": "Panel para gestionar contenedores con privilegios excesivos (ejemplo abstracto)",
+  "descripcion": "Un gestor de procesos con interfaz web cuyo instalador da acceso al socket de control del runtime de contenedores y añade al usuario a un grupo equivalente a administrador, para poder arrancar y detener contenedores.",
+  "puerta": {
+    "funcionPrincipal": "otra",
+    "usoDefensivoClaro": false,
+    "usuario": "la persona que administra su propio servidor",
+    "autorizacion": "los contenedores de su servidor",
+    "efectoEnAjenos": "ninguno, siempre que la interfaz no quede expuesta",
+    "porDefecto": { "listaObjetivos": true, "registro": true, "soloLectura": false, "soloLecturaExiste": false }
+  },
+  "ejes": {
+    "plataformas": { "verificadas": ["linux-x86_64"], "sinVerificar": [] },
+    "privilegios": { "nivel": "excesivo", "radioDeDano": "quien tome el control del proceso controla el equipo entero", "alternativaMenor": true, "acotado": false, "alternativa": "usuario dedicado, modo sin privilegios del runtime e intermediario de solo lectura para las consultas" },
+    "amenazasEntrada": { "modeloEscrito": true, "confianza": "la interfaz web escucha solo en la interfaz local por defecto" },
+    "distribucion": { "canal": "binario publicado por versión", "integridad": true, "nota": "sumas publicadas por un canal distinto" },
+    "externo": { "dependeDeTerceros": false, "evidencia": true },
+    "mantenimiento": { "responsable": true, "horizonte": "dos años", "alDejarDeMantenerse": "aviso de fin de soporte" }
+  },
+  "esperado": "REDISEÑO"
+}

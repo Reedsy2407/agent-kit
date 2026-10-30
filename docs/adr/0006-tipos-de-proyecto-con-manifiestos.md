@@ -1,6 +1,6 @@
 # 0006. Tipos de proyecto A y B con manifiestos
 
-Estado: aceptada (2026-10-19). El tipo B dejó de estar pendiente en el ADR 0013.
+Estado: aceptada (2026-10-19). El tipo B dejó de estar pendiente en el ADR 0013. El tipo C (herramientas y software de sistemas) se añade con el ADR 0018 y estado `en-construccion`: el instalador lo trata como no disponible, igual que a un tipo pendiente.
 
 ## Contexto
 No todo proyecto es un sistema con servicios. Un portafolio (tipo A) es un sitio estático que debe abrir al instante; un sistema con servicios (tipo B) tolera arranque en frío y necesita operación (despliegue, base de datos, logs).

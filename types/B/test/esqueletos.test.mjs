@@ -215,11 +215,12 @@ test('CHANGELOG, ADR 0016 y HANDOFF siguen contando la etapa 2F', () => {
   assert.match(handoff, /Sin verificar \(y por qué\)/);
 });
 
-test('versión 0.7.0 en package.json, README, CHANGELOG y HANDOFF; ADR 0017 aceptada', () => {
+test('versión 0.8.0 en package.json, README, CHANGELOG (con la 0.7.0 previa) y HANDOFF; ADR 0017 aceptada', () => {
   const { version } = JSON.parse(readFileSync(join(raiz, 'package.json'), 'utf8'));
-  assert.equal(version, '0.7.0');
+  assert.equal(version, '0.8.0');
+  assert.match(readFileSync(join(raiz, 'CHANGELOG.md'), 'utf8'), /^## \[0\.8\.0\] - \d{4}-\d{2}-\d{2}/m);
   assert.match(readFileSync(join(raiz, 'CHANGELOG.md'), 'utf8'), /^## \[0\.7\.0\] - \d{4}-\d{2}-\d{2}/m);
-  assert.match(readFileSync(join(raiz, 'README.md'), 'utf8'), /Versión 0\.7\.0/);
-  assert.match(readFileSync(join(raiz, 'HANDOFF.md'), 'utf8'), /0\.7\.0, etapa 2H/);
+  assert.match(readFileSync(join(raiz, 'README.md'), 'utf8'), /Versión 0\.8\.0/);
+  assert.match(readFileSync(join(raiz, 'HANDOFF.md'), 'utf8'), /0\.8\.0, etapa C1/);
   assert.match(readFileSync(join(raiz, 'docs', 'adr', '0017-especificar-antes-de-construir.md'), 'utf8'), /^# 0017\.[\s\S]*Estado: aceptada/);
 });
