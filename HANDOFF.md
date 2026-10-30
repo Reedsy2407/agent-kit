@@ -1,4 +1,4 @@
-# Handoff — agent-kit (0.9.0, etapa C2)
+# Handoff — agent-kit (0.9.1, etapa C2.1)
 
 Plantilla de arranque para una terminal nueva en este repo. Léelo primero; es corto a propósito. Reglas: `CLAUDE.md`. Decisiones: `docs/adr/`. Referencias oficiales consultadas: sección «Referencias» del `README.md`.
 
@@ -32,7 +32,7 @@ Plantilla de arranque para una terminal nueva en este repo. Léelo primero; es c
 
 ## Siguiente paso
 - Etapas C3 y C4: catálogo de problemas del tipo C y notas por lenguaje (Go, Python, Rust), con la regla del tipo B (nada de técnicas de ataque ni cargas útiles; notas «Verificado», «Comprobado ejecutando el esqueleto» o «No verificado»). Después, decidir si el tipo C deja de llamarse «en construcción».
-- Repetir `node types/C/esqueletos/verificar.mjs <go|python|rust>` en Linux y macOS (señal de punta a punta, permisos de archivo, `go test -race`, `pip-audit`, `cargo audit`) y ejecutar los flujos de integración continua de los tres esqueletos en un proyecto de prueba: nada de eso se pudo ejecutar desde la máquina de la etapa C2 (Windows, ver `types/C/esqueletos/VERIFICACION.md`).
+- Repetir `node types/C/esqueletos/verificar.mjs <go|python|rust>` en Linux y macOS (señal de punta a punta, permisos de archivo, el código POSIX de Rust, `go test -race` y `cargo audit` si se instala) y ejecutar los flujos de integración continua de los tres esqueletos en un proyecto de prueba. Desde una terminal de agente en Windows ya se puede verificar todo lo demás (el verificador amplía el PATH y, si `pip` no valida PyPI por una inspección de TLS, usa un PEM temporal con las autoridades del sistema; ver `types/C/esqueletos/VERIFICACION.md`, «Red y PATH»).
 - Exportar a la copia pública: `node infra/exportar-publico.mjs --destino ..\agent-kit-publico --dry-run` (y sin `--dry-run` solo si el humano lo decide; el push siempre es suyo).
 - Probar `especificar-funcionalidad` en un módulo real y recoger si se omite o resulta larga; si se omite con frecuencia, reabrir la decisión del ADR 0017.
 

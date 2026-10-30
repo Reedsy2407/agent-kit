@@ -6,6 +6,8 @@
   "gitignore": ["/.venv/", "/dist/", "/build/", "*.egg-info/", "__pycache__/", "/.ruff_cache/"],
   "verificacion": {
     "ejecutar": ["python", "-m", "herramienta"],
+    "red": "pip",
+    "instalable": { "comando": "herramienta" },
     "herramientas": [["python", "--version"], ["ruff", "--version"], ["pip-audit", "--version"]],
     "extras": [{ "cmd": ["pip-audit", "."], "opcional": true, "red": true }]
   }

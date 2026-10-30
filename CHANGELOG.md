@@ -2,6 +2,19 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [0.9.1] - 2026-10-30
+
+Etapa C2.1: la verificación de los esqueletos del tipo C se puede ejecutar desde una terminal de agente (ADR 0019). Las fechas de verificación son las del script, en UTC (la tarde del 29 de octubre en hora local).
+
+### Añadido
+- `types/C/esqueletos/entorno.mjs`: añade al PATH de los comandos del verificador las carpetas habituales de Go, de sus herramientas y de Cargo si existen y faltan (una sesión abierta antes de instalarlas no las tiene), y exporta a un PEM temporal, fuera del repositorio, los certificados que el sistema operativo ya confía.
+- `verificar.mjs`: la red de `pip` se prepara solo si `pip` no valida PyPI **por el certificado** (software de seguridad que inspecciona el TLS): se vuelve a probar con `PIP_CERT`, `REQUESTS_CA_BUNDLE` y `SSL_CERT_FILE` apuntando a ese PEM. Si el humano ya definió `PIP_CERT` o `REQUESTS_CA_BUNDLE`, no se sobrescriben; si el fallo no es de certificado, el paso se omite con el motivo. Nunca se desactiva la verificación (una prueba lo vigila).
+- Python: `pip install .` en un entorno virtual temporal y comprobación de que el comando instalado `herramienta version` (y `--json`) responde; `pip-audit .` ya se ejecuta con esa red.
+- Pruebas sin red de la lógica nueva (`types/C/test/verificador.test.mjs`).
+
+### Cambiado
+- `VERIFICACION.md` registra la causa del fallo de TLS, la solución y lo verificado desde la terminal del agente: los tres esqueletos pasan completos salvo lo que sigue sin poder ejecutarse (SIGTERM de punta a punta en Windows, `go test -race` sin compilador de C, código POSIX de Rust, `cargo audit` opcional y los flujos de integración continua).
+
 ## [0.9.0] - 2026-10-29
 
 Etapa C2: activación del tipo C y esqueletos de Go, Python y Rust (ADR 0019).
