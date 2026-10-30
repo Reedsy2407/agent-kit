@@ -79,7 +79,8 @@ test('el instalador acepta --tipo C (y su mensaje de error lo menciona) y rechaz
     const destinos = p.acciones.map((a) => a.destino);
     for (const d of ['kit/GUIA-DECISION.md', 'kit/plantillas/VIABILIDAD-TIPO-C.md', 'kit/plantillas/ADR.md', 'kit/ejemplos-viabilidad-c/go-verificador-de-copias.json', 'kit/ejemplos-adr-c/herramienta-simple-primero.md', '.claude/skills/evaluar-viabilidad/SKILL.md', '.claude/skills/elegir-stack-proporcional/SKILL.md', 'kit/FICHA-INFRA.json'])
       assert.ok(destinos.includes(d), d);
-    assert.ok(!destinos.some((d) => /consultar-catalogo|^kit\/catalogo|casos-privados|^tests\/front|^design\//.test(d)), 'del tipo B solo viajan las dos skills de decisión');
+    for (const d of ['kit/catalogo-c/INDEX.md', '.claude/skills/consultar-catalogo/SKILL.md']) assert.ok(destinos.includes(d), d);
+    assert.ok(!destinos.some((d) => /^kit\/catalogo\/|casos-privados|^tests\/front|^design\//.test(d)), 'del tipo B solo viajan las tres skills de decisión: ni su catálogo, ni lo privado, ni el front');
     assert.deepEqual(p.gitignore.añadir.filter((l) => l.includes('casos-privados')), []);
   } finally { e.limpiar(); }
 });

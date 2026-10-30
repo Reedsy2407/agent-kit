@@ -75,7 +75,7 @@ Reglas:
 3. Solo con GO o GO-CONDICIONADO sigues con `elegir-stack-proporcional` (en el tipo C, solo con GO: ver la sección 7).
 
 ## 7. Rama del tipo C (herramientas y software de sistemas)
-**Solo aplica a proyectos del tipo C (herramientas y software de sistemas), que sigue en construcción: ya se instala con esqueletos de Go, Python y Rust; el catálogo llega después.** Aplica cuando el entregable es un binario o paquete instalable: una CLI, un daemon, una librería, un proxy, un servidor de protocolo o un gestor de procesos. Haz primero las secciones 1 a 6 para lo externo (acceso con evidencia, plan B) y añade esto. Los veredictos del tipo C son tres: **GO**, **REDISEÑO** y **NO-GO**; no hay GO-CONDICIONADO, porque un permiso o una autorización pendientes no se «verifican después». Salida: `DECISION-VIABILIDAD.md` más la sección del tipo C de `kit/plantillas/VIABILIDAD-TIPO-C.md`.
+**Solo aplica a proyectos del tipo C (herramientas y software de sistemas), que se instala con esqueletos de Go, Python y Rust y con su propio catálogo.** Aplica cuando el entregable es un binario o paquete instalable: una CLI, un daemon, una librería, un proxy, un servidor de protocolo o un gestor de procesos. Haz primero las secciones 1 a 6 para lo externo (acceso con evidencia, plan B) y añade esto. Los veredictos del tipo C son tres: **GO**, **REDISEÑO** y **NO-GO**; no hay GO-CONDICIONADO, porque un permiso o una autorización pendientes no se «verifican después». Salida: `DECISION-VIABILIDAD.md` más la sección del tipo C de `kit/plantillas/VIABILIDAD-TIPO-C.md`.
 
 ### 7.1 Puerta de uso responsable (va antes que todo lo demás)
 Responde por escrito: ¿cuál es la **función principal**?, ¿**quién** lo usa?, ¿**sobre qué sistemas** tiene autorización quien lo usa?

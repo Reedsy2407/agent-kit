@@ -1,6 +1,6 @@
 # 0019. Esqueletos de Go, Python y Rust y activación del tipo C
 
-Estado: aceptada (2026-10-29). Complementa los ADR 0016 (esqueletos del tipo B), 0014 (presets de sello) y 0018 (tipo C como guía de decisión).
+Estado: aceptada (2026-10-29); el catálogo que deja pendiente llegó en el ADR 0020. Complementa los ADR 0016 (esqueletos del tipo B), 0014 (presets de sello) y 0018 (tipo C como guía de decisión).
 
 ## Contexto
 El tipo C tenía guía de decisión pero no se podía instalar ni daba un punto de partida que compilara. Como en el tipo B, un esqueleto sin verificar sería justo lo que el kit combate; y como el entregable es un binario o paquete, sus problemas propios (señales, permisos de archivo, entrada no confiable, varias plataformas, distribución con integridad) tienen que estar en el código de partida y no solo en la guía.

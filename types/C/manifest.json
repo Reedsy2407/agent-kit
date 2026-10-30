@@ -2,7 +2,7 @@
   "tipo": "C",
   "nombre": "herramientas y software de sistemas",
   "estado": "disponible",
-  "nota": "Guía de decisión (C1) y esqueletos de Go, Python y Rust (C2). Sigue en construcción: el catálogo de problemas llega en C3 y C4.",
+  "nota": "Guía de decisión (C1), esqueletos de Go, Python y Rust (C2) y catálogo de dieciocho problemas (C3). Disponible; lo no verificado en la máquina de la etapa está en types/C/esqueletos/VERIFICACION.md y en el HANDOFF.",
   "perfilExpresion": "sobrio",
   "ficha": "types/C/ficha-infra.json",
   "esqueletos": "types/C/esqueletos",
@@ -117,13 +117,23 @@
       "versionado": false
     },
     {
-      "origen": "types/C/ejemplos-adr",
+      "origen": "types/C/ejemplos-adr-c",
       "destino": "kit/ejemplos-adr-c",
       "versionado": false
     },
     {
       "origen": "types/C/esqueletos/CONTRATO.md",
       "destino": "kit/CONTRATO-ESQUELETOS.md",
+      "versionado": false
+    },
+    {
+      "origen": "types/C/catalogo",
+      "destino": "kit/catalogo-c",
+      "versionado": false
+    },
+    {
+      "origen": "types/B/skills/consultar-catalogo",
+      "destino": ".claude/skills/consultar-catalogo",
       "versionado": false
     }
   ],

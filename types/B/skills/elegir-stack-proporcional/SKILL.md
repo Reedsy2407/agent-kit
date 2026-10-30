@@ -68,7 +68,7 @@ Cuestionar no es rediseñar: no cambias el alcance del negocio por tu cuenta. Cu
 Resumen en pocas líneas: la decisión, la alternativa más simple y por qué ganó o perdió, lo que no se construye y sus señales. Después sigue `kit/GUIA-DECISION.md`: catálogo → ADRs → rebanadas verticales, desplegando desde la primera rebanada. Si el stack elegido tiene esqueleto (Java/Spring con Maven, .NET, Node o Python), el humano declara `kit.preset` en la ficha y vuelve a correr el instalador (con `--dry-run` antes): el esqueleto trae `/salud`, prueba, contenedor e integración continua ya comprobados; el sello deja de avisar de preset sin verificar.
 
 ## 8. Rama del tipo C (herramientas y software de sistemas)
-**Solo aplica a proyectos del tipo C, que sigue en construcción (ya se instala con esqueletos de Go, Python y Rust; el catálogo llega después).** Requisito: `DECISION-VIABILIDAD.md` del tipo C con **GO** (`evaluar-viabilidad`, sección 7). Las secciones 1 a 7 siguen valiendo; esta rama cambia las alternativas y los criterios, porque el entregable es un binario o paquete instalable y no un servicio desplegado.
+**Solo aplica a proyectos del tipo C (herramientas y software de sistemas), que se instala con esqueletos de Go, Python y Rust y con su propio catálogo.** Requisito: `DECISION-VIABILIDAD.md` del tipo C con **GO** (`evaluar-viabilidad`, sección 7). Las secciones 1 a 7 siguen valiendo; esta rama cambia las alternativas y los criterios, porque el entregable es un binario o paquete instalable y no un servicio desplegado.
 
 - **Mínimo dos alternativas entre Go, Rust y Python, con la más simple primero.** «Más simple» es la que menos cuesta construir, mantener y distribuir *para este problema y este equipo*, no la que se escribe más rápido: se razona en el ADR. Una alternativa de paja no cuenta.
 - **Criterios** (una frase con evidencia por cada uno, para cada alternativa):
@@ -82,7 +82,7 @@ Resumen en pocas líneas: la decisión, la alternativa más simple y por qué ga
 | Curva de aprendizaje | ¿Quién lo mantiene y cuánto tarda en ser productivo? Una herramienta que solo entiende su autora es un riesgo de mantenimiento. |
 | Costo de mantenimiento | ¿Cuánto cuestan las actualizaciones del lenguaje y de las dependencias, la compilación para cada plataforma y los parches de seguridad durante el horizonte declarado? |
 
-- **ADR con lo descartado y por qué** (`kit/plantillas/ADR.md`; ejemplo en `kit/ejemplos-adr-c/` se instala con el tipo C; en el kit: `types/C/ejemplos-adr/`): cada alternativa descartada con su motivo y su costo, y la señal para revisar la decisión (por ejemplo, una medición de rendimiento que la simple no cumple).
+- **ADR con lo descartado y por qué** (`kit/plantillas/ADR.md`; ejemplo en `kit/ejemplos-adr-c/` se instala con el tipo C; en el kit: `types/C/ejemplos-adr-c/`): cada alternativa descartada con su motivo y su costo, y la señal para revisar la decisión (por ejemplo, una medición de rendimiento que la simple no cumple).
 - **Qué no construir todavía:**
 
 | Qué NO construir todavía | Señal para construirlo |

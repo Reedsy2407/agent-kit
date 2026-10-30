@@ -1,6 +1,6 @@
 # 0018. Tipo C como guía de decisión: herramientas y software de sistemas
 
-Estado: aceptada (2026-10-29). Su estado «en construcción» y su «Sin hacer» se actualizan en el ADR 0019 (instalación y esqueletos). Complementa los ADR 0006 (tipos con manifiestos) y 0013 (tipo B como guía de decisión).
+Estado: aceptada (2026-10-29). Su estado «en construcción» y su «Sin hacer» se actualizan en los ADR 0019 (instalación y esqueletos) y 0020 (catálogo). Complementa los ADR 0006 (tipos con manifiestos) y 0013 (tipo B como guía de decisión).
 
 ## Contexto
 Los tipos A y B cubren un sitio estático y un sistema con servicios. Falta lo que se entrega como binario o paquete instalable: CLIs, daemons, librerías, proxies, servidores de protocolos y gestores de procesos. Sus riesgos no son los del tipo B: se instalan en máquinas ajenas, corren con los privilegios de quien las lanza, han de funcionar en varias plataformas, reciben entrada no confiable y viven más que su autoría. Además, en este dominio hay herramientas cuya función es atacar: el kit debe decir con claridad cuáles no construye.

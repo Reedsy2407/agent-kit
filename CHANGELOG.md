@@ -2,6 +2,21 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [0.10.0] - 2026-10-30
+
+Etapa C3: catálogo de problemas del tipo C (ADR 0020).
+
+### Añadido
+- `types/C/catalogo/`: dieciocho fichas con el formato del tipo B en seis grupos: **ciclo de vida** (recarga de configuración en caliente, supervisión de procesos hijos, apagado ordenado), **control y contrato** (control local de un daemon, contrato de un CLI, configuración validada al arrancar), **datos y entrada/salida** (concurrencia y contrapresión, persistencia en disco, entrada no confiable en protocolos), **pruebas y extensión** (propiedades y fuzzing, extensibilidad, código de terceros con confinamiento), **seguridad por defecto** (secretos en la máquina del usuario, privilegios mínimos, autenticación de APIs de control) y **operación** (registro estructurado con rotación, empaquetado y releases multiplataforma, cambios reversibles). Abstractas, sin cifras ni anécdotas y defensivas. Notas por stack de Go, Python y Rust con fuente oficial y fecha, «comprobado ejecutando el esqueleto» o «no verificado».
+- Siete ADR de ejemplo en `types/C/ejemplos-adr-c/` (apagado con plazo, códigos de salida y salida para máquinas, estado por archivo temporal y renombrado, complementos en proceso aparte, usuario dedicado sin acceso total, sumas por canal aparte y la elección de lenguaje).
+- El instalador copia el catálogo a `kit/catalogo-c/` en el tipo C y la skill `consultar-catalogo`, que gana una rama del tipo C; el catálogo del tipo B no cambia ni se instala en el C.
+- Pruebas del catálogo (`types/C/test/catalogo.test.mjs`): las dieciocho fichas exactas, formato fijo, «no hacer nada», estado de verificación de cada nota, sin cifras ni anécdotas ni código, defensivo, enlaces e índice, ADR enlazados, instalación en C y no en B, y frases no copiadas del material privado local.
+
+### Cambiado
+- El tipo C deja de llamarse «en construcción»: queda disponible, con los límites de verificación conocidos en `VERIFICACION.md` y en los pendientes del HANDOFF.
+- La carpeta de ADR de ejemplo del tipo C pasa de `ejemplos-adr` a `ejemplos-adr-c` para que los enlaces de las fichas valgan en el kit y en el proyecto.
+- Las pruebas de vocabulario de ataque del tipo C admiten direcciones https solo en las fuentes de las notas por stack del catálogo.
+
 ## [0.9.1] - 2026-10-30
 
 Etapa C2.1: la verificación de los esqueletos del tipo C se puede ejecutar desde una terminal de agente (ADR 0019). Las fechas de verificación son las del script, en UTC (la tarde del 29 de octubre en hora local).
