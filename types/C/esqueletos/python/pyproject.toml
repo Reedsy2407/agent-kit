@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "herramienta"
+version = "0.1.0"
+description = "Herramienta de ejemplo (CLI y daemon) solo con la biblioteca estándar"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = []  # cero dependencias de producción: añadir una exige un ADR
+
+[project.scripts]
+herramienta = "herramienta.cli:principal"
+
+[tool.setuptools]
+packages = ["herramienta"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "BLE"]

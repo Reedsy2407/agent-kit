@@ -1,8 +1,137 @@
 {
   "tipo": "C",
   "nombre": "herramientas y software de sistemas",
-  "estado": "en-construccion",
-  "nota": "Guía de decisión (etapa C1). Los esqueletos de Go y Rust y el catálogo llegan en C2 a C5; hasta entonces el instalador avisa y no instala nada.",
-  "archivos": [],
-  "gitignore": []
+  "estado": "disponible",
+  "nota": "Guía de decisión (C1) y esqueletos de Go, Python y Rust (C2). Sigue en construcción: el catálogo de problemas llega en C3 y C4.",
+  "perfilExpresion": "sobrio",
+  "ficha": "types/C/ficha-infra.json",
+  "esqueletos": "types/C/esqueletos",
+  "archivos": [
+    {
+      "origen": "core/CLAUDE.md",
+      "destino": "CLAUDE.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/HANDOFF.md",
+      "destino": "HANDOFF.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/PROCESO-MODULOS-Y-REVISION.md",
+      "destino": "kit/PROCESO-MODULOS-Y-REVISION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/PROMPT-MODULO.md",
+      "destino": "kit/PROMPT-MODULO.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/MERGE-AUTORIZADO.md",
+      "destino": "kit/MERGE-AUTORIZADO.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/hooks",
+      "destino": ".claude/hooks",
+      "excluir": [
+        "test"
+      ],
+      "versionado": false
+    },
+    {
+      "origen": "core/agents",
+      "destino": ".claude/agents",
+      "versionado": false
+    },
+    {
+      "origen": "core/skills",
+      "destino": ".claude/skills",
+      "versionado": false
+    },
+    {
+      "origen": "core/plantillas/ESPECIFICACION.md",
+      "destino": "kit/plantillas/ESPECIFICACION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/gitattributes.plantilla",
+      "destino": ".gitattributes",
+      "versionado": true
+    },
+    {
+      "origen": "types/B/plantillas/DECISION-VIABILIDAD.md",
+      "destino": "kit/plantillas/DECISION-VIABILIDAD.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/B/plantillas/ADR.md",
+      "destino": "kit/plantillas/ADR.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/B/plantillas/scripts/sondeo-acceso.mjs",
+      "destino": "scripts/sondeo-acceso.mjs",
+      "versionado": true
+    },
+    {
+      "origen": "types/B/plantillas/dependencias.ejemplo.json",
+      "destino": "ops/dependencias.json",
+      "versionado": true,
+      "propio": true
+    },
+    {
+      "origen": "types/B/skills/evaluar-viabilidad",
+      "destino": ".claude/skills/evaluar-viabilidad",
+      "versionado": false
+    },
+    {
+      "origen": "types/B/skills/elegir-stack-proporcional",
+      "destino": ".claude/skills/elegir-stack-proporcional",
+      "versionado": false
+    },
+    {
+      "origen": "types/C/GUIA-DECISION.md",
+      "destino": "kit/GUIA-DECISION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/C/plantillas/VIABILIDAD-TIPO-C.md",
+      "destino": "kit/plantillas/VIABILIDAD-TIPO-C.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/C/ejemplos-viabilidad",
+      "destino": "kit/ejemplos-viabilidad-c",
+      "versionado": false
+    },
+    {
+      "origen": "types/C/ejemplos-adr",
+      "destino": "kit/ejemplos-adr-c",
+      "versionado": false
+    },
+    {
+      "origen": "types/C/esqueletos/CONTRATO.md",
+      "destino": "kit/CONTRATO-ESQUELETOS.md",
+      "versionado": false
+    }
+  ],
+  "gitignore": [
+    "/CLAUDE.md",
+    "/HANDOFF.md",
+    "/kit/",
+    "/tasks/",
+    "/.claude/"
+  ]
 }

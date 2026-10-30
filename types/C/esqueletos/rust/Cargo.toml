@@ -1,0 +1,21 @@
+[package]
+name = "herramienta"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99"
+description = "Herramienta de ejemplo (CLI y daemon) solo con la biblioteca estándar"
+license = "MIT"
+publish = false
+
+# Cero dependencias, también de desarrollo: añadir una exige un ADR. Cargo.lock se versiona (es un binario).
+
+[lints.rust]
+unsafe_code = "deny" # solo src/senal.rs lo permite (señales del sistema sin dependencias; ADR 0019)
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+
+[profile.release]
+codegen-units = 1
+lto = true
+strip = true

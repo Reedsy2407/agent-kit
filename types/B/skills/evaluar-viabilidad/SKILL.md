@@ -75,7 +75,7 @@ Reglas:
 3. Solo con GO o GO-CONDICIONADO sigues con `elegir-stack-proporcional` (en el tipo C, solo con GO: ver la sección 7).
 
 ## 7. Rama del tipo C (herramientas y software de sistemas)
-**Solo aplica a proyectos del tipo C, que está en construcción (hoy no se instala; los archivos de apoyo están en `types/C/` del kit).** Aplica cuando el entregable es un binario o paquete instalable: una CLI, un daemon, una librería, un proxy, un servidor de protocolo o un gestor de procesos. Haz primero las secciones 1 a 6 para lo externo (acceso con evidencia, plan B) y añade esto. Los veredictos del tipo C son tres: **GO**, **REDISEÑO** y **NO-GO**; no hay GO-CONDICIONADO, porque un permiso o una autorización pendientes no se «verifican después». Salida: `DECISION-VIABILIDAD.md` más la sección del tipo C de `kit/plantillas/VIABILIDAD-TIPO-C.md`.
+**Solo aplica a proyectos del tipo C (herramientas y software de sistemas), que sigue en construcción: ya se instala con esqueletos de Go, Python y Rust; el catálogo llega después.** Aplica cuando el entregable es un binario o paquete instalable: una CLI, un daemon, una librería, un proxy, un servidor de protocolo o un gestor de procesos. Haz primero las secciones 1 a 6 para lo externo (acceso con evidencia, plan B) y añade esto. Los veredictos del tipo C son tres: **GO**, **REDISEÑO** y **NO-GO**; no hay GO-CONDICIONADO, porque un permiso o una autorización pendientes no se «verifican después». Salida: `DECISION-VIABILIDAD.md` más la sección del tipo C de `kit/plantillas/VIABILIDAD-TIPO-C.md`.
 
 ### 7.1 Puerta de uso responsable (va antes que todo lo demás)
 Responde por escrito: ¿cuál es la **función principal**?, ¿**quién** lo usa?, ¿**sobre qué sistemas** tiene autorización quien lo usa?
@@ -100,7 +100,7 @@ Responde por escrito: ¿cuál es la **función principal**?, ¿**quién** lo usa
 | **REDISEÑO** | La puerta superada, pero falta una declaración o un valor por defecto seguro; o los privilegios son excesivos y existe una alternativa menor; o falta el modelo de amenazas, el canal de integridad o el responsable. Se rediseña con el humano antes de construir. |
 | **NO-GO** | La función principal es ofensiva sin uso defensivo claro (sin excepciones); o el privilegio total es imprescindible, no se puede acotar y no hay alternativa que conserve el valor. |
 
-En NO-GO, o en REDISEÑO sin aprobar, te detienes (sección 3). Ejemplos abstractos de los tres veredictos: `kit/ejemplos-viabilidad-c/` (al instalar el tipo C, etapa C2; hoy en `types/C/ejemplos-viabilidad/` del kit).
+En NO-GO, o en REDISEÑO sin aprobar, te detienes (sección 3). Ejemplos abstractos de los tres veredictos: `kit/ejemplos-viabilidad-c/` (se instala con el tipo C; en el kit: `types/C/ejemplos-viabilidad/`).
 
 ## Caso de estudio (público, abstracto): esg-trazabilidad
 Idea: un certificado de cumplimiento ambiental para empresas, que cruzaba registros propios con una cifra por empresa publicada en una plataforma estatal de reporte.

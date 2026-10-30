@@ -17,6 +17,8 @@ export const CONFIG_POR_DEFECTO = Object.freeze({
     'python -m pytest', 'python3 -m pytest', 'py -m pytest', 'pip install', 'python -m pip install', 'python3 -m pip install',
     'npm test', 'npm run build', 'npm run test', 'npm run lint', 'npm ci', 'npm install',
     'npx playwright', 'ng build', 'ng test', 'ng lint',
+    'go vet', 'go test', 'go build', 'govulncheck', 'cargo fmt', 'cargo clippy', 'cargo test', 'cargo build', 'cargo audit',
+    'ruff check', 'ruff format', 'python -m unittest', 'pip-audit',
     'docker build', 'docker compose build', 'docker compose up',
     'node scripts/salud.mjs', 'node scripts/sondeo-acceso.mjs',
     'node tests/front/run.mjs', 'node tests/front/herramientas/capturas.mjs', 'node tests/front/herramientas/video.mjs',

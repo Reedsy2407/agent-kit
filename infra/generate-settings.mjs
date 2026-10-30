@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { SECRETOS } from '../core/hooks/guard-write.mjs';
-import { IDS_PRESETS, checksDePreset, permisosDePreset, avisoDePreset } from './presets.mjs';
+import { idsDePresets, checksDePreset, permisosDePreset, avisoDePreset } from './presets.mjs';
 
 export class FichaInvalida extends Error {
   constructor(errores) {
@@ -172,7 +172,7 @@ export function validarFicha(ficha) {
   if (!ficha || typeof ficha !== 'object') throw new FichaInvalida(['la ficha debe ser un objeto JSON']);
   if (ficha.version !== 1) errores.push('version debe ser 1');
   if (!ficha.proyecto || typeof ficha.proyecto !== 'string') errores.push('proyecto es obligatorio');
-  if (!['A', 'B', 'kit'].includes(ficha.tipo)) errores.push('tipo debe ser "A", "B" o "kit" (el propio kit, ADR 0014)');
+  if (!['A', 'B', 'C', 'kit'].includes(ficha.tipo)) errores.push('tipo debe ser "A", "B", "C" o "kit" (el propio kit, ADR 0014)');
   for (const [ruta, valor] of cadenas(ficha)) {
     if (ruta === '_ayuda') continue;
     for (const [re, que] of SECRETOS) if (re.test(valor)) errores.push(`${ruta} parece contener ${que}: la ficha no lleva secretos`);
@@ -187,7 +187,7 @@ export function validarFicha(ficha) {
     if (typeof config !== 'string' || !config || /^([a-zA-Z]:|[\\/])/.test(config) || config.split(/[\\/]/).includes('..')) errores.push('kit.front.config debe ser una ruta relativa dentro del proyecto (p. ej. tests/front/front.config.json)');
     if (typeof comando !== 'string' || !comando.trim()) errores.push('kit.front.comando debe ser el comando que corre las pruebas de front');
   }
-  if (kit.preset !== undefined && kit.preset !== '' && kit.preset !== null && !IDS_PRESETS.includes(kit.preset)) errores.push(`kit.preset «${kit.preset}» no existe (usa ${IDS_PRESETS.join(', ')} o déjalo vacío)`);
+  if (kit.preset !== undefined && kit.preset !== '' && kit.preset !== null && !idsDePresets(ficha.tipo).includes(kit.preset)) errores.push(`kit.preset «${kit.preset}» no existe${ficha.tipo === 'C' ? ' para el tipo C' : ''} (usa ${idsDePresets(ficha.tipo).join(', ')} o déjalo vacío)`);
   for (const c of kit.checks ?? []) if (!Array.isArray(c.commands) || !c.commands.length) errores.push('kit.checks: cada comprobación necesita una lista de commands');
   for (const c of kit.checks ?? []) if (c.timeoutSeconds !== undefined && !(Number.isInteger(c.timeoutSeconds) && c.timeoutSeconds > 0 && c.timeoutSeconds <= 7200)) errores.push('kit.checks: timeoutSeconds debe ser un entero de 1 a 7200');
   const { allow, deny, condicional } = listaReglas(ficha, errores);
@@ -197,7 +197,7 @@ export function validarFicha(ficha) {
   /* Las autorizaciones de después del primer despliegue humano solo cuentan si ya se hizo; se validan siempre contra las denegaciones. */
   const activas = hecho === true ? condicional : [];
   const urlAllow = (ficha.urlsPublicas ?? []).map((u) => `Bash(curl * ${u.replace(/\/$/, '')}/*)`);
-  const todasAllow = [...ALLOW_BASE, ...permisosDePreset(kit.preset), ...urlAllow, ...allow, ...activas, ...ops.allow];
+  const todasAllow = [...ALLOW_BASE, ...permisosDePreset(kit.preset, ficha.tipo), ...urlAllow, ...allow, ...activas, ...ops.allow];
   const todasDeny = [...DENY_BASE, ...deny];
   for (const t of detectarTapadas([...todasAllow, ...condicional, ...ops.ask], todasDeny))
     errores.push(`la autorización ${t.allow} queda tapada por la denegación ${t.deny} (una denegación gana a una autorización): haz la denegación más específica`);
@@ -255,8 +255,8 @@ export function generarKitConfig(ficha) {
     maxBranchCommits: kit.maxBranchCommits ?? 10,
     modules: kit.modules ?? [],
     commitScopes: kit.commitScopes ?? [],
-    checks: kit.checks?.length ? kit.checks : checksDePreset(kit.preset),
-    preset: kit.preset ? { id: kit.preset, aviso: avisoDePreset(kit.preset) } : null,
+    checks: kit.checks?.length ? kit.checks : checksDePreset(kit.preset, ficha.tipo),
+    preset: kit.preset ? { id: kit.preset, aviso: avisoDePreset(kit.preset, ficha.tipo) } : null,
     gitleaks: kit.gitleaks ?? true,
     autoria: { correosPermitidos: kit.autoria?.correosPermitidos ?? [] },
     front: kit.front ?? null,

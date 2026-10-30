@@ -1,0 +1,64 @@
+# Ejemplo de publicación del esqueleto Go: compila un binario por plataforma, lo empaqueta y genera SHA256SUMS.
+# No se ejecuta dentro del kit. Sin secretos y sin firmas: lo que queda manual está en el README del esqueleto
+# (subir los artefactos a tu canal de distribución, firmarlos si lo decides y publicar las sumas por un canal distinto).
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+          - goos: linux
+            goarch: arm64
+          - goos: darwin
+            goarch: arm64
+          - goos: windows
+            goarch: amd64
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: '1.27.0'
+          cache: false
+      - run: go test -count=1 ./...
+      - name: Compilar y empaquetar
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: '0'
+          VERSION: ${{ github.ref_name }}
+        run: |
+          nombre="herramienta_${VERSION}_${GOOS}_${GOARCH}"
+          mkdir -p "dist/$nombre"
+          ext=""; [ "$GOOS" = "windows" ] && ext=".exe"
+          go build -trimpath -ldflags "-s -w -X ejemplo.invalid/herramienta/internal/cli.Version=${VERSION#v}" -o "dist/$nombre/herramienta$ext" ./cmd/herramienta
+          cp README.md "dist/$nombre/"
+          if [ "$GOOS" = "windows" ]; then (cd dist && zip -qr "$nombre.zip" "$nombre"); else tar -C dist -czf "dist/$nombre.tar.gz" "$nombre"; fi
+      - uses: actions/upload-artifact@v7
+        with:
+          name: paquete-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: |
+            dist/*.tar.gz
+            dist/*.zip
+  sumas:
+    needs: compilar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: paquetes
+          merge-multiple: true
+      - name: Sumas SHA-256
+        working-directory: paquetes
+        run: sha256sum * > SHA256SUMS && cat SHA256SUMS
+      - uses: actions/upload-artifact@v7
+        with:
+          name: paquetes-y-sumas
+          path: paquetes/*

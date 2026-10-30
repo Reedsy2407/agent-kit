@@ -1,0 +1,12 @@
+{
+  "_ayuda": "Metadatos del esqueleto (los lee el instalador y types/C/esqueletos/verificar.mjs). El esqueleto se instala solo si la ficha del proyecto declara kit.preset igual a «preset» (tipo C).",
+  "stack": "python",
+  "nombre": "Python (solo biblioteca estándar)",
+  "preset": "python",
+  "gitignore": ["/.venv/", "/dist/", "/build/", "*.egg-info/", "__pycache__/", "/.ruff_cache/"],
+  "verificacion": {
+    "ejecutar": ["python", "-m", "herramienta"],
+    "herramientas": [["python", "--version"], ["ruff", "--version"], ["pip-audit", "--version"]],
+    "extras": [{ "cmd": ["pip-audit", "."], "opcional": true, "red": true }]
+  }
+}

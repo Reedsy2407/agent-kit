@@ -146,10 +146,10 @@ test('un tipo con manifiesto pendiente avisa y termina sin error ni escritura', 
   const e = escenario();
   try {
     const kit = join(e.base, 'kit-falso');
-    mkdirSync(join(kit, 'types', 'C'), { recursive: true });
-    writeFileSync(join(kit, 'types', 'C', 'manifest.json'), JSON.stringify({ tipo: 'C', nombre: 'tipo de prueba', estado: 'pendiente-etapa-2', archivos: [], gitignore: [] }));
+    mkdirSync(join(kit, 'types', 'D'), { recursive: true });
+    writeFileSync(join(kit, 'types', 'D', 'manifest.json'), JSON.stringify({ tipo: 'D', nombre: 'tipo de prueba', estado: 'pendiente-etapa-2', archivos: [], gitignore: [] }));
     const antes = foto(e.base);
-    const p = planificar({ destino: e.destino, tipo: 'C', respaldo: e.respaldo, raizKit: kit });
+    const p = planificar({ destino: e.destino, tipo: 'D', respaldo: e.respaldo, raizKit: kit });
     assert.match(describirPlan(p, { dryRun: false }), /todavía no está disponible/);
     assert.deepEqual(aplicar(p), { escritos: [], omitidos: [], rechazados: [] });
     assert.deepEqual(foto(e.base), antes);

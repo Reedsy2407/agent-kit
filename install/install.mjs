@@ -3,7 +3,7 @@
 // respaldo fuera del destino. `--dry-run` imprime el plan y no escribe nada; `--diff` además muestra, por archivo que
 // difiere, qué hay y qué traería el kit (tampoco escribe). `--forzar` pisa todo lo que difiere; `--forzar=ruta1,ruta2` solo
 // esas rutas (o carpetas). La ficha que el proyecto ya tiene se fusiona con la plantilla: no se pierde nada suyo.
-// Uso: node install/install.mjs --destino <carpeta> [--tipo A|B] [--proyecto <nombre>] [--ficha <archivo>]
+// Uso: node install/install.mjs --destino <carpeta> [--tipo A|B|C] [--proyecto <nombre>] [--ficha <archivo>]
 //        [--respaldo <carpeta>] [--forzar[=ruta1,ruta2]] [--dry-run] [--diff]
 //        node install/install.mjs --auto [--dry-run] [--diff] [--forzar]: el propio kit genera su .claude/ (auto.mjs, ADR 0014)
 import { pathToFileURL, fileURLToPath } from 'node:url';
@@ -57,11 +57,14 @@ function listar(dir, excluir = []) {
 }
 
 export function cargarManifiesto(tipo, raizKit = RAIZ_KIT) {
-  if (!/^[A-Z]$/.test(tipo)) throw new InstalacionInvalida(`tipo desconocido: «${tipo}» (usa A o B)`);
+  if (!/^[A-Z]$/.test(tipo)) throw new InstalacionInvalida(`tipo desconocido: «${tipo}» (usa A, B o C)`);
   const archivo = join(raizKit, 'types', tipo, 'manifest.json');
-  if (!existsSync(archivo)) throw new InstalacionInvalida(`tipo desconocido: «${tipo}» (usa A o B)`);
+  if (!existsSync(archivo)) throw new InstalacionInvalida(`tipo desconocido: «${tipo}» (usa A, B o C)`);
   return JSON.parse(readFileSync(archivo, 'utf8'));
 }
+
+/** Carpetas de compilación o de caché que nunca son del esqueleto aunque existan en el disco del kit. */
+const CARPETAS_LOCALES = ['target', '__pycache__', '.ruff_cache', 'node_modules'];
 
 /** Esqueleto del stack que la ficha declara (`kit.preset`), si el manifiesto del tipo tiene `esqueletos` y existe uno para ese preset.
     Nunca se instala un esqueleto que el proyecto no declara (ADR 0016). Devuelve { stack, archivos, gitignore } o null. */
@@ -75,7 +78,7 @@ export function esqueletoDe(manifiesto, preset, raizKit = RAIZ_KIT) {
     if (!/^[a-z0-9-]+$/.test(nombre) || !existsSync(meta)) continue;
     const datos = JSON.parse(readFileSync(meta, 'utf8'));
     if (datos.preset !== preset) continue;
-    const archivos = listar(join(base, nombre)).filter((r) => r !== 'esqueleto.json').map((r) => ({ origen: join(base, nombre, r), destino: aRelativa(r) }));
+    const archivos = listar(join(base, nombre), CARPETAS_LOCALES).filter((r) => r !== 'esqueleto.json').map((r) => ({ origen: join(base, nombre, r), destino: aRelativa(r) }));
     return { stack: datos.stack ?? nombre, archivos, gitignore: Array.isArray(datos.gitignore) ? datos.gitignore : [] };
   }
   return null;
@@ -183,7 +186,7 @@ export function planificar({ destino, tipo, proyecto, fichaRuta, respaldo, forza
   if (esqueleto) {
     for (const a of esqueleto.archivos) entradas.push({ destino: a.destino, contenido: readFileSync(a.origen), generado: false });
     plan.esqueleto = esqueleto.stack;
-    plan.advertencias.push(`esqueleto del stack «${esqueleto.stack}» (kit.preset=${ficha.kit.preset}): proyecto mínimo con salud, prueba, contenedor e integración continua; el estado de su verificación está en types/B/esqueletos/VERIFICACION.md del kit`);
+    plan.advertencias.push(`esqueleto del stack «${esqueleto.stack}» (kit.preset=${ficha.kit.preset}): proyecto mínimo ${tipo === 'C' ? 'ejecutable (CLI y daemon) con pruebas, integración continua y publicación de ejemplo' : 'con salud, prueba, contenedor e integración continua'}; el estado de su verificación está en types/${tipo}/esqueletos/VERIFICACION.md del kit`);
   }
   entradas.push({ destino: 'kit/FICHA-INFRA.json', contenido: Buffer.from(`${JSON.stringify(ficha, null, 2)}\n`), generado: true });
   entradas.push({ destino: '.claude/kit.json', contenido: Buffer.from(`${JSON.stringify(kitCfg, null, 2)}\n`), generado: true });
@@ -341,7 +344,7 @@ export function leerArgumentos(args) {
 async function preguntarTipo() {
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   try {
-    const r = await rl.question('Tipo de proyecto — A: portafolio estático, B: sistema con servicios [A/B]: ');
+    const r = await rl.question('Tipo de proyecto — A: portafolio estático, B: sistema con servicios, C: herramientas y software de sistemas [A/B/C]: ');
     return r.trim().toUpperCase();
   } finally { rl.close(); }
 }
@@ -363,7 +366,7 @@ export async function main(args, { stdout = process.stdout, stderr = process.std
     }
     if (!o.destino) throw new InstalacionInvalida('falta --destino <carpeta>');
     if (!o.tipo) {
-      if (!interactivo) throw new InstalacionInvalida('sin terminal interactiva hay que pasar --tipo A|B');
+      if (!interactivo) throw new InstalacionInvalida('sin terminal interactiva hay que pasar --tipo A|B|C');
       o.tipo = await preguntarTipo();
     }
     const plan = planificar({ destino: o.destino, tipo: o.tipo, proyecto: o.proyecto, fichaRuta: o.ficha, respaldo: o.respaldo, forzar: o.forzar, ahora });

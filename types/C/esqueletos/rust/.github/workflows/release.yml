@@ -1,0 +1,60 @@
+# Ejemplo de publicación del esqueleto Rust: compila un binario por plataforma, lo empaqueta y genera SHA256SUMS.
+# No se ejecuta dentro del kit. Sin secretos y sin firmas: lo que queda manual está en el README del esqueleto
+# (subir los paquetes a tu canal de distribución, firmarlos si lo decides y publicar las sumas por un canal distinto).
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  compilar:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            destino: linux-x86_64
+          - os: windows-latest
+            destino: windows-x86_64
+          - os: macos-latest
+            destino: macos-aarch64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Rust 1.99.1
+        shell: bash
+        run: |
+          rustup toolchain install 1.99.1 --profile minimal
+          rustup default 1.99.1
+      - run: cargo test --locked
+      - run: cargo build --release --locked
+      - name: Empaquetar
+        shell: bash
+        env:
+          VERSION: ${{ github.ref_name }}
+          DESTINO: ${{ matrix.destino }}
+        run: |
+          nombre="herramienta_${VERSION}_${DESTINO}"
+          mkdir -p "dist/$nombre"
+          bin=herramienta; [ "$RUNNER_OS" = "Windows" ] && bin=herramienta.exe
+          cp "target/release/$bin" README.md "dist/$nombre/"
+          tar -C dist -czf "dist/$nombre.tar.gz" "$nombre"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: paquete-${{ matrix.destino }}
+          path: dist/*.tar.gz
+  sumas:
+    needs: compilar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: paquetes
+          merge-multiple: true
+      - name: Sumas SHA-256
+        working-directory: paquetes
+        run: sha256sum * > SHA256SUMS && cat SHA256SUMS
+      - uses: actions/upload-artifact@v7
+        with:
+          name: paquetes-y-sumas
+          path: paquetes/*

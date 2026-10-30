@@ -37,6 +37,16 @@ const BLOQUEA = [
   ['pruebas de front sin timeout', 'node tests/front/run.mjs --solo contraste'],
   ['capturas sin timeout', 'node tests/front/herramientas/capturas.mjs --etiqueta d1'],
   ['runner largo tras cd', 'cd app && npm test'],
+  ['go test sin timeout', 'go test ./...'],
+  ['go vet sin timeout', 'go vet ./...'],
+  ['govulncheck sin timeout', 'govulncheck ./...'],
+  ['cargo test sin timeout', 'cargo test'],
+  ['cargo clippy sin timeout', 'cargo clippy --all-targets -- -D warnings'],
+  ['cargo fmt sin timeout', 'cargo fmt --check'],
+  ['ruff check sin timeout', 'ruff check .'],
+  ['ruff format sin timeout', 'ruff format --check .'],
+  ['unittest sin timeout', 'python -m unittest discover -s tests -t .'],
+  ['pip-audit sin timeout', 'pip-audit .'],
 ];
 
 for (const [nombre, cmd] of BLOQUEA) {
@@ -58,6 +68,11 @@ const PASA = [
   ['rm de un archivo concreto', 'rm -f tmp/a.log'],
   ['git push normal', 'git push origin v1/etapa-1'],
   ['runner con timeout', 'timeout 900 mvn verify'],
+  ['go test con timeout', 'timeout 900 go test ./...'],
+  ['cargo test con timeout', 'timeout 900 cargo test'],
+  ['ruff con timeout', 'timeout 900 ruff check .'],
+  ['unittest con timeout', 'timeout 900 python -m unittest discover -s tests -t .'],
+  ['cargo clippy con timeout en la herramienta', 'cargo clippy --all-targets -- -D warnings', { timeout: 600000 }],
   ['pruebas de front con timeout', 'timeout 600 node tests/front/run.mjs'],
   ['runner con timeout en la herramienta', 'mvn verify', { timeout: 600000 }],
   ['runner en segundo plano', 'mvn verify', { run_in_background: true }],

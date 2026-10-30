@@ -8,3 +8,7 @@ Thumbs.db
 /core/test/datos-privados.json
 /types/B/casos-privados/
 /.claude/settings.local.json
+__pycache__/
+.ruff_cache/
+target/
+/types/C/casos-privados/

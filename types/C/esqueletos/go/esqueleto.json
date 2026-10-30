@@ -1,0 +1,53 @@
+{
+  "_ayuda": "Metadatos del esqueleto (los lee el instalador y types/C/esqueletos/verificar.mjs). El esqueleto se instala solo si la ficha del proyecto declara kit.preset igual a «preset» (tipo C).",
+  "stack": "go",
+  "nombre": "Go (solo biblioteca estándar)",
+  "preset": "go",
+  "gitignore": [
+    "/herramienta",
+    "/herramienta.exe",
+    "/dist/",
+    "/coverage.out"
+  ],
+  "verificacion": {
+    "construir": [
+      "go",
+      "build",
+      "-o",
+      "herramienta{exe}",
+      "./cmd/herramienta"
+    ],
+    "ejecutar": [
+      "./herramienta{exe}"
+    ],
+    "extras": [
+      {
+        "cmd": [
+          "gofmt",
+          "-l",
+          "."
+        ],
+        "esperaVacio": true
+      },
+      {
+        "cmd": [
+          "go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.9.0",
+          "./..."
+        ],
+        "opcional": true
+      }
+    ],
+    "herramientas": [
+      [
+        "go",
+        "version"
+      ],
+      [
+        "govulncheck",
+        "-version"
+      ]
+    ]
+  }
+}

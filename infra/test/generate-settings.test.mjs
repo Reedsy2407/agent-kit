@@ -76,7 +76,7 @@ test('rechaza una ficha con forma de secreto', () => {
 
 test('rechaza ficha sin proyecto, con tipo inválido o URLs con comodines', () => {
   assert.throws(() => validarFicha({ ...plantilla(), proyecto: '' }), /proyecto/);
-  assert.throws(() => validarFicha({ ...plantilla(), tipo: 'C' }), /tipo/);
+  assert.throws(() => validarFicha({ ...plantilla(), tipo: 'D' }), /tipo/);
   assert.throws(() => validarFicha(con({ urlsPublicas: ['http://x.org/*'] })), /https/);
 });
 

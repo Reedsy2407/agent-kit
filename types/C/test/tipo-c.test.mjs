@@ -6,6 +6,7 @@ import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync } from 'node:
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 import { planificar, cargarManifiesto } from '../../../install/install.mjs';
 import { MARCADORES, marcadoresUsados } from '../../../install/marcadores.mjs';
 import { veredictoTipoC } from './lib/veredicto.mjs';
@@ -20,16 +21,16 @@ const seccion = (texto, titulo) => texto.split(new RegExp(`^## ${titulo}`, 'm'))
 const ramaViabilidad = seccion(viabilidad, '7\\. Rama del tipo C');
 const ramaStack = seccion(stack, '8\\. Rama del tipo C');
 
-test('el manifiesto C está en construcción: el instalador avisa y no instala nada', () => {
+test('el manifiesto C está disponible (C2) y el instalador lo instala sin esqueleto mientras no se declare preset', () => {
   const m = cargarManifiesto('C');
   assert.equal(m.tipo, 'C');
-  assert.equal(m.estado, 'en-construccion');
+  assert.equal(m.estado, 'disponible');
   const base = mkdtempSync(join(tmpdir(), 'kit-c-'));
   try {
     mkdirSync(join(base, 'destino')); mkdirSync(join(base, 'respaldo'));
     const plan = planificar({ destino: join(base, 'destino'), tipo: 'C', proyecto: 'demo', respaldo: join(base, 'respaldo'), ahora: new Date('2026-10-29T10:00:00Z') });
-    assert.equal(plan.pendienteEtapa2, true);
-    assert.deepEqual(plan.acciones, []);
+    assert.equal(plan.pendienteEtapa2, false);
+    assert.ok(plan.acciones.length > 20 && !plan.esqueleto, 'instala el núcleo y la guía, sin esqueleto');
   } finally { rmSync(base, { recursive: true, force: true }); }
 });
 
@@ -86,13 +87,18 @@ test('cada ejemplo trae la forma completa, con la descripción abstracta', () =>
 });
 
 test('lo versionado del tipo C no describe técnicas de ataque ni cargas útiles: sin bloques de código, direcciones ni vocabulario de explotación', () => {
-  const prohibido = /```|https?:\/\/|\bCVE-\d|shellcode|reverse shell|ransomware|keylogger|backdoor|rootkit|exploit(?:s|ing)?\b|payloads?\b/i;
-  const archivos = [];
-  const recorrer = (dir) => { for (const e of readdirSync(dir, { withFileTypes: true })) { const r = join(dir, e.name); if (e.isDirectory()) recorrer(r); else if (!r.startsWith(join(raiz, 'types', 'C', 'test'))) archivos.push(r); } };
-  recorrer(join(raiz, 'types', 'C'));
+  const prohibido = /https?:\/\/|\bCVE-\d|shellcode|reverse shell|ransomware|keylogger|backdoor|rootkit|exploit(?:s|ing)?\b|payloads?\b/i;
+  /* Solo lo que git versionaría: las cachés y compilaciones locales ignoradas (target/, __pycache__) no son del kit. */
+  const versionables = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', 'types/C'], { cwd: raiz, encoding: 'utf8', timeout: 20000 }).split('\0').filter(Boolean);
+  const archivos = versionables.map((r) => join(raiz, r)).filter((r) => !r.startsWith(join(raiz, 'types', 'C', 'test')));
   archivos.push(join(raiz, 'docs', 'adr', '0018-tipo-c-como-guia-de-decision.md'));
   assert.ok(archivos.length >= 7);
-  for (const a of archivos) readFileSync(a, 'utf8').split('\n').forEach((l, i) => assert.doesNotMatch(l, prohibido, `${a.slice(raiz.length + 1)}:${i + 1}`));
+  /* Los bloques de código solo valen en los esqueletos (ejemplos de uso); en la guía, los ejemplos y los ADR no hay código. */
+  const sinCodigo = (a) => !a.startsWith(join(raiz, 'types', 'C', 'esqueletos'));
+  for (const a of archivos) readFileSync(a, 'utf8').split('\n').forEach((l, i) => {
+    assert.doesNotMatch(l, prohibido, `${a.slice(raiz.length + 1)}:${i + 1}`);
+    if (sinCodigo(a)) assert.doesNotMatch(l, /```/, `${a.slice(raiz.length + 1)}:${i + 1} bloque de código`);
+  });
 });
 
 test('el ADR de ejemplo del tipo C tiene las alternativas descartadas (Go, Python y Rust), lo que no se construye y la señal para revisar', () => {
@@ -104,7 +110,7 @@ test('el ADR de ejemplo del tipo C tiene las alternativas descartadas (Go, Pytho
 test('la guía del tipo C recoge qué es, qué lo distingue, qué queda fuera, «no hay tipo D» y el estado en construcción', () => {
   const t = leer('types', 'C', 'GUIA-DECISION.md');
   for (const x of [/en construcción/i, /binario o paquete instalable/, /CLIs, daemons, librerías, proxies, servidores de protocolos y gestores de procesos/, /Go, Rust o Python/, /Instalación y actualización/, /Permisos/, /Multiplataforma/, /Entrada no confiable/,
-    /Qué queda fuera/, /\*\*No hay tipo D\*\*/, /puerta de uso responsable/, /GO\*\*, \*\*REDISEÑO\*\* o \*\*NO-GO/, /C2 a C5/, /Qué no recortar nunca/]) assert.match(t, x, String(x));
+    /Qué queda fuera/, /\*\*No hay tipo D\*\*/, /puerta de uso responsable/, /GO\*\*, \*\*REDISEÑO\*\* o \*\*NO-GO/, /C3 y C4/, /Qué no recortar nunca/]) assert.match(t, x, String(x));
 });
 
 test('la plantilla del tipo C solo usa marcadores conocidos y pide la puerta y los seis ejes', () => {
@@ -113,13 +119,13 @@ test('la plantilla del tipo C solo usa marcadores conocidos y pide la puerta y l
   for (const x of [/Puerta de uso responsable/, /NO-GO/, /Plataformas objetivo/, /Privilegios requeridos/, /Modelo de amenazas/, /Distribución y actualización/, /Acceso a lo externo/, /Mantenimiento/]) assert.match(t, x, String(x));
 });
 
-test('la documentación del tipo C: README, ADR 0006 y 0018, CHANGELOG, HANDOFF y versión 0.8.0 coherentes', () => {
+test('la documentación del tipo C: README, ADR 0006 y 0018, CHANGELOG, HANDOFF y versión 0.9.0 coherentes', () => {
   const version = JSON.parse(leer('package.json')).version;
-  assert.equal(version, '0.8.0');
+  assert.equal(version, '0.9.0');
   assert.match(leer('README.md'), /\*\*C — herramientas y software de sistemas \(en construcción\):\*\*/);
-  assert.match(leer('README.md'), /Versión 0\.8\.0/);
+  assert.match(leer('README.md'), /Versión 0.9.0/);
   assert.match(leer('CHANGELOG.md'), /^## \[0\.8\.0\]/m);
-  assert.match(leer('HANDOFF.md'), /\(0\.8\.0,/);
+  assert.match(leer('HANDOFF.md'), /\(0.9.0,/);
   assert.match(leer('docs', 'adr', '0006-tipos-de-proyecto-con-manifiestos.md'), /tipo C/);
   assert.match(leer('docs', 'adr', '0018-tipo-c-como-guia-de-decision.md'), /No hay tipo D/);
 });

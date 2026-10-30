@@ -1,0 +1,48 @@
+{
+  "_ayuda": "Metadatos del esqueleto (los lee el instalador y types/C/esqueletos/verificar.mjs). El esqueleto se instala solo si la ficha del proyecto declara kit.preset igual a «preset» (tipo C).",
+  "stack": "rust",
+  "nombre": "Rust (sin dependencias)",
+  "preset": "rust",
+  "gitignore": [
+    "/target/"
+  ],
+  "verificacion": {
+    "construir": [
+      "cargo",
+      "build",
+      "--locked"
+    ],
+    "ejecutar": [
+      "./target/debug/herramienta{exe}"
+    ],
+    "herramientas": [
+      [
+        "cargo",
+        "--version"
+      ],
+      [
+        "rustc",
+        "--version"
+      ],
+      [
+        "rustfmt",
+        "--version"
+      ],
+      [
+        "cargo",
+        "clippy",
+        "--version"
+      ]
+    ],
+    "extras": [
+      {
+        "cmd": [
+          "cargo",
+          "audit"
+        ],
+        "opcional": true,
+        "red": true
+      }
+    ]
+  }
+}

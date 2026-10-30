@@ -2,6 +2,23 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [0.9.0] - 2026-10-29
+
+Etapa C2: activación del tipo C y esqueletos de Go, Python y Rust (ADR 0019).
+
+### Añadido
+- Tipo C instalable (`--tipo C`, manifiesto `disponible`; la documentación lo sigue llamando «en construcción» hasta que llegue su catálogo en C3 y C4). Ficha propia (`types/C/ficha-infra.json`) sin proveedor de distribución asumido.
+- `types/C/esqueletos/`: tres esqueletos ejecutables con un contrato común (`CONTRATO.md`, instalado como `kit/CONTRATO-ESQUELETOS.md`): CLI con `version`, `check-config` y `run` (daemon o `--once`), códigos de salida 0 a 4, configuración `clave=valor` validada con permisos, entrada no confiable con límite y plazo, registro JSON sin secretos y apagado ordenado que drena. Solo biblioteca estándar en tiempo de ejecución. **Go** (`slog`, prueba de formato con `go/format`), **Python** (`logging`, `unittest`, punto de entrada instalable en `pyproject.toml`, Python 3.11 o superior) y **Rust** (`Cargo.lock` versionado, `unsafe` solo en `src/senal.rs` para las señales). Cada uno con integración continua de ejemplo (Ubuntu, Windows y macOS, versiones fijadas), publicación de ejemplo con `SHA256SUMS` (sin secretos ni firmas) y su README con «qué no construir todavía».
+- Presets del sello por tipo: `go` (`go vet`, `go test`), `python` (`ruff check`, `ruff format --check`, `unittest`) y `rust` (`cargo fmt --check`, `cargo clippy`, `cargo test`) solo valen en el tipo C; el `python` del tipo B (pytest) no cambia. Cualquier otro se rechaza con mensaje claro. `guard-shell` exige `timeout` en esos comandos.
+- `types/C/esqueletos/verificar.mjs` y `VERIFICACION.md`: verificación repetible (sello, extras, construcción, trece casos del contrato y daemon con SIGTERM en POSIX) con fecha, versiones y límites. Go 1.27.0, Python 3.11.9 y Rust 1.99.1 verificados en Windows; lo no ejecutado (señal de punta a punta, `-race`, `pip-audit`, `cargo audit`, Linux y macOS, flujos de CI) está dicho.
+- ADR 0019. Pruebas de estructura, YAML, dependencias cero, `unsafe` acotado, secretos, plantillas sin mención del repositorio y de instalación solo con preset declarado.
+- Material privado del tipo C en `types/C/casos-privados/` (ignorada por git y prohibida en el exportador), con pruebas de que sigue ignorada y de que el instalador no la copia.
+
+### Cambiado
+- El exportador ya no toma una versión fijada (`herramienta@v1.9.0`, `accion@v7`) por un correo.
+- `.gitignore` del kit: `__pycache__/`, `.ruff_cache/` y `target/`.
+- Las pruebas de vocabulario de ataque del tipo C leen solo lo que git versionaría y admiten bloques de código en los esqueletos.
+
 ## [0.8.0] - 2026-10-29
 
 Etapa C1: tipo C (herramientas y software de sistemas) como guía de decisión, en construcción (ADR 0018).

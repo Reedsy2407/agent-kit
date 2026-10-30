@@ -1,0 +1,31 @@
+# Ejemplo de integración continua del esqueleto Rust. No se ejecuta dentro del kit: se copia con el esqueleto.
+# Solo lectura: prueba y analiza, no publica. Versiones de acciones consultadas el 2026-10-29; compruébalas al usarlas.
+# La cadena de herramientas se fija con rustup (Rust 1.99.1, la declarada en Cargo.toml) y Cargo.lock se respeta (--locked).
+name: ci
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  probar:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Rust 1.99.1 con rustfmt y clippy
+        shell: bash
+        run: |
+          rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy
+          rustup default 1.99.1
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets --locked -- -D warnings
+      - run: cargo test --locked
+      - name: Vulnerabilidades conocidas (cargo-audit fijado)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cargo install cargo-audit --locked --version 0.22.2
+          cargo audit

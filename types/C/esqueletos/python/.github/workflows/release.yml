@@ -1,0 +1,41 @@
+# Ejemplo de publicación del esqueleto Python: construye la rueda (wheel) y el paquete fuente y genera SHA256SUMS.
+# El paquete es de Python puro y no depende de la plataforma, así que se construye una vez; las pruebas sí corren en
+# las tres plataformas antes. No se ejecuta dentro del kit. Sin secretos y sin firmas: lo que queda manual
+# está en el README del esqueleto (subir a tu canal de distribución, firmar si lo decides y publicar las sumas aparte).
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  probar:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - run: python -m unittest discover -s tests -t . -v
+  construir:
+    needs: probar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - name: Construir rueda y paquete fuente
+        run: |
+          python -m pip install "build>=1,<2"
+          python -m build --outdir dist
+      - name: Sumas SHA-256
+        working-directory: dist
+        run: sha256sum * > SHA256SUMS && cat SHA256SUMS
+      - uses: actions/upload-artifact@v7
+        with:
+          name: paquetes-y-sumas
+          path: dist/*

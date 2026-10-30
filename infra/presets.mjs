@@ -35,22 +35,49 @@ export const PRESETS = Object.freeze({
 
 export const IDS_PRESETS = Object.freeze(Object.keys(PRESETS));
 
+// Presets del tipo C (herramientas y software de sistemas; ADR 0019). Los ids `go`, `python` y `rust` solo valen con `tipo: "C"`:
+// el `python` del tipo B (pytest) es otro preset y no se confunden. Cada comando es un paso del sello. `verificado` solo es true si
+// types/C/esqueletos/VERIFICACION.md lo registra. El formato de Go lo exige una prueba del esqueleto (go/format) porque `gofmt -l`
+// sale con 0 aunque haya diferencias y el sello solo mira la salida.
+export const PRESETS_C = Object.freeze({
+  go: {
+    nombre: 'Go', verificado: true, verificadoEl: '2026-10-30', esqueleto: 'go', timeoutSeconds: 900,
+    comandos: ['go vet ./...', 'go test ./...'],
+    nota: 'Sin -race en local porque exige cgo en Windows; la integración continua del esqueleto sí lo usa. El formato (gofmt) lo comprueba la prueba formato del esqueleto.',
+  },
+  python: {
+    nombre: 'Python (herramienta)', verificado: true, verificadoEl: '2026-10-30', esqueleto: 'python', timeoutSeconds: 900,
+    comandos: ['ruff check .', 'ruff format --check .', 'python -m unittest discover -s tests -t .'],
+    nota: 'Necesita ruff instalado en el entorno de quien corre el sello; si usas un entorno virtual, antepón su intérprete en kit.checks.',
+  },
+  rust: {
+    nombre: 'Rust', verificado: true, verificadoEl: '2026-10-30', esqueleto: 'rust', timeoutSeconds: 1800,
+    comandos: ['cargo fmt --check', 'cargo clippy --all-targets -- -D warnings', 'cargo test'],
+    nota: 'Necesita rustfmt y clippy (componentes de rustup).',
+  },
+});
+export const IDS_PRESETS_C = Object.freeze(Object.keys(PRESETS_C));
+
+/** Presets que valen para un tipo de proyecto: el C tiene los suyos; los demás comparten los del tipo B. */
+export const presetsDe = (tipo) => (tipo === 'C' ? PRESETS_C : PRESETS);
+export const idsDePresets = (tipo) => (tipo === 'C' ? IDS_PRESETS_C : IDS_PRESETS);
+
 /** Comprobaciones del sello que aporta el preset, con su tiempo máximo. */
-export function checksDePreset(id) {
-  const p = PRESETS[id];
+export function checksDePreset(id, tipo) {
+  const p = presetsDe(tipo)[id];
   return p ? [{ commands: [...p.comandos], timeoutSeconds: p.timeoutSeconds }] : [];
 }
 
 /** Autorizaciones que aporta el preset: el comando exacto, con y sin `timeout` delante. Nada más. */
-export function permisosDePreset(id) {
-  const p = PRESETS[id];
+export function permisosDePreset(id, tipo) {
+  const p = presetsDe(tipo)[id];
   if (!p) return [];
   return p.comandos.flatMap((c) => [`Bash(${c})`, `Bash(timeout * ${c})`]);
 }
 
 /** Lo que el sello debe avisar: null si el preset está verificado (o no hay preset). */
-export function avisoDePreset(id) {
-  const p = PRESETS[id];
+export function avisoDePreset(id, tipo) {
+  const p = presetsDe(tipo)[id];
   if (!p || p.verificado) return null;
   return `el preset «${id}» (${p.nombre}) NO está verificado: el kit no pudo ejecutar ese stack. Comprueba el comando en tu entorno antes de fiarte del sello.`;
 }

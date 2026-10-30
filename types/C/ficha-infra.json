@@ -1,0 +1,87 @@
+{
+  "_ayuda": "Ficha «Infra del proyecto» del tipo C (herramientas y software de sistemas). Sin secretos. El kit no asume ningún proveedor de distribución: rellena distribucion.proveedor y distribucion.canal cuando los elijas. Elige kit.preset (go, python o rust; el sello avisa si no está verificado) o escribe tus kit.checks: sin pruebas el sello de pre-merge se niega. Vuelve a generar con: node infra/generate-settings.mjs --ficha kit/FICHA-INFRA.json --destino <proyecto>. Una denegación gana a una autorización. despliegue.primerDespliegueHecho: ponlo en true solo después de que el humano publique la primera versión; entonces quedan autorizados, exactos, los comandos de permitidosTrasPrimerDespliegue.",
+  "version": 1,
+  "proyecto": "",
+  "tipo": "C",
+  "despliegue": {
+    "proveedor": "",
+    "cli": "",
+    "servicios": [],
+    "primerDespliegueHecho": false,
+    "permitidosTrasPrimerDespliegue": [],
+    "permitidos": [],
+    "denegados": [],
+    "comoSeVerifica": "sumas SHA-256 de cada artefacto verificadas por quien lo instala, y ejecución de `version` y `check-config` en cada plataforma declarada tras cada publicación; la publicación la hace el humano"
+  },
+  "baseDeDatos": {
+    "proveedor": "ninguna",
+    "cli": "",
+    "puntoDeRestauracion": {
+      "metodo": "no aplica",
+      "permitidos": [],
+      "denegados": []
+    }
+  },
+  "logs": {
+    "metodo": "siempre con filtro de recurso, formato JSON a un archivo, timeout y < /dev/null; nunca seguir el flujo",
+    "permitidos": []
+  },
+  "urlsPublicas": [],
+  "loginManual": [],
+  "permisos": {
+    "permitidos": [],
+    "denegados": []
+  },
+  "ops": {
+    "salud": {
+      "permitida": false,
+      "config": "ops/salud.config.json"
+    },
+    "sondeoAcceso": {
+      "permitida": false,
+      "config": "ops/dependencias.json"
+    },
+    "acciones": {
+      "estado": {
+        "permitida": false,
+        "comandos": []
+      },
+      "arranque": {
+        "permitida": false,
+        "comandos": []
+      },
+      "parada": {
+        "permitida": false,
+        "comandos": []
+      },
+      "reversa": {
+        "permitida": false,
+        "comandos": []
+      },
+      "rotacion": {
+        "permitida": false,
+        "comandos": []
+      }
+    }
+  },
+  "kit": {
+    "baseBranch": "main",
+    "maxBranchCommits": 10,
+    "modules": [],
+    "commitScopes": [],
+    "preset": "",
+    "checks": [],
+    "gitleaks": true,
+    "autoria": {
+      "correosPermitidos": []
+    }
+  },
+  "distribucion": {
+    "proveedor": "",
+    "canal": "",
+    "integridad": "sumas SHA-256 publicadas por un canal distinto al del artefacto (la firma, si se usa, la configura el humano)",
+    "plataformas": [],
+    "responsable": "",
+    "horizonteDeMantenimiento": ""
+  }
+}
