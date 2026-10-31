@@ -30,12 +30,12 @@ pip-audit .
 `ruff` y `pip-audit` son herramientas de desarrollo (no dependencias del paquete): instálalas con versiones fijadas, como hace la integración continua de ejemplo (`.github/workflows/ci.yml`, que prueba la versión mínima y una actual en Ubuntu, Windows y macOS).
 
 ## Publicación de ejemplo
-`.github/workflows/release.yml` prueba en las tres plataformas, construye la rueda y el paquete fuente (Python puro: un solo artefacto sirve a todas) y genera `SHA256SUMS`. **Queda manual:** subir los paquetes a tu canal de distribución, publicar las sumas por un canal distinto, firmar los artefactos si lo decides (no hay firmas ni claves en el ejemplo) y probar `version` y `check-config` tras instalar en cada plataforma declarada. La herramienta de construcción se acota por rango (`build>=1,<2`); fíjala por versión exacta al adoptar el flujo. Los datos del canal van en `distribucion` de `kit/FICHA-INFRA.json`.
+`.github/workflows/release.yml` prueba en las tres plataformas, construye la rueda y el paquete fuente (Python puro: un solo artefacto sirve a todas) y genera `SHA256SUMS`. **Queda manual:** subir los paquetes a tu canal de distribución, publicar las sumas por un canal distinto, firmar los artefactos si lo decides (no hay firmas ni claves en el ejemplo) y probar `version` y `check-config` tras instalar en cada plataforma declarada. La herramienta de construcción se acota por rango (`build>=1,<2`); fíjala por versión exacta al adoptar el flujo. Los datos del canal van en `distribucion` de `kit/FICHA-INFRA.json`. Los dos flujos se pueden lanzar a mano (`workflow_dispatch`); la versión del paquete sale de `pyproject.toml`, no de la etiqueta. Ambos se ejecutaron con éxito el 2026-10-30 en un proyecto de prueba (`release.yml` con una etiqueta de prueba); el lanzamiento manual todavía no se ha ejecutado (ver `VERIFICACION.md` del kit).
 
 ## Límites conocidos
 - Los permisos del archivo de configuración no se comprueban en Windows (los bits de modo no los representan).
 - Si el plazo de la entrada vence sobre un archivo bloqueado, el hilo de lectura (demonio) queda hasta que el sistema responda; no impide terminar el proceso.
-- La señal real (SIGTERM) solo se prueba de punta a punta en sistemas POSIX; el apagado ordenado se prueba en todos con `threading.Event`.
+- La señal real (SIGTERM) no se ha probado de punta a punta en ningún sistema: el apagado ordenado se prueba con `threading.Event`, la integración continua de ejemplo no lanza el daemon con una señal real y el verificador del kit, que sí lo haría en POSIX, no se ha ejecutado allí.
 - Instalar el paquete (`pip install .`) y `pip-audit` necesitan red; las pruebas no los usan.
 
 ## Qué no construir todavía

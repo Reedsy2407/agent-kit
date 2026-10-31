@@ -67,6 +67,10 @@ for (const s of presentes) {
     const texto = leer(s, '.github/workflows/ci.yml');
     const ci = leerYaml(texto);
     assert.deepEqual(ci.permissions, { contents: 'read' });
+    assert.ok('push' in ci.on && 'pull_request' in ci.on, 'se dispara con cada push y con pull_request');
+    assert.ok('workflow_dispatch' in ci.on, 'se puede lanzar a mano');
+    assert.match(texto, /verificadas ejecutándolas el 2026-10-30/, 'la cabecera dice que las versiones se verificaron ejecutando');
+    assert.doesNotMatch(texto, /consultadas el/, 'ya no son «consultadas en los README»');
     const trabajos = Object.values(ci.jobs);
     assert.ok(trabajos.some((j) => ['ubuntu-latest', 'windows-latest', 'macos-latest'].every((o) => j.strategy.matrix.os.includes(o))), 'matriz de tres sistemas');
     for (const u of texto.matchAll(/uses:\s*(\S+)/g)) assert.match(u[1], /^[\w.-]+\/[\w.-]+@v\d+$/, `acción sin versión mayor fijada: ${u[1]}`);
@@ -81,6 +85,20 @@ for (const s of presentes) {
     const r = leerYaml(texto);
     assert.deepEqual(r.permissions, { contents: 'read' }, 'sin permisos de escritura');
     assert.ok(r.on.push.tags, 'se dispara por etiqueta');
+    assert.ok('workflow_dispatch' in r.on, 'se puede lanzar a mano');
+    assert.match(texto, /verificadas ejecutándolas el 2026-10-30/);
+    assert.doesNotMatch(texto, /consultadas el/);
+    assert.match(texto, /lanzamiento manual no se ha ejecutado todavía/, 'no afirma haber ejecutado el lanzamiento manual');
+    if (s === 'python') {
+      assert.doesNotMatch(texto, /inputs\.version|ref_name/, 'la versión del paquete sale de pyproject.toml');
+    } else {
+      /* Lanzado a mano, github.ref_name es el nombre de una rama: la versión sale de una entrada con un valor de prueba claro. */
+      const entrada = r.on.workflow_dispatch?.inputs?.version;
+      assert.ok(entrada, 'entrada opcional «version»');
+      assert.equal(entrada.required, false);
+      assert.match(String(entrada.default), /^v\d+\.\d+\.\d+-prueba$/, 'valor por defecto claramente de prueba');
+      assert.match(texto, /VERSION: \$\{\{ inputs\.version \|\| github\.ref_name \}\}/, 'con una etiqueta se usa la etiqueta; a mano, la entrada');
+    }
     assert.match(texto, /sha256sum|shasum -a 256/);
     assert.match(texto, /SHA256SUMS/);
     assert.match(texto, /upload-artifact@v7/);

@@ -2,6 +2,21 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [0.10.1] - 2026-10-30
+
+Etapa C2.3: los flujos de los esqueletos del tipo C, ejecutados de verdad y lanzables a mano.
+
+### Añadido
+- `workflow_dispatch` en los `ci.yml` y `release.yml` de los tres esqueletos, para poder lanzarlos a mano desde la raíz de un proyecto recién instalado (antes solo se disparaban con un push o con una etiqueta). En los `release.yml` de Go y Rust, una entrada opcional `version` (por defecto `v0.0.0-prueba`) evita que un lanzamiento manual tome el nombre de una rama como versión (`inputs.version || github.ref_name`); en Python la versión sale de `pyproject.toml`.
+- `VERIFICACION.md`: sección «Integración continua ejecutada de verdad (2026-10-30)». Se ejecutaron los tres esqueletos instalados como proyectos reales en un repositorio de prueba, una rama por stack y una etiqueta de prueba por rama: `ci.yml` con éxito en las tres ramas y las tres etiquetas (Go en Ubuntu, macOS y Windows, con `go test -race` y `govulncheck`; Python 3.11 y 3.14 en los tres sistemas con `ruff`, `unittest` y `pip-audit`; Rust en los tres sistemas con `fmt`, `clippy -D warnings` y `cargo test`, y `cargo audit` en Ubuntu) y `release.yml` con éxito en las tres etiquetas (Go cuatro combinaciones, Rust tres, Python pruebas y empaquetado; artefacto `paquetes-y-sumas`). El código POSIX de Rust compiló y pasó sus pruebas en Ubuntu y macOS.
+- Pruebas del kit que cubren el cambio: disparo manual, entrada `version` con valor de prueba, cabeceras que dicen «verificadas ejecutándolas» y que no afirman haber ejecutado el lanzamiento manual.
+
+### Cambiado
+- Las cabeceras de los flujos dejan de decir que las versiones de las acciones se «consultaron en los README»: las versiones `checkout@v7`, `setup-go@v7`, `setup-python@v7`, `upload-artifact@v7` y `download-artifact@v8` se verificaron ejecutando el 2026-10-30.
+- `VERIFICACION.md`, los README de los esqueletos, las notas del catálogo del tipo C y el ADR 0019 quitan de «no ejecutado» lo que la integración continua ya ejecutó.
+- Sigue abierto y escrito con honestidad: SIGTERM de punta a punta (solo Rust, en POSIX), el contenido de `SHA256SUMS` y de los paquetes, los permisos en Windows y el lanzamiento manual recién añadido. Se propone, sin ejecutarlo, un paso opcional del CI de ejemplo para el primero.
+- Corregida una frase de los README de Go y Python que decía que la señal real se probaba de punta a punta en POSIX: no se ha probado en ningún sistema (el verificador del kit la probaría en POSIX, pero nunca se ejecutó allí).
+
 ## [0.10.0] - 2026-10-30
 
 Etapa C3: catálogo de problemas del tipo C (ADR 0020).

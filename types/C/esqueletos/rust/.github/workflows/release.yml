@@ -1,12 +1,20 @@
 # Ejemplo de publicación del esqueleto Rust: compila un binario por plataforma, lo empaqueta y genera SHA256SUMS.
 # No se ejecuta dentro del kit. Sin secretos y sin firmas: lo que queda manual está en el README del esqueleto
 # (subir los paquetes a tu canal de distribución, firmarlos si lo decides y publicar las sumas por un canal distinto).
+# Versiones de las acciones verificadas ejecutándolas el 2026-10-30 en un proyecto de prueba (ver VERIFICACION.md del kit); compruébalas al usarlas. El lanzamiento con una etiqueta v* se ejecutó con éxito; el lanzamiento manual no se ha ejecutado todavía.
 name: release
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Versión de prueba para un lanzamiento manual (con una etiqueta v* se usa la etiqueta)
+        required: false
+        default: v0.0.0-prueba
 permissions:
   contents: read
+# Con una etiqueta v* la versión es la etiqueta; lanzado a mano, la entrada «version» (por defecto v0.0.0-prueba) evita que `github.ref_name` sea el nombre de una rama, siempre que no se deje vacía.
 jobs:
   compilar:
     strategy:
@@ -31,7 +39,7 @@ jobs:
       - name: Empaquetar
         shell: bash
         env:
-          VERSION: ${{ github.ref_name }}
+          VERSION: ${{ inputs.version || github.ref_name }}
           DESTINO: ${{ matrix.destino }}
         run: |
           nombre="herramienta_${VERSION}_${DESTINO}"

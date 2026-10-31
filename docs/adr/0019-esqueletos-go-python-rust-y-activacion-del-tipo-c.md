@@ -34,7 +34,7 @@ El tipo C tenía guía de decisión pero no se podía instalar ni daba un punto 
 ## Consecuencias
 - Un proyecto nuevo del tipo C arranca con algo que compila, se prueba, tiene el contrato de CLI y daemon y se puede publicar con sumas; el sello deja de avisar de preset sin verificar.
 - Tres implementaciones que mantener al subir de versión (Go, Python, Rust, ruff, acciones). Se repite `verificar.mjs` y se actualiza `VERIFICACION.md`.
-- **Lo que no se verificó queda dicho** en `VERIFICACION.md`: el apagado por señal de punta a punta en Windows (Node no envía SIGTERM allí), `go test -race` (sin compilador de C), `pip-audit` (TLS de PyPI no verificable desde la máquina), `pip install .`, `cargo audit` (no instalado), Python 3.14, Linux y macOS (el código `cfg(unix)` de Rust no se compiló) y los flujos de integración continua.
+- **Lo que no se verificó queda dicho** en `VERIFICACION.md` (en la 0.10.1 la integración continua ejecutó casi todo lo que aquí figuraba como pendiente; la lista vigente está en ese registro). En la 0.10.0 era: el apagado por señal de punta a punta en Windows (Node no envía SIGTERM allí), `go test -race` (sin compilador de C), `pip-audit` (TLS de PyPI no verificable desde la máquina), `pip install .`, `cargo audit` (no instalado), Python 3.14, Linux y macOS (el código `cfg(unix)` de Rust no se compiló) y los flujos de integración continua.
 - La puerta de uso responsable (ADR 0018) sigue siendo una regla de juicio; los esqueletos no la implementan porque son herramientas neutras de ejemplo.
 
 ## Sin hacer

@@ -28,16 +28,16 @@ go vet ./...
 go test -race -count=1 ./...    # -race necesita cgo y un compilador de C
 go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
 ```
-El sello del kit (`go vet` y `go test`) no usa `-race` para no exigir un compilador de C en todas las máquinas; la integración continua de ejemplo (`.github/workflows/ci.yml`) sí, en Ubuntu, Windows y macOS.
+El sello del kit (`go vet` y `go test`) no usa `-race` para no exigir un compilador de C en todas las máquinas; la integración continua de ejemplo (`.github/workflows/ci.yml`) sí, en Ubuntu, Windows y macOS (ejecutada con éxito el 2026-10-30 en un proyecto de prueba, `govulncheck` incluido).
 
 ## Publicación de ejemplo
-`.github/workflows/release.yml` compila un binario por plataforma con `CGO_ENABLED=0 -trimpath`, lo empaqueta y genera `SHA256SUMS`. **Queda manual:** subir los paquetes a tu canal de distribución, publicar las sumas por un canal distinto, firmar los artefactos si lo decides (no hay firmas ni claves en el ejemplo) y probar `version` y `check-config` en cada plataforma declarada. Los datos del canal van en `distribucion` de `kit/FICHA-INFRA.json`.
+`.github/workflows/release.yml` compila un binario por plataforma con `CGO_ENABLED=0 -trimpath`, lo empaqueta y genera `SHA256SUMS`. **Queda manual:** subir los paquetes a tu canal de distribución, publicar las sumas por un canal distinto, firmar los artefactos si lo decides (no hay firmas ni claves en el ejemplo) y probar `version` y `check-config` en cada plataforma declarada. Los datos del canal van en `distribucion` de `kit/FICHA-INFRA.json`. Los dos flujos se pueden lanzar a mano (`workflow_dispatch`). `release.yml` acepta una entrada opcional `version` (por defecto `v0.0.0-prueba`) para que un lanzamiento manual no tome el nombre de una rama como versión; con una etiqueta `v*` se usa la etiqueta. Con una etiqueta de prueba se ejecutó con éxito el 2026-10-30; el lanzamiento manual todavía no se ha ejecutado (ver `VERIFICACION.md` del kit).
 
 ## Límites conocidos
 - Los permisos del archivo de configuración no se comprueban en Windows (los bits de modo no los representan).
 - Si el plazo de la entrada vence sobre un archivo regular bloqueado (por ejemplo un montaje de red colgado), cerrar el archivo no interrumpe la lectura: la goroutine queda hasta que el sistema responda. El proceso sigue su camino.
 - Un FIFO como archivo de configuración bloquea la apertura (la configuración debe ser un archivo regular).
-- La señal real (SIGTERM) solo se prueba de punta a punta en sistemas POSIX; el apagado ordenado se prueba en todos a nivel de paquete.
+- La señal real (SIGTERM) no se ha probado de punta a punta en ningún sistema: el apagado ordenado se prueba a nivel de paquete, la integración continua de ejemplo no lanza el daemon con una señal real y el verificador del kit, que sí lo haría en POSIX, no se ha ejecutado allí.
 
 ## Qué no construir todavía
 | Qué | Señal para construirlo |

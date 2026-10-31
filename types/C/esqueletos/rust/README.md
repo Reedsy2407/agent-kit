@@ -33,15 +33,15 @@ cargo clippy --all-targets -- -D warnings
 cargo test
 cargo audit            # opcional: cargo install cargo-audit --locked
 ```
-La integración continua de ejemplo (`.github/workflows/ci.yml`) las corre con Rust 1.99.1 fijado en Ubuntu, Windows y macOS (`cargo audit` solo en Ubuntu).
+La integración continua de ejemplo (`.github/workflows/ci.yml`) las corre con Rust 1.99.1 fijado en Ubuntu, Windows y macOS (`cargo audit` solo en Ubuntu); se ejecutó con éxito el 2026-10-30 en un proyecto de prueba.
 
 ## Publicación de ejemplo
-`.github/workflows/release.yml` prueba, compila en modo `release` un binario por plataforma, lo empaqueta y genera `SHA256SUMS`. **Queda manual:** subir los paquetes a tu canal de distribución, publicar las sumas por un canal distinto, firmar los artefactos si lo decides (no hay firmas ni claves en el ejemplo), compilar para las plataformas que falten (el ejemplo cubre Linux x86_64, Windows x86_64 y macOS aarch64) y probar `version` y `check-config` en cada plataforma declarada. Los datos del canal van en `distribucion` de `kit/FICHA-INFRA.json`.
+`.github/workflows/release.yml` prueba, compila en modo `release` un binario por plataforma, lo empaqueta y genera `SHA256SUMS`. **Queda manual:** subir los paquetes a tu canal de distribución, publicar las sumas por un canal distinto, firmar los artefactos si lo decides (no hay firmas ni claves en el ejemplo), compilar para las plataformas que falten (el ejemplo cubre Linux x86_64, Windows x86_64 y macOS aarch64) y probar `version` y `check-config` en cada plataforma declarada. Los datos del canal van en `distribucion` de `kit/FICHA-INFRA.json`. Los dos flujos se pueden lanzar a mano (`workflow_dispatch`). `release.yml` acepta una entrada opcional `version` (por defecto `v0.0.0-prueba`) para que un lanzamiento manual no tome el nombre de una rama como versión; con una etiqueta `v*` se usa la etiqueta. Con una etiqueta de prueba se ejecutó con éxito el 2026-10-30; el lanzamiento manual todavía no se ha ejecutado (ver `VERIFICACION.md` del kit).
 
 ## Límites conocidos
 - Los permisos del archivo de configuración no se comprueban en Windows (los bits de modo no los representan).
 - Si el plazo de la entrada vence sobre un archivo bloqueado, el hilo de lectura se abandona hasta que el sistema responda; no impide terminar el proceso.
-- El código específico de POSIX (señales y permisos) solo se compila y se prueba en esos sistemas: la integración continua es quien lo ejecuta.
+- El código específico de POSIX (señales y permisos) solo se compila y se prueba en esos sistemas: la integración continua lo ejecutó con éxito en Ubuntu y macOS el 2026-10-30, incluida la prueba con SIGTERM real.
 - En Windows, el manejador atiende Ctrl+C, Ctrl+Break y el cierre de la consola; no se ha probado de punta a punta.
 
 ## Qué no construir todavía

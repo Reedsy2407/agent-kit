@@ -121,13 +121,13 @@ test('la plantilla del tipo C solo usa marcadores conocidos y pide la puerta y l
   for (const x of [/Puerta de uso responsable/, /NO-GO/, /Plataformas objetivo/, /Privilegios requeridos/, /Modelo de amenazas/, /Distribución y actualización/, /Acceso a lo externo/, /Mantenimiento/]) assert.match(t, x, String(x));
 });
 
-test('la documentación del tipo C: README, ADR 0006 y 0018, CHANGELOG, HANDOFF y versión 0.10.0 coherentes', () => {
+test('la documentación del tipo C: README, ADR 0006 y 0018, CHANGELOG, HANDOFF y versión 0.10.1 coherentes', () => {
   const version = JSON.parse(leer('package.json')).version;
-  assert.equal(version, '0.10.0');
+  assert.equal(version, '0.10.1');
   assert.match(leer('README.md'), /\*\*C — herramientas y software de sistemas \(disponible\):\*\*/);
-  assert.match(leer('README.md'), /Versión 0.10.0/);
+  assert.match(leer('README.md'), /Versión 0.10.1/);
   assert.match(leer('CHANGELOG.md'), /^## \[0\.8\.0\]/m);
-  assert.match(leer('HANDOFF.md'), /\(0.10.0,/);
+  assert.match(leer('HANDOFF.md'), /\(0.10.1,/);
   assert.match(leer('docs', 'adr', '0006-tipos-de-proyecto-con-manifiestos.md'), /tipo C/);
   assert.match(leer('docs', 'adr', '0018-tipo-c-como-guia-de-decision.md'), /No hay tipo D/);
 });

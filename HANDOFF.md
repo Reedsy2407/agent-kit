@@ -1,4 +1,4 @@
-# Handoff — agent-kit (0.10.0, etapa C3)
+# Handoff — agent-kit (0.10.1, etapa C2.3)
 
 Plantilla de arranque para una terminal nueva en este repo. Léelo primero; es corto a propósito. Reglas: `CLAUDE.md`. Decisiones: `docs/adr/`. Referencias oficiales consultadas: sección «Referencias» del `README.md`.
 
@@ -15,6 +15,7 @@ Plantilla de arranque para una terminal nueva en este repo. Léelo primero; es c
 - Etapa C1 cerrada: tipo C (herramientas y software de sistemas) como guía de decisión (ADR 0018; `types/C/`). Ramas C en `evaluar-viabilidad` (sección 7: puerta de uso responsable y seis ejes; GO, REDISEÑO o NO-GO) y `elegir-stack-proporcional` (sección 8: Go, Rust, Python). No hay tipo D. (Histórico: en C1 el instalador aún no instalaba el tipo C; desde C2 sí.)
 - Etapa C2 cerrada: el tipo C se instala (`--tipo C`) y trae esqueletos ejecutables de Go, Python y Rust con un contrato común (ADR 0019; `types/C/esqueletos/`). Presets del sello por tipo (`go`, `python`, `rust` solo en el tipo C). Verificación repetible: `node types/C/esqueletos/verificar.mjs <go|python|rust>` (necesita las herramientas del stack; registro en `VERIFICACION.md`). El catálogo llegó en C3 (siguiente punto). Material privado del tipo C en `types/C/casos-privados/` (ignorada).
 - Etapa C3 cerrada: catálogo de problemas del tipo C (`types/C/catalogo/`, ADR 0020): dieciocho fichas en seis grupos (ciclo de vida; control y contrato; datos y entrada/salida; pruebas y extensión; seguridad por defecto; operación) con el formato del tipo B (problema, señales de que aplica y de que sobra, opciones con «no hacer nada», comprobación, cómo suele resolverse, anti-patrones, notas por stack y ADR de ejemplo), notas de Go, Python y Rust con fuente y fecha, «comprobado ejecutando el esqueleto» o «no verificado», y siete ADR de ejemplo en `types/C/ejemplos-adr-c/`. Se instala en `kit/catalogo-c/` (el del tipo B sigue en `kit/catalogo/`), y la skill `consultar-catalogo` tiene una rama del tipo C. Las fichas de seguridad son defensivas. El tipo C queda disponible (ya no «en construcción»); lo que sigue sin comprobarse está en la sección de pendientes.
+- Etapa C2.3 cerrada: los flujos `ci.yml` y `release.yml` de los tres esqueletos del tipo C se ejecutaron de verdad el 2026-10-30 (instalados como proyectos reales en un repositorio de prueba; éxito en los tres, incluido el código POSIX de Rust, `go test -race`, Python 3.14 y `cargo audit` en Ubuntu) y ahora se pueden lanzar a mano (`workflow_dispatch`; `release.yml` de Go y Rust con una entrada opcional `version`, por defecto `v0.0.0-prueba`). Registro en `types/C/esqueletos/VERIFICACION.md`, sección «Integración continua ejecutada de verdad».
 - Tipos A y B disponibles. El tipo B no impone stack: su ficha deja `kit.checks` vacío hasta que el proyecto elija el suyo (sin pruebas el sello se niega).
 - Pruebas: `node --test` (sin dependencias, ADR 0001/0004).
 - El kit se aplica a sí mismo: `.claude/` (hooks, agentes, skills, `kit.json`), `kit/FICHA-INFRA.json` y `.claude/settings.local.generado.json` están **generados** desde `core/` y `infra/ficha-kit.json` con `node install/install.mjs --auto`; una prueba falla si se desvían (tras tocar `core/` o la ficha del kit, corre `--auto` y commitea). Para activar las reglas en esta carpeta el humano copia `.claude/settings.local.generado.json` sobre `.claude/settings.local.json` (git lo ignora; el agente no puede editarlo). Instalar en otro proyecto sigue siendo decisión del humano (empezar con `--dry-run`).
@@ -33,21 +34,21 @@ Plantilla de arranque para una terminal nueva en este repo. Léelo primero; es c
 
 ## Siguiente paso
 - Probar el tipo C en un proyecto nuevo (por ejemplo con el esqueleto de Go) y recoger qué falta. Las notas por stack del catálogo marcadas «No verificado» se verifican de una en una al adoptarlas (ver la regla del tipo B: la nota se corrige en el ADR del proyecto, no en el catálogo).
-- Cerrar los pendientes conocidos de verificación del tipo C (sección siguiente) cuando haya un entorno que los permita; no bloquean otro trabajo.
+- Cerrar los pendientes conocidos de verificación del tipo C (sección siguiente). El primero tiene una rebanada propuesta, **no escrita ni ejecutada**: un paso opcional del `ci.yml` de ejemplo, solo en Ubuntu y macOS, que lance el daemon, le envíe SIGTERM y compruebe el código de salida 0, el registro `apagado` y el resumen.
 - Exportar a la copia pública: `node infra/exportar-publico.mjs --destino ..\agent-kit-publico --dry-run` (y sin `--dry-run` solo si el humano lo decide; el push siempre es suyo).
 - Probar `especificar-funcionalidad` en un módulo real y recoger si se omite o resulta larga; si se omite con frecuencia, reabrir la decisión del ADR 0017.
 
-## Pendientes conocidos del tipo C (tras la 0.10.0)
-Conocidos y aceptados; no se arreglan en C3. Detalle y motivos en `types/C/esqueletos/VERIFICACION.md`.
-- **SIGTERM de punta a punta en Windows:** Node no envía SIGTERM en Windows, así que el verificador lo omite. El apagado ordenado sí se prueba dentro de cada esqueleto; de punta a punta solo en POSIX.
-- **`go test -race`:** exige cgo y en la máquina de verificación no hay compilador de C. Solo lo ejecuta la integración continua de ejemplo.
-- **Código POSIX de Rust sin compilar:** las señales (`signal`) y los permisos de archivo solo se compilan en Linux y macOS; en Windows se compila el código de Windows. Tampoco se ha ejecutado `tests/cli.rs::sigterm_apaga_en_orden`.
-- **Python 3.14 y Linux/macOS:** solo se verificó Python 3.11.9 en Windows; los permisos de archivo de los tres esqueletos solo se prueban en POSIX.
-- **Flujos de CI y de publicación nunca ejecutados:** `ci.yml` y `release.yml` de los tres esqueletos solo se validaron como YAML y por las reglas de las pruebas. Pruébalos en un proyecto de prueba antes de fiarte de ellos.
-- **`cargo audit` (opcional):** no está instalado en la máquina de verificación; el verificador lo omite diciéndolo y la integración continua de ejemplo lo ejecuta.
+## Pendientes conocidos del tipo C (tras la 0.10.1)
+Conocidos y aceptados. Detalle y motivos en `types/C/esqueletos/VERIFICACION.md`. El 2026-10-30 los tres esqueletos se ejecutaron en la integración continua de un repositorio de prueba con todo en verde; lo que sigue abierto es esto:
+- **SIGTERM de punta a punta:** solo Rust lo prueba con una señal real, y solo en POSIX (`tests/cli.rs`, con `cargo test` en Ubuntu y macOS). Go y Python lo prueban dentro de sus paquetes, y el CI de ejemplo no lanza el daemon con una señal real. El verificador del kit (`verificar.mjs`) sí lo haría en POSIX, pero nunca se ejecutó allí. En Windows no es posible con Node.
+- **Contenido de `SHA256SUMS` y de los paquetes de publicación sin inspeccionar:** solo se comprobó que los trabajos terminan bien y que el artefacto se sube. Tampoco se instalaron ni ejecutaron los paquetes publicados en cada plataforma.
+- **Permisos del archivo de configuración en Windows:** el contrato no los comprueba (los bits de modo no los representan) y las pruebas correspondientes se omiten allí.
+- **Lanzamiento manual de los flujos:** `workflow_dispatch` y la entrada `version` de `release.yml` (0.10.1) se añadieron después de la ejecución y no se han ejecutado.
 - **Notas del catálogo del tipo C:** las verificadas se contrastaron en línea el 2026-10-30; todas las marcadas «No verificado» (por ejemplo, bibliotecas de terceros, el equivalente en Windows de varias señales y límites, y la durabilidad de la carpeta contenedora) siguen sin contrastar.
 
-Ya **no** son pendientes (verificados en la 0.9.1 con `verificar.mjs`, desde la terminal del agente y, para Python, también desde la del humano): `pip-audit .`, `pip install .` en un entorno virtual temporal y el comando instalado `herramienta` (`version` y `version --json`).
+Ya **no** son pendientes:
+- Verificados en la 0.9.1 con `verificar.mjs`: `pip-audit .`, `pip install .` en un entorno virtual temporal y el comando instalado `herramienta` (`version` y `version --json`).
+- Ejecutados el 2026-10-30 en la integración continua: el código POSIX de Rust (incluida la prueba con SIGTERM real), `go test -race` (Ubuntu, macOS y Windows), Python 3.14 y Linux o macOS, `cargo audit` (solo en Ubuntu; sigue siendo opcional y omitido en la máquina de verificación local) y los flujos `ci.yml` y `release.yml` (este con una etiqueta de prueba).
 
 ## Pendiente tras la etapa 2F
 - **Sin verificar (y por qué):** Python en local (desde la máquina de la etapa `pip` no validó el certificado de PyPI; solo se probó en contenedor) y .NET en local (el SDK instalado era el 9 y el esqueleto apunta a .NET 10; solo se probó con el SDK 10 de la imagen); `java-gradle` (no hay Gradle ni esqueleto); Java 25; los flujos de integración continua (`.github/workflows/ci.yml`, no ejecutados: solo su sintaxis); el despliegue de cualquier esqueleto (sin cuenta); las etiquetas de imagen base sin fijar por resumen. Las versiones de acciones de GitHub (`checkout@v7`, `setup-node@v7`, `setup-java@v6`, `setup-dotnet@v6`, `setup-python@v7`) salen de los README oficiales del 2026-10-23.
