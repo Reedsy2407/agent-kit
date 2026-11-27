@@ -12,3 +12,11 @@ __pycache__/
 .ruff_cache/
 target/
 /types/C/casos-privados/
+# Esqueleto Android: el envoltorio de Gradle y los restos de compilación nunca entran en el kit (ADR 0023).
+/types/M/esqueletos/**/build/
+/types/M/esqueletos/**/.gradle/
+/types/M/esqueletos/**/.kotlin/
+/types/M/esqueletos/**/local.properties
+/types/M/esqueletos/**/gradlew
+/types/M/esqueletos/**/gradlew.bat
+/types/M/esqueletos/**/gradle/wrapper/

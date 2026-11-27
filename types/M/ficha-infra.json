@@ -1,0 +1,94 @@
+{
+  "_ayuda": "Ficha «Infra del proyecto» del tipo M (aplicaciones móviles, Android primero). Sin secretos ni claves de firma. El kit no impone stack ni proveedor: rellena despliegue y baseDeDatos solo si hay servidor propio, y distribucion cuando elijas la tienda o el canal. kit.checks llega vacío hasta que el proyecto elija stack (skill elegir-stack-proporcional): sin pruebas el sello de pre-merge se niega. El único preset del tipo M es java-gradle, verificado solo sobre el esqueleto Android del kit (límites y comando en Windows, en kit/GUIA-DECISION.md, «Sello y pruebas»); declararlo e instalar de nuevo añade ese esqueleto, que no trae el envoltorio de Gradle; después hay que volver a generar, porque reinstalar no sobrescribe .claude/kit.json. Con otro stack escribe tus kit.checks y autoriza sus comandos en permisos.permitidos. Vuelve a generar con: node infra/generate-settings.mjs --ficha kit/FICHA-INFRA.json --destino <proyecto>. Una denegación gana a una autorización. La publicación en la tienda la hace siempre el humano. despliegue.primerDespliegueHecho: ponlo en true solo después de que el humano haga el primer despliegue del servidor; entonces quedan autorizados, exactos, los comandos de permitidosTrasPrimerDespliegue.",
+  "version": 1,
+  "proyecto": "",
+  "tipo": "M",
+  "despliegue": {
+    "proveedor": "",
+    "cli": "",
+    "servicios": [],
+    "primerDespliegueHecho": false,
+    "permitidosTrasPrimerDespliegue": [],
+    "permitidos": [],
+    "denegados": [],
+    "comoSeVerifica": "pruebas del proyecto y recorrido en un equipo real (segundo plano, permisos negados y sin red) antes de cada entrega; si hay servidor, prueba de humo tras cada despliegue; la publicación en la tienda la hace el humano"
+  },
+  "baseDeDatos": {
+    "proveedor": "",
+    "cli": "",
+    "puntoDeRestauracion": {
+      "metodo": "si hay base de datos: rama, instantánea o copia de seguridad antes de toda migración; el borrado de ramas o bases lo hace el humano",
+      "permitidos": [],
+      "denegados": []
+    }
+  },
+  "logs": {
+    "metodo": "siempre con filtro de recurso, formato JSON a un archivo, timeout y < /dev/null; nunca seguir el flujo; sin ubicación ni datos personales",
+    "permitidos": []
+  },
+  "urlsPublicas": [],
+  "loginManual": [],
+  "permisos": {
+    "permitidos": [],
+    "denegados": [
+      "Read(./keystore.properties)",
+      "Read(./**/keystore.properties)",
+      "Read(./**/*.jks)",
+      "Read(./**/*.keystore)"
+    ]
+  },
+  "ops": {
+    "salud": {
+      "permitida": false,
+      "config": "ops/salud.config.json"
+    },
+    "sondeoAcceso": {
+      "permitida": false,
+      "config": "ops/dependencias.json"
+    },
+    "acciones": {
+      "estado": {
+        "permitida": false,
+        "comandos": []
+      },
+      "arranque": {
+        "permitida": false,
+        "comandos": []
+      },
+      "parada": {
+        "permitida": false,
+        "comandos": []
+      },
+      "reversa": {
+        "permitida": false,
+        "comandos": []
+      },
+      "rotacion": {
+        "permitida": false,
+        "comandos": []
+      }
+    }
+  },
+  "kit": {
+    "baseBranch": "main",
+    "maxBranchCommits": 10,
+    "modules": [],
+    "commitScopes": [],
+    "preset": "",
+    "checks": [],
+    "gitleaks": true,
+    "autoria": {
+      "correosPermitidos": []
+    }
+  },
+  "distribucion": {
+    "proveedor": "",
+    "canal": "",
+    "integridad": "paquete firmado; las claves las crea y custodia el humano, fuera del repositorio",
+    "plataformas": [
+      "android"
+    ],
+    "responsable": "",
+    "horizonteDeMantenimiento": ""
+  }
+}

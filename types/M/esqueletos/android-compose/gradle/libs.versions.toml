@@ -1,0 +1,35 @@
+# Única fuente de las versiones del esqueleto. Fijadas y leídas en su fuente el 2026-11-26; cada nota cita la fila de
+# kit/PLATAFORMA-ANDROID.md con la dirección. Se suben juntas, releyendo la compatibilidad [P-HER-4] [P-HER-6].
+# La versión de Gradle no va aquí: la fija el envoltorio que generas (README.md).
+
+[versions]
+# Complemento de Android para Gradle. No es el último publicado: es el último dentro de la tabla de Kotlin [P-HER-6].
+agp = "9.3.1"
+# Kotlin y compilador de Compose comparten versión [P-HER-5] [P-HER-6].
+kotlin = "2.4.21"
+# Lista de materiales de Compose: fija las versiones de las bibliotecas androidx.compose [P-HER-7].
+composeBom = "2026.11.01"
+# Actividad con Compose y borde a borde [P-HER-8].
+activityCompose = "1.13.0"
+# Pruebas: la local con JUnit y la instrumentada con el ejecutor de AndroidX [P-HER-8].
+junit = "4.13.2"
+androidxTestRunner = "1.7.0"
+# Android: compilación y destino [P-HER-7] [P-PUB-6]; mínimo, el que piden las bibliotecas de Compose [P-HER-7].
+compileSdk = "37"
+compileSdkMinor = "1"
+targetSdk = "36"
+minSdk = "24"
+
+[libraries]
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

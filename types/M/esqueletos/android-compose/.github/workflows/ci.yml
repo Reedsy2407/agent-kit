@@ -1,0 +1,28 @@
+# Ejemplo de integración continua del esqueleto Android. No se ejecuta dentro del kit: se copia con el esqueleto.
+# Antes de que pueda correr hay que generar el envoltorio de Gradle y versionarlo (README.md).
+# Solo lectura: comprueba que el envoltorio es oficial, ejecuta el comando del preset y compila, sin ejecutarlas, las
+# pruebas instrumentadas. No firma ni publica y no usa secretos. Se lanza con cada push, con pull_request y a mano.
+name: ci
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  comprobar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: El envoltorio de Gradle coincide con una suma publicada
+        uses: gradle/actions/wrapper-validation@v6
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - name: Comando del preset (análisis estático y pruebas locales)
+        run: ./gradlew --no-daemon check
+      - name: Compilar la app y las pruebas instrumentadas (no se ejecutan)
+        run: ./gradlew --no-daemon assembleDebug assembleDebugAndroidTest

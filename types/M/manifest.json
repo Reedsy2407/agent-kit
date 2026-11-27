@@ -1,0 +1,175 @@
+{
+  "tipo": "M",
+  "nombre": "aplicaciones móviles",
+  "estado": "disponible",
+  "nota": "Guía de decisión (M1), diseño de interfaz móvil (M2b), un esqueleto Android mínimo (M2) y catálogo de problemas (M3), Android primero. El estado de la verificación del preset java-gradle está en types/M/esqueletos/VERIFICACION.md.",
+  "perfilExpresion": "sobrio",
+  "ficha": "types/M/ficha-infra.json",
+  "esqueletos": "types/M/esqueletos",
+  "esqueletosNota": "El tipo M no impone stack. El esqueleto android-compose (Kotlin con Compose) es UNA de las salidas de la guía, junto a React Native con Expo, Flutter y el envoltorio web, que no tienen esqueleto. Solo se instala si la ficha declara kit.preset=java-gradle y nunca incluye el envoltorio de Gradle.",
+  "archivos": [
+    {
+      "origen": "core/CLAUDE.md",
+      "destino": "CLAUDE.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/HANDOFF.md",
+      "destino": "HANDOFF.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/PROCESO-MODULOS-Y-REVISION.md",
+      "destino": "kit/PROCESO-MODULOS-Y-REVISION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/PROMPT-MODULO.md",
+      "destino": "kit/PROMPT-MODULO.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/MERGE-AUTORIZADO.md",
+      "destino": "kit/MERGE-AUTORIZADO.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/hooks",
+      "destino": ".claude/hooks",
+      "excluir": [
+        "test"
+      ],
+      "versionado": false
+    },
+    {
+      "origen": "core/agents",
+      "destino": ".claude/agents",
+      "versionado": false
+    },
+    {
+      "origen": "core/skills",
+      "destino": ".claude/skills",
+      "versionado": false
+    },
+    {
+      "origen": "core/plantillas/ESPECIFICACION.md",
+      "destino": "kit/plantillas/ESPECIFICACION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "core/gitattributes.plantilla",
+      "destino": ".gitattributes",
+      "versionado": true
+    },
+    {
+      "origen": "types/B/plantillas/DECISION-VIABILIDAD.md",
+      "destino": "kit/plantillas/DECISION-VIABILIDAD.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/B/plantillas/ADR.md",
+      "destino": "kit/plantillas/ADR.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/B/plantillas/scripts/sondeo-acceso.mjs",
+      "destino": "scripts/sondeo-acceso.mjs",
+      "versionado": true
+    },
+    {
+      "origen": "types/B/plantillas/dependencias.ejemplo.json",
+      "destino": "ops/dependencias.json",
+      "versionado": true,
+      "propio": true
+    },
+    {
+      "origen": "types/B/skills/evaluar-viabilidad",
+      "destino": ".claude/skills/evaluar-viabilidad",
+      "versionado": false
+    },
+    {
+      "origen": "types/B/skills/elegir-stack-proporcional",
+      "destino": ".claude/skills/elegir-stack-proporcional",
+      "versionado": false
+    },
+    {
+      "origen": "types/M/GUIA-DECISION.md",
+      "destino": "kit/GUIA-DECISION.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/M/PLATAFORMA-ANDROID.md",
+      "destino": "kit/PLATAFORMA-ANDROID.md",
+      "versionado": false
+    },
+    {
+      "origen": "types/M/esqueletos/CONTRATO.md",
+      "destino": "kit/CONTRATO-ESQUELETOS.md",
+      "versionado": false
+    },
+    {
+      "origen": "types/M/catalogo",
+      "destino": "kit/catalogo-m",
+      "versionado": false
+    },
+    {
+      "origen": "types/M/ejemplos-adr-m",
+      "destino": "kit/ejemplos-adr-m",
+      "versionado": false
+    },
+    {
+      "origen": "types/B/skills/consultar-catalogo",
+      "destino": ".claude/skills/consultar-catalogo",
+      "versionado": false
+    },
+    {
+      "origen": "types/M/plantillas/VIABILIDAD-TIPO-M.md",
+      "destino": "kit/plantillas/VIABILIDAD-TIPO-M.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/M/skills/estudiar-referencia-movil",
+      "destino": ".claude/skills/estudiar-referencia-movil",
+      "versionado": false
+    },
+    {
+      "origen": "types/M/skills/explorar-direcciones-movil",
+      "destino": ".claude/skills/explorar-direcciones-movil",
+      "versionado": false
+    },
+    {
+      "origen": "types/M/plantillas/BRIEF-DISENO-MOVIL.md",
+      "destino": "kit/plantillas/BRIEF-DISENO-MOVIL.md",
+      "plantilla": true,
+      "versionado": false
+    },
+    {
+      "origen": "types/M/plantillas/REVISION-VISUAL-MOVIL.md",
+      "destino": "kit/plantillas/REVISION-VISUAL-MOVIL.md",
+      "plantilla": true,
+      "versionado": false
+    }
+  ],
+  "gitignore": [
+    "/CLAUDE.md",
+    "/HANDOFF.md",
+    "/kit/",
+    "/tasks/",
+    "/.claude/",
+    "*.jks",
+    "*.keystore",
+    "keystore.properties",
+    "local.properties",
+    "/referencias/"
+  ]
+}

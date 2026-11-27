@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Marcadores: los textos propios de la app salen de design/DESIGN-BRIEF.md, nunca de otra app. -->
+    <string name="nombre_app">Aplicación de ejemplo</string>
+    <string name="pantalla_vacia">Pantalla vacía</string>
+</resources>

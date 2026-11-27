@@ -2,6 +2,93 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [0.14.0] - 2026-11-26
+
+Etapa M3: catálogo de problemas del tipo M (ADR 0024).
+
+### Añadido
+- `types/M/catalogo/`: dieciséis fichas en cinco grupos, con problema, señales de que aplica y de que sobra, opciones con «no hacer nada», comprobación, cómo suele resolverse, anti-patrones, hechos en que se apoya, requisitos de referencia (R1 a R7, todos con alguna ficha) y ADR de ejemplo. Sin notas por stack, cifras ni direcciones.
+- `types/M/ejemplos-adr-m/`: ocho ADR de ejemplo.
+- Hechos de plataforma: trabajo en segundo plano y suspensión, cuentas e integridad, almacenamiento y secretos, reloj y actualizaciones, pruebas en equipos, rendimiento y registros (grupos `[P-TRA-*]`, `[P-CTA-*]`, `[P-ALM-*]`, `[P-RED-*]`, `[P-ACT-*]`, `[P-PRU-*]`, `[P-REN-*]`, `[P-OBS-*]`), más `[P-PER-5]`, `[P-PER-6]`, `[P-UBI-10]`, `[P-ARQ-6]` a `[P-ARQ-8]`, `[P-PUB-10]` a `[P-PUB-12]` (con la ficha de la tienda) y `[P-ACC-8]`. Cada fila con fuente y fecha, o «No verificado».
+- `--tipo M` instala el catálogo en `kit/catalogo-m/`, los ejemplos en `kit/ejemplos-adr-m/` y la skill `consultar-catalogo`, que gana una rama del tipo M.
+- Pruebas del catálogo (`types/M/test/catalogo.test.mjs`): reparto exacto, formato, estado de cada hecho citado, requisitos, genericidad, enlaces en el kit y en el proyecto, instalación, `--dry-run`, `--diff` y skill.
+
+### Cambiado
+- La guía presenta el catálogo y lo quita de lo que falta; la skill `elegir-stack-proporcional` (sección 9) apunta a él. La prueba de una sola fuente recorre también las fichas, los ejemplos y la rama de la skill.
+- Se actualizan las pruebas que fijaban la versión y las que daban el tipo M por sin catálogo. Los catálogos de B y C no cambian.
+
+### Para un proyecto M ya instalado
+- Las fichas y los ejemplos llegan al reinstalar; la guía, los hechos y las skills anteriores no se sobrescriben solos: revisa con `--diff` y usa `--forzar=kit/GUIA-DECISION.md,kit/PLATAFORMA-ANDROID.md,.claude/skills/elegir-stack-proporcional/SKILL.md` si no los editaste. Sin los hechos nuevos, las fichas citan identificadores que tu copia no tiene.
+
+### Sin hacer
+- Las fichas no se han usado en una app real. Sin esqueletos ni notas de las otras alternativas, sin iOS ni pantallas de coche.
+
+## [0.13.0] - 2026-11-26
+
+Etapa M2: esqueleto Android mínimo, preset `java-gradle` verificado sobre él en el tipo M y ejemplo de integración continua (ADR 0023). La fecha de verificación es la del script, en UTC (la noche del 26 en hora local).
+
+### Añadido
+- `types/M/esqueletos/android-compose/`: un módulo en Kotlin con Compose, una pantalla vacía de borde a borde, tema con tokens como ideas que ceden ante `design/DESIGN-BRIEF.md`, una prueba local (contraste y letra mínima de las parejas y escalones que enumera), una prueba de interfaz instrumentada de ejemplo, versiones en un solo archivo, sin permisos y con los datos excluidos de copias y transferencias. Es una de las salidas de la guía, no la obligatoria. Llega sin el envoltorio de Gradle: el README dice cómo generarlo, comprobar que es el oficial y versionarlo.
+- `types/M/esqueletos/CONTRATO.md` (instalado como `kit/CONTRATO-ESQUELETOS.md`), `VERIFICACION.md` y `verificar.mjs`: qué cumple, cómo se comprueba y qué no; ejecución estricta y comando del preset en Windows, paquete (destino, permisos, páginas de 16 KB), sello y qué se reutilizó de la caché y qué se descargó.
+- Integración continua de ejemplo (validación del envoltorio, comando del preset y compilación de las pruebas instrumentadas), ejecutada en un repositorio de prueba (resultado en `VERIFICACION.md`).
+- Hechos de plataforma: versiones y compatibilidad de las herramientas, envoltorio y sus sumas, comprobación de 16 KB, descarga de paquetes del SDK y almacén de certificados (`[P-HER-4]` a `[P-HER-13]`), y copia y transferencia de datos (`[P-PRI-6]`).
+- La guía suma «Esqueleto Android (opcional)».
+
+### Cambiado
+- El preset `java-gradle` del tipo M es propio y queda **verificado solo sobre ese esqueleto**; el del tipo B sigue sin verificar.
+- La guía corrige el comando del sello en Windows: `.\gradlew.bat --no-daemon check` (`gradlew.bat` a secas falla cuando la sesión no busca programas en la carpeta actual).
+- El instalador copia el esqueleto del tipo M cuando la ficha declara el preset, y nunca copia envoltorios de Gradle, binarios, claves ni restos de compilación de ningún esqueleto.
+- La skill `elegir-stack-proporcional` (sección 9) dice que tener esqueleto no inclina la elección. La prueba de pureza recorre también `.kt`, `.kts` y `.properties`.
+- Se actualizan las pruebas que fijaban la versión y las que daban el tipo M por sin esqueleto y su preset por sin verificar.
+
+### Para un proyecto M ya instalado
+- La guía, los hechos, la skill y la ficha anteriores no se sobrescriben solos: revisa con `--diff` y usa `--forzar=kit/GUIA-DECISION.md,kit/PLATAFORMA-ANDROID.md,.claude/skills/elegir-stack-proporcional/SKILL.md` si no los editaste.
+- Reinstalar tampoco sobrescribe `.claude/kit.json`: para que el sello vea el preset (o deje de avisar de que no está verificado), regenéralo desde la ficha con `node infra/generate-settings.mjs --ficha <proyecto>/kit/FICHA-INFRA.json --destino <proyecto>`.
+- Si su ficha ya declaraba `java-gradle`, reinstalar le añadiría los archivos del esqueleto junto a los suyos: revisa antes con `--dry-run`.
+
+### Sin hacer
+- Equipo real (R1, R2, R7), pruebas instrumentadas sin ejecutar, variante de publicación, sello en macOS o Linux, pantallas de coche, otras alternativas sin esqueleto y catálogo del tipo M (M3).
+
+## [0.12.0] - 2026-11-26
+
+Etapa M2b: diseño de la interfaz móvil en el tipo M, sin imponer stack ni marca (ADR 0022).
+
+### Añadido
+- Principio de diseño: si en el rubro hay productos parecidos, se estudia e imita su estilo sin copiar marca, logotipos, textos, iconos, ilustraciones ni pantallas. En la guía del tipo M y, solo como texto, en `design/DESIGN-BRIEF.md`.
+- Skills del tipo M `estudiar-referencia-movil` (la web como fuente principal; las imágenes no se guardan; salida en texto con fuente y fecha) y `explorar-direcciones-movil` (tres o más direcciones descritas, sin código; elige el humano).
+- Plantillas `BRIEF-DISENO-MOVIL.md` y `REVISION-VISUAL-MOVIL.md`.
+- Hechos de plataforma: accesibilidad e interfaz en el teléfono (`[P-ACC-1]` a `[P-ACC-7]`), suplantación y propiedad intelectual en la tienda (`[P-MAR-1]` a `[P-MAR-3]`) y límite de pasos y botones en apps de coche (`[P-CON-7]`).
+- La guía suma el paso de diseño al recorrido, tras el stack y antes del esqueleto. El instalador ignora en git `/referencias/`.
+
+### Cambiado
+- `[P-CON-5]` es ahora la regla de conducción del kit para el teléfono (decisión del kit); lo que sigue sin comprobarse pasa a `[P-CON-8]`. `[P-CON-1]` a `[P-CON-4]` se contrastaron con las guías de Google y ganan matices (separación «si es posible», reglas de redacción, indicador de carga y animaciones).
+- Se actualizan las pruebas que fijaban la versión y la que daba `[P-CON-5]` por «No verificado».
+
+### Para un proyecto M ya instalado
+- Al reinstalar llegan los archivos nuevos, pero la guía y los hechos anteriores no se sobrescriben: revisa con `--diff` y usa `--forzar=kit/GUIA-DECISION.md,kit/PLATAFORMA-ANDROID.md` si no los editaste. Sin eso, las skills citan identificadores que tu copia no tiene.
+
+### Sin hacer
+- Esqueleto Android y preset verificado (M2), catálogo (M3) y pruebas automáticas de interfaz móvil. Las skills no se han usado en una app real.
+
+## [0.11.0] - 2026-11-26
+
+Etapa M1: tipo M (aplicaciones móviles, Android primero) como guía de decisión (ADR 0021).
+
+### Añadido
+- `types/M/`: manifiesto, ficha de infraestructura (`kit.checks` y `kit.preset` vacíos, lectura de claves de firma denegada), `GUIA-DECISION.md` con siete requisitos de referencia (R1 a R7) y lo que falta para un esqueleto y un preset verificados, y la plantilla `VIABILIDAD-TIPO-M.md`.
+- `types/M/PLATAFORMA-ANDROID.md`: hechos sobre Android, herramientas y tienda, cada uno con identificador y «Verificado el 2026-11-26» con su fuente oficial, o «No verificado». Es la única fuente; guía y skills citan los identificadores.
+- Mensajería push en los hechos de plataforma: prioridades y su rebaja, temas, cuotas, caducidad, arranque de servicios desde segundo plano, control de temas desde el servidor, privacidad y retiradas anunciadas. La guía advierte que un tema por zona no oculta la zona y que los temas no controlan el acceso.
+- Rama del tipo M en `evaluar-viabilidad` (sección 8: ocho ejes y GO, REDISEÑO o NO-GO) y en `elegir-stack-proporcional` (sección 9: Kotlin con Compose, React Native con Expo, Flutter o envoltorio web, la más simple que cumpla primero, equipo pequeño y presupuesto cero).
+- `--tipo M` en el instalador y en el generador de fichas; ignora en git las claves de firma y `local.properties`.
+- Pruebas del tipo M (`types/M/test/`): instalación, sello que se niega sin pruebas, ramas de las skills, requisitos, estado y fuente de cada hecho y una sola fuente de cifras, fechas y plazos; la pureza la cubre la prueba existente sobre todo lo versionado.
+
+### Cambiado
+- El tipo M acepta solo el preset `java-gradle` (sin verificar).
+- El mensaje de tipo desconocido del instalador pasa a «usa A, B, C o M»; se actualiza la prueba que lo comprobaba y las que fijaban la versión.
+
+### Sin hacer
+- Esqueleto Android y preset verificado (M2) y catálogo del tipo M (M3). iOS fuera del alcance.
+
 ## [0.10.1] - 2026-10-30
 
 Etapa C2.3: los flujos de los esqueletos del tipo C, ejecutados de verdad y lanzables a mano.

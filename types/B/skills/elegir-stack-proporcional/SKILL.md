@@ -1,6 +1,6 @@
 ---
 name: elegir-stack-proporcional
-description: Elige la tecnología y la arquitectura de un sistema con servicios (o, en el tipo C, el lenguaje de una herramienta entre Go, Rust y Python) en proporción al problema, con al menos dos alternativas reales (una la más simple posible), criterios explícitos y un ADR con lo descartado. Incluye el protocolo de cuestionar un encargo que lleve a una mala elección. Úsala tras un veredicto de viabilidad favorable y antes de escribir código, y cada vez que una decisión técnica grande aparezca.
+description: Elige la tecnología y la arquitectura de un sistema con servicios (o, en el tipo C, el lenguaje de una herramienta entre Go, Rust y Python; en el tipo M, cómo construir una app móvil) en proporción al problema, con al menos dos alternativas reales (una la más simple posible), criterios explícitos y un ADR con lo descartado. Incluye el protocolo de cuestionar un encargo que lleve a una mala elección. Úsala tras un veredicto de viabilidad favorable y antes de escribir código, y cada vez que una decisión técnica grande aparezca.
 ---
 
 El kit no impone un stack. La tecnología se elige para **este** negocio y **este** tamaño de problema: Java sin framework si basta, .NET sin bandeja de salida si hay algo mejor, un solo proceso y una sola base si eso cumple. Lo que ya se hizo en otros sistemas es **material de consulta** (`kit/catalogo/`), no un molde.
@@ -96,3 +96,44 @@ Resumen en pocas líneas: la decisión, la alternativa más simple y por qué ga
 | Criptografía propia | Nunca: se usa una biblioteca revisada y mantenida |
 
 Lo que **nunca** se recorta en el tipo C: validar la entrada en el borde, privilegios mínimos, los valores por defecto seguros de la puerta de uso responsable, secretos fuera de archivos y de argumentos, y registro de la actividad que cambia algo.
+
+## 9. Rama del tipo M (aplicaciones móviles)
+**Solo aplica a proyectos del tipo M (aplicaciones móviles, Android primero).** Requisito: `DECISION-VIABILIDAD.md` del tipo M con **GO** (`evaluar-viabilidad`, sección 8). Las secciones 1 a 7 siguen valiendo, también para el servidor propio si lo hay; esta rama cambia las alternativas y los criterios de la app. El catálogo del tipo M está en `kit/catalogo-m/` y se consulta con `consultar-catalogo` (rama del tipo M): donde las secciones anteriores o las plantillas remiten a `kit/catalogo/` y `kit/ejemplos-adr/`, en el tipo M son `kit/catalogo-m/` y `kit/ejemplos-adr-m/`. Solo una de las alternativas, Kotlin con Compose, tiene un esqueleto de partida (`kit/CONTRATO-ESQUELETOS.md`): **que exista no es una razón para elegirla** y no cuenta en la comparación como «más simple». Presenta las alternativas como siempre, elige con los criterios de abajo y deja que decida el humano. Los hechos de cada alternativa están en `kit/PLATAFORMA-ANDROID.md` (en el kit: `types/M/PLATAFORMA-ANDROID.md`); lo «No verificado» se contrasta antes de usarlo como razón.
+
+- **Mínimo dos alternativas entre Kotlin con Compose, React Native con Expo, Flutter y un envoltorio web (Capacitor o PWA), con la más simple primero.** «Más simple» es la que **cumple la viabilidad** con menos piezas que construir y mantener *para este equipo*. Una alternativa que no cumple un requisito imprescindible no es la más simple: está descartada, y se dice por qué.
+- **Criterio de equipo pequeño y presupuesto cero:** se prefiere lo que una o dos personas pueden depurar en un equipo real, con una sola base de código, con las menos piezas nativas y bibliotecas de terceros posibles y sin servicios de pago. Si se publica en la tienda, su cuota no cambia con el stack; repartir por otro canal es una alternativa que se decide en la viabilidad (eje h).
+
+| Criterio | Pregunta (una frase con evidencia por alternativa) |
+|---|---|
+| Requisitos de plataforma | ¿Hace falta seguir en segundo plano, un servicio en primer plano, sensores o integración fina? ¿La alternativa lo da de forma documentada o exige código nativo? |
+| Equipo | ¿Qué lenguajes ya domina quien mantiene? ¿Cuántos tendrá que depurar a la vez? |
+| Dependencias | ¿De qué bibliotecas de terceros depende lo central y quién las mantiene? |
+| Presupuesto cero | ¿Compilar, probar y publicar funciona sin pagar servicios? [P-STK-11] |
+| Publicación | ¿Produce el paquete y cumple los requisitos de la tienda (formato, versión de destino, código nativo) [P-PUB-4] [P-PUB-6] [P-PUB-7] [P-PUB-9]? |
+| Pruebas y diagnóstico | ¿Se prueba la lógica sin equipo y el segundo plano en uno real? |
+| Mantenimiento | ¿Cuánto cuesta seguir las versiones del sistema y del framework? |
+
+| Alternativa | Puede ser la más simple cuando | Se cuestiona cuando | Hechos |
+|---|---|---|---|
+| Envoltorio web (PWA o Capacitor) | Ya hay una web, la app se usa abierta y no necesita segundo plano | Lo central necesita seguimiento o un servicio persistente en segundo plano, o la app sería la web sin función propia | [P-STK-7] a [P-STK-10] |
+| Kotlin con Compose | Solo Android y lo central toca el sistema (segundo plano, permisos, servicios) | Nadie conoce Kotlin y lo central es contenido y formularios que otra alternativa cumple | [P-STK-1], [P-FGS-1] |
+| React Native con Expo | El equipo domina JavaScript o TypeScript y los módulos disponibles cubren lo central | Lo central depende de código nativo que habría que escribir y nadie del equipo puede mantener, o de que la ubicación se reanude sola tras terminar la app | [P-STK-2] a [P-STK-4] |
+| Flutter | El equipo domina Dart o quiere una interfaz propia, y lo central tiene bibliotecas mantenidas | Lo central depende de código nativo que habría que escribir y mantener además de Dart | [P-STK-5], [P-STK-6] |
+
+Ninguna alternativa impide que el usuario detenga la app entera [P-FGS-8]: una promesa de seguir pase lo que pase no se resuelve eligiendo stack, se cuestiona.
+
+- **Cuestiona el encargo** (protocolo de la sección 6) cuando lleve a una mala elección. Ejemplos: una PWA para algo que debe seguir en segundo plano; una base multiplataforma «por si algún día hay iOS» cuando iOS está fuera; reescribir en otro framework lo que el equipo ya domina; sumar un servicio de pago con presupuesto cero; varios servicios propios para una app pequeña; pedir ubicación en segundo plano cuando basta el primer plano.
+- **ADR con lo descartado y por qué** (`kit/plantillas/ADR.md`): cada alternativa descartada con su motivo y su costo, y la señal para revisar la decisión.
+- **Qué no construir todavía:**
+
+| Qué NO construir todavía | Señal para construirlo |
+|---|---|
+| Versión para iOS | Un usuario real que no pueda usar Android y el humano la marque como alcance |
+| Ubicación en segundo plano | Una función central que no se cumple con la app visible ni con un servicio que el usuario inicia |
+| Muchos módulos y capa de dominio | El tamaño del código o un equipo mayor lo piden [P-ARQ-1] [P-ARQ-4] |
+| Cuentas de usuario | Algo central no funciona sin identificar a la persona (traen eliminación de cuenta y datos que declarar) |
+| Cobro dentro de la app | El negocio decide vender allí y se revisó la política de pagos |
+| Contenido de usuarios | Hay quien lo modere y las funciones de denuncia y bloqueo van en la misma entrega |
+| Infraestructura propia de mensajería | La mensajería de la plataforma no cumple una latencia medida |
+
+Lo que **nunca** se recorta en el tipo M está en `kit/GUIA-DECISION.md` («qué no recortar nunca»). Elegir el stack no verifica nada: la ficha llega con `kit.checks` vacío. Solo si el humano eligió Kotlin con Compose y quiere partir del esqueleto, la ficha declara `kit.preset` `java-gradle`, se vuelve a instalar (primero con `--dry-run`) y se regenera `.claude/` desde la ficha, como dice «Esqueleto Android» en `kit/GUIA-DECISION.md` (sin eso el sello sigue sin comprobaciones); el preset está verificado **solo** sobre ese esqueleto y las versiones que registra el kit, y no demuestra nada sobre un proyecto propio. Con cualquier otra alternativa, escribe tus `kit.checks`.

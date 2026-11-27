@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Solo la ventana antes de que Compose dibuje. Los colores de la interfaz viven en tema/Tokens.kt. -->
+    <style name="TemaVentana" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

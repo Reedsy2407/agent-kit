@@ -62,6 +62,8 @@ Antes de escribir la primera pantalla:
 6. **Un rediseño** solo si lo pide el humano o la auditoría lo justifica; vuelve al paso 2.
 
 ### Referencias sin copiar
+**Principio (cualquier tipo de proyecto y sector):** si en el rubro ya hay productos parecidos, lo ideal es estudiar e imitar su estilo —navegación, jerarquía, densidad, tamaño de los controles, tono, estados vacíos y de error— sin copiar marca, logotipos, textos, iconos propios, ilustraciones ni pantallas concretas; la voz propia (tipografía, paleta y elemento firma) sigue siendo la del proyecto.
+
 Las páginas admiradas se guardan solo como material de estudio en un directorio local ignorado por git (`design/refs/`) y de ellas se extraen **decisiones** (familia y escala tipográfica, relación de contraste, ritmo de espaciado, forma, densidad, tratamiento de estados), no píxeles. Se anota aquí la decisión y su razón, no la fuente. No se copian marcas, logotipos, ilustraciones, textos ni composiciones protegidas.
 
 ## Protocolo de referencia (cuando se parte de una página admirada)

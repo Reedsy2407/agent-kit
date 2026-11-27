@@ -73,7 +73,7 @@ test('el instalador acepta --tipo C (y su mensaje de error lo menciona) y rechaz
     let err = '';
     const io = { stdout: { write: () => {} }, stderr: { write: (t) => { err += t; } }, interactivo: false };
     assert.equal(await main(['--destino', e.destino, '--tipo', 'Z'], io), 2);
-    assert.match(err, /usa A, B o C/);
+    assert.match(err, /usa A, B, C o M/);
     const p = planificar({ destino: e.destino, tipo: 'C', proyecto: 'demo', respaldo: e.respaldo, ahora: new Date('2026-10-29T10:00:00Z') });
     assert.equal(p.pendienteEtapa2, false);
     const destinos = p.acciones.map((a) => a.destino);

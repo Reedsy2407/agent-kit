@@ -1,6 +1,6 @@
 ---
 name: evaluar-viabilidad
-description: Puerta cero antes de diseñar un sistema con servicios o una herramienta de sistemas (tipo C, con puerta de uso responsable). Lista las dependencias externas de la idea (datos, APIs, accesos, convenios, licencias, costos, legalidad), exige evidencia de acceso para cada una crítica y emite un veredicto GO, GO-CONDICIONADO, REDISEÑO o NO-GO en DECISION-VIABILIDAD.md. Úsala al empezar un proyecto o cuando una idea gane una dependencia externa nueva, antes de elegir stack o escribir código.
+description: Puerta cero antes de diseñar un sistema con servicios, una herramienta de sistemas (tipo C, con puerta de uso responsable) o una aplicación móvil (tipo M, ocho ejes propios). Lista las dependencias externas de la idea (datos, APIs, accesos, convenios, licencias, costos, legalidad), exige evidencia de acceso para cada una crítica y emite un veredicto GO, GO-CONDICIONADO, REDISEÑO o NO-GO en DECISION-VIABILIDAD.md. Úsala al empezar un proyecto o cuando una idea gane una dependencia externa nueva, antes de elegir stack o escribir código.
 ---
 
 Antes de diseñar, comprueba que el mundo permite construir la idea. Esta skill no pregunta por el negocio (ya está organizado): pregunta si **los accesos que el negocio necesita existen de verdad**. Una idea que depende de un dato que nadie puede obtener es una idea que se descarta o se rediseña **antes** de escribir una línea, no después.
@@ -72,7 +72,7 @@ Reglas:
 ## 6. Cierre
 1. Rellena `DECISION-VIABILIDAD.md`: veredicto, dependencias con su evidencia y fecha, riesgos y plan B por dependencia.
 2. La evidencia envejece: anota cuándo caduca y reverifica antes de construir si ha pasado tiempo, si cambia el alcance o si aparece una dependencia nueva.
-3. Solo con GO o GO-CONDICIONADO sigues con `elegir-stack-proporcional` (en el tipo C, solo con GO: ver la sección 7).
+3. Solo con GO o GO-CONDICIONADO sigues con `elegir-stack-proporcional` (en los tipos C y M, solo con GO: ver las secciones 7 y 8).
 
 ## 7. Rama del tipo C (herramientas y software de sistemas)
 **Solo aplica a proyectos del tipo C (herramientas y software de sistemas), que se instala con esqueletos de Go, Python y Rust y con su propio catálogo.** Aplica cuando el entregable es un binario o paquete instalable: una CLI, un daemon, una librería, un proxy, un servidor de protocolo o un gestor de procesos. Haz primero las secciones 1 a 6 para lo externo (acceso con evidencia, plan B) y añade esto. Los veredictos del tipo C son tres: **GO**, **REDISEÑO** y **NO-GO**; no hay GO-CONDICIONADO, porque un permiso o una autorización pendientes no se «verifican después». Salida: `DECISION-VIABILIDAD.md` más la sección del tipo C de `kit/plantillas/VIABILIDAD-TIPO-C.md`.
@@ -101,6 +101,34 @@ Responde por escrito: ¿cuál es la **función principal**?, ¿**quién** lo usa
 | **NO-GO** | La función principal es ofensiva sin uso defensivo claro (sin excepciones); o el privilegio total es imprescindible, no se puede acotar y no hay alternativa que conserve el valor. |
 
 En NO-GO, o en REDISEÑO sin aprobar, te detienes (sección 3). Ejemplos abstractos de los tres veredictos: `kit/ejemplos-viabilidad-c/` (se instala con el tipo C; en el kit: `types/C/ejemplos-viabilidad/`).
+
+## 8. Rama del tipo M (aplicaciones móviles)
+**Solo aplica a proyectos del tipo M: una aplicación instalada en un teléfono, Android primero.** Haz primero las secciones 1 a 6 para lo externo (inventario, acceso con evidencia, plan B, degradación) y añade esto. La tienda y el sistema operativo son dependencias externas más, casi siempre críticas. Los veredictos del tipo M son tres: **GO**, **REDISEÑO** y **NO-GO**; no hay GO-CONDICIONADO: un acceso, un permiso o una regla de la tienda sin confirmar no se «verifican después». Salida: `DECISION-VIABILIDAD.md` (en el tipo M no se usa la opción GO-CONDICIONADO de esa plantilla) más `kit/plantillas/VIABILIDAD-TIPO-M.md`.
+
+Los hechos sobre Android y la tienda están en `kit/PLATAFORMA-ANDROID.md`, con su fuente y fecha (en el kit: `types/M/PLATAFORMA-ANDROID.md`). Vuelve a leer la fuente de cada fila en la que apoyes un veredicto y anota la fecha; una fila «No verificado» no es evidencia.
+
+### 8.1 Los ocho ejes
+Un eje que no aplica se dice con su razón; en blanco cuenta como sin evidencia.
+
+| Eje | Pregunta | Evidencia que se anota | Hechos |
+|---|---|---|---|
+| (a) Datos externos o en tiempo real | ¿El dato es **accesible**, **estable** y está **permitido** usarlo así? ¿Con qué frescura y qué pasa cuando llega tarde o no llega, con la app abierta y en segundo plano? | Las tres cosas por separado y con evidencia (sección 2): sondeo real, términos leídos, credencial o camino; latencia necesaria frente a la medida. Que se vea en una pantalla ajena no lo hace accesible ni permitido. | [P-RT-1] a [P-RT-19], [P-FGS-12] |
+| (b) Integraciones de terceros (mapas, rutas, mensajería…) | ¿Los términos permiten este uso: segundo plano, uso al conducir, guardar resultados, combinarlos con otro mapa, volumen? ¿Qué cuesta al superar lo gratuito? | Términos leídos con fecha y la cláusula que lo permite, cuota y si exige tarjeta. Un plan B por integración. | Los del tercero |
+| (c) Cobros y suscripciones | ¿Se vende algo digital? ¿Dentro de la app, fuera o nada («solo de consumo»)? ¿En qué países? ¿Qué pruebas gratuitas y cancelaciones hay? | La política de pagos releída, el modelo elegido y qué se muestra y qué no. Conducir desde la app a otro pago fuera de un programa admitido es motivo de REDISEÑO. | [P-PAG-1] a [P-PAG-7] |
+| (d) Permisos sensibles (ubicación, segundo plano, cámara, notificaciones) | ¿Qué permiso y qué servicio exige cada función, hay alternativa sin él y qué hay que declarar en la tienda? ¿La app sirve si se niega? | Tabla de permisos: función, alternativa, declaración (formulario, aviso destacado, video), comportamiento al negarlo. Lo que deba seguir en segundo plano se prueba en equipos reales antes de prometerlo. | [P-FGS-1] a [P-FGS-14], [P-UBI-1] a [P-UBI-9], [P-PER-1] a [P-PER-4] |
+| (e) Contenido generado por usuarios | ¿Los usuarios publican algo que otros ven o se escriben entre sí? ¿Quién modera, en cuánto tiempo, con qué sanciones? | Condiciones a aceptar, denuncia, bloqueo, sanciones en el servidor y la persona que atiende. Sin quien modere: REDISEÑO. | [P-UGC-1] a [P-UGC-3] |
+| (f) Datos personales y privacidad desde el diseño | ¿Qué datos se recogen, para qué, dónde quedan, cuánto tiempo y quién los recibe, bibliotecas incluidas? ¿Se pueden borrar? ¿Con qué base se tratan en los países de los usuarios? | Inventario de datos, el mínimo justificado, política, formulario de la tienda y ruta de eliminación. La ley aplicable se consulta; no se supone. | [P-PRI-1] a [P-PRI-5], [P-UBI-5], [P-RT-7], [P-RT-9] a [P-RT-11], [P-RT-19] |
+| (g) Funcionamiento sin conexión | ¿Qué debe funcionar sin red, qué se ve antiguo y qué se bloquea? ¿Qué pasa con lo escrito sin red? | Lista por función: sin red, en cola o solo en línea; cómo se resuelve un conflicto y cómo se marca lo antiguo. | [P-ARQ-3] |
+| (h) Cuenta de desarrollador, plazos de revisión y costo | ¿Quién abre la cuenta y de qué tipo? ¿Qué pruebas previas y revisiones hay antes de publicar? ¿Cuánto cuesta y qué pasa con un presupuesto cero? | Pasos con responsable, plazo, costo y fecha de inicio. La cuota de la tienda es un costo: con presupuesto cero estricto, publicar allí no es posible y se dice. La cuenta la crea el humano. | [P-PUB-1] a [P-PUB-9] |
+
+### 8.2 Veredicto del tipo M
+| Veredicto | Cuándo |
+|---|---|
+| **GO** | Los ocho ejes con evidencia (o «no aplica» justificado), cada dependencia crítica con acceso verificado y permitido, y el plazo y el costo de publicación aceptados por el humano. |
+| **REDISEÑO** | Falta evidencia, un permiso o una regla de la tienda obliga a cambiar la función, o el plazo o el costo no se aceptan; pero existe una alternativa que conserva el valor (otra fuente, primer plano en lugar de segundo plano, solo de consumo, sin contenido de usuarios, otro canal de reparto). Se decide con el humano antes de construir. |
+| **NO-GO** | La función central depende de un dato sin acceso, inestable o no permitido, o de algo que los términos o la tienda prohíben, y no hay alternativa que conserve el valor. |
+
+En NO-GO, o en REDISEÑO sin aprobar, te detienes (sección 3). Solo con GO sigues con `elegir-stack-proporcional`, sección 9.
 
 ## Caso de estudio (público, abstracto): esg-trazabilidad
 Idea: un certificado de cumplimiento ambiental para empresas, que cruzaba registros propios con una cifra por empresa publicada en una plataforma estatal de reporte.

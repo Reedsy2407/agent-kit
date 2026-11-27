@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- La ventana sigue el modo oscuro del sistema [P-ACC-5]. -->
+    <style name="TemaVentana" parent="android:Theme.Material.NoActionBar" />
+</resources>

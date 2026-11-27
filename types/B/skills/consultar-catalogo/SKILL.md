@@ -1,6 +1,6 @@
 ---
 name: consultar-catalogo
-description: Consulta el catálogo de problemas de sistemas con servicios (kit/catalogo/) o, en el tipo C (herramientas y software de sistemas), el de kit/catalogo-c/, cuando aparezca un problema técnico concreto, y los casos privados (kit/casos-privados/, si existen) para ver cómo se resolvió uno parecido. Úsala antes de decidir cómo resolver consistencia, errores, dependencias externas, concurrencia, dinero, integraciones, autenticación, migraciones, pruebas, observabilidad o despliegue; en el tipo C, ciclo de vida, control local, contrato de un CLI, entrada no confiable, extensión, confinamiento, secretos, privilegios, registro, empaquetado o cambios reversibles.
+description: Consulta el catálogo de problemas de sistemas con servicios (kit/catalogo/) o, en el tipo C (herramientas y software de sistemas), el de kit/catalogo-c/, o, en el tipo M (aplicaciones móviles), el de kit/catalogo-m/, cuando aparezca un problema técnico concreto, y los casos privados (kit/casos-privados/, si existen) para ver cómo se resolvió uno parecido. Úsala antes de decidir cómo resolver consistencia, errores, dependencias externas, concurrencia, dinero, integraciones, autenticación, migraciones, pruebas, observabilidad o despliegue; en el tipo C, ciclo de vida, control local, contrato de un CLI, entrada no confiable, extensión, confinamiento, secretos, privilegios, registro, empaquetado o cambios reversibles; en el tipo M, segundo plano, permisos, ubicación, avisos, contenido de usuarios, acceso, cuentas, sin red, publicación o accesibilidad.
 ---
 
 El catálogo es de **problemas, no de soluciones**: cada ficha dice cuándo el problema aplica, cuándo sobra, qué opciones hay (siempre incluida «no hacer nada»), cuánto cuesta cada una y cómo se comprueba. No es una lista de cosas por implementar.
@@ -28,6 +28,16 @@ En un proyecto del tipo C el catálogo está en `kit/catalogo-c/` (índice: `kit
 - Las fichas de seguridad (entrada no confiable, confinamiento, secretos, privilegios, autenticación de APIs de control) son **defensivas**: describen límites, plazos y privilegios mínimos. El catálogo no describe técnicas de ataque ni cargas útiles y **no autoriza** construir una herramienta ofensiva: la puerta de uso responsable de `evaluar-viabilidad` (sección 7) manda sobre cualquier ficha.
 - No hay `kit/casos-privados/` en el tipo C: el material de consulta del tipo C es local del kit y no se instala.
 - Si ninguna ficha encaja, decide por proporcionalidad (`elegir-stack-proporcional`, sección 8) y no fuerces una ficha.
+
+## Rama del tipo M (aplicaciones móviles)
+En un proyecto del tipo M el catálogo está en `kit/catalogo-m/` (índice: `kit/catalogo-m/INDEX.md`), con dieciséis fichas en cinco grupos: sistema y segundo plano; datos, privacidad y confianza; red y servidor; personas y tienda; y construcción. Se usa igual que arriba (primero «Señales de que sobra», opciones por costo, ADR con `kit/plantillas/ADR.md`) con estas diferencias:
+- Donde arriba dice `kit/catalogo/` y `kit/ejemplos-adr/` (rutas del tipo B), en el tipo M son `kit/catalogo-m/` y `kit/ejemplos-adr-m/`.
+- No hay notas por stack. Cada ficha cita sus hechos de plataforma por identificador: léelos en `kit/PLATAFORMA-ANDROID.md`, con su fuente y su fecha. Un hecho «No verificado» se contrasta o se mide antes de usarlo como razón, y antes de adoptar algo que dependa de un hecho se vuelve a leer la fuente.
+- Si la ficha toca un requisito de referencia (R1 a R7, en `kit/GUIA-DECISION.md`), leerla no lo cumple: lo que dependa de un equipo real se comprueba en un equipo real y, si no se probó, se dice.
+- La ficha no elige el stack: eso es de `elegir-stack-proporcional` (sección 9) y lo decide el humano.
+- Los datos de negocio (duraciones, precios, plazos de moderación, reglas de sanción, países) no los pone la ficha: se piden al humano.
+- No hay `kit/casos-privados/` en el tipo M.
+- Si ninguna ficha encaja, decide por proporcionalidad (`elegir-stack-proporcional`, sección 9) y no fuerces una ficha.
 
 ## Lo que no hace esta skill
 No impone un patrón por estar en el catálogo, no decide por el humano lo que es de negocio y no sustituye la prueba: toda decisión adoptada lleva su comprobación (la ficha dice cuál).

@@ -1,0 +1,21 @@
+{
+  "_ayuda": "Metadatos del esqueleto (los lee el instalador y types/M/esqueletos/verificar.mjs). Se instala solo si la ficha del proyecto declara kit.preset igual a «preset» (tipo M). Es una de las salidas de la guía: el tipo M no impone stack. Las sumas son las publicadas por Gradle para la versión indicada [P-HER-9].",
+  "stack": "android-compose",
+  "nombre": "Android con Kotlin y Jetpack Compose",
+  "preset": "java-gradle",
+  "gitignore": [
+    "/.gradle/",
+    "build/",
+    "/.kotlin/",
+    "/captures/"
+  ],
+  "verificacion": {
+    "gradle": {
+      "version": "9.7.0",
+      "distribucionSha256": "84fbba45c7f4c64abc77460e1c00f541e9f960e3c7ed2538f1ede19eacd873ae",
+      "envoltorioSha256": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d"
+    },
+    "plataformaAndroid": "android-37.1",
+    "buildTools": "36.0.0"
+  }
+}

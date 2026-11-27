@@ -12,7 +12,7 @@ import { createHash } from 'node:crypto';
 
 export const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 export const DATOS = join(RAIZ, 'core', 'test', 'datos-privados.json');
-export const TEXTO = /\.(md|json|mjs|txt|tpl|jsonc|css|html|plantilla|ya?ml|java|cs|csproj|sln|py|xml|toml|ejemplo)$|(^|\/)Dockerfile$/i;
+export const TEXTO = /\.(md|json|mjs|txt|tpl|jsonc|css|html|plantilla|ya?ml|java|cs|csproj|sln|py|xml|toml|kt|kts|properties|ejemplo)$|(^|\/)Dockerfile$/i;
 
 // Opcional: SHA-256 de palabras que no deben aparecer en core/ ni design/. Vacío en la copia pública; la lista de cada persona va en datos-privados.json.
 export const HUELLAS_VETADAS = new Set();

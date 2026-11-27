@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sin permisos: cada uno se añade cuando una función lo pida, en contexto [P-PER-3]. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Sin copia de seguridad ni transferencia a otro equipo hasta que el proyecto decida qué datos pueden salir:
+         el primer atributo no basta en todos los equipos y por eso van además las reglas de extracción [P-PRI-6]. -->
+    <application
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/reglas_de_extraccion"
+        android:fullBackupContent="false"
+        android:label="@string/nombre_app"
+        android:supportsRtl="true"
+        android:theme="@style/TemaVentana">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

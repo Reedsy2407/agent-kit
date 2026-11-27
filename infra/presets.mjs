@@ -58,9 +58,21 @@ export const PRESETS_C = Object.freeze({
 });
 export const IDS_PRESETS_C = Object.freeze(Object.keys(PRESETS_C));
 
-/** Presets que valen para un tipo de proyecto: el C tiene los suyos; los demás comparten los del tipo B. */
-export const presetsDe = (tipo) => (tipo === 'C' ? PRESETS_C : PRESETS);
-export const idsDePresets = (tipo) => (tipo === 'C' ? IDS_PRESETS_C : IDS_PRESETS);
+// Presets del tipo M (aplicaciones móviles; ADR 0021 y 0023). Solo `java-gradle`: mismo comando que el del tipo B, pero con
+// su propio estado. Un preset verificado sobre un esqueleto de servidor no vale como verificación de una app, y al revés: el
+// de aquí se ejecutó sobre el esqueleto Android (types/M/esqueletos/VERIFICACION.md) y el del tipo B sigue sin verificar.
+export const PRESETS_M = Object.freeze({
+  'java-gradle': Object.freeze({
+    nombre: 'Gradle para una app Android', verificado: true, verificadoEl: '2026-11-27', esqueleto: 'android-compose', timeoutSeconds: PRESETS['java-gradle'].timeoutSeconds,
+    comandos: PRESETS['java-gradle'].comandos,
+    nota: 'Verificado solo sobre el esqueleto android-compose, en Windows, con las versiones de types/M/esqueletos/VERIFICACION.md. En Windows el sello usa cmd: ahí el comando es .\\gradlew.bat --no-daemon check (kit.checks).',
+  }),
+});
+export const IDS_PRESETS_M = Object.freeze(Object.keys(PRESETS_M));
+
+/** Presets que valen para un tipo de proyecto: el C y el M tienen los suyos; los demás comparten los del tipo B. */
+export const presetsDe = (tipo) => (tipo === 'C' ? PRESETS_C : tipo === 'M' ? PRESETS_M : PRESETS);
+export const idsDePresets = (tipo) => (tipo === 'C' ? IDS_PRESETS_C : tipo === 'M' ? IDS_PRESETS_M : IDS_PRESETS);
 
 /** Comprobaciones del sello que aporta el preset, con su tiempo máximo. */
 export function checksDePreset(id, tipo) {

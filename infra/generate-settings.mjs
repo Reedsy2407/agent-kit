@@ -172,7 +172,7 @@ export function validarFicha(ficha) {
   if (!ficha || typeof ficha !== 'object') throw new FichaInvalida(['la ficha debe ser un objeto JSON']);
   if (ficha.version !== 1) errores.push('version debe ser 1');
   if (!ficha.proyecto || typeof ficha.proyecto !== 'string') errores.push('proyecto es obligatorio');
-  if (!['A', 'B', 'C', 'kit'].includes(ficha.tipo)) errores.push('tipo debe ser "A", "B", "C" o "kit" (el propio kit, ADR 0014)');
+  if (!['A', 'B', 'C', 'M', 'kit'].includes(ficha.tipo)) errores.push('tipo debe ser "A", "B", "C", "M" o "kit" (el propio kit, ADR 0014)');
   for (const [ruta, valor] of cadenas(ficha)) {
     if (ruta === '_ayuda') continue;
     for (const [re, que] of SECRETOS) if (re.test(valor)) errores.push(`${ruta} parece contener ${que}: la ficha no lleva secretos`);
@@ -187,7 +187,7 @@ export function validarFicha(ficha) {
     if (typeof config !== 'string' || !config || /^([a-zA-Z]:|[\\/])/.test(config) || config.split(/[\\/]/).includes('..')) errores.push('kit.front.config debe ser una ruta relativa dentro del proyecto (p. ej. tests/front/front.config.json)');
     if (typeof comando !== 'string' || !comando.trim()) errores.push('kit.front.comando debe ser el comando que corre las pruebas de front');
   }
-  if (kit.preset !== undefined && kit.preset !== '' && kit.preset !== null && !idsDePresets(ficha.tipo).includes(kit.preset)) errores.push(`kit.preset «${kit.preset}» no existe${ficha.tipo === 'C' ? ' para el tipo C' : ''} (usa ${idsDePresets(ficha.tipo).join(', ')} o déjalo vacío)`);
+  if (kit.preset !== undefined && kit.preset !== '' && kit.preset !== null && !idsDePresets(ficha.tipo).includes(kit.preset)) errores.push(`kit.preset «${kit.preset}» no existe${['C', 'M'].includes(ficha.tipo) ? ` para el tipo ${ficha.tipo}` : ''} (usa ${idsDePresets(ficha.tipo).join(', ')} o déjalo vacío)`);
   for (const c of kit.checks ?? []) if (!Array.isArray(c.commands) || !c.commands.length) errores.push('kit.checks: cada comprobación necesita una lista de commands');
   for (const c of kit.checks ?? []) if (c.timeoutSeconds !== undefined && !(Number.isInteger(c.timeoutSeconds) && c.timeoutSeconds > 0 && c.timeoutSeconds <= 7200)) errores.push('kit.checks: timeoutSeconds debe ser un entero de 1 a 7200');
   const { allow, deny, condicional } = listaReglas(ficha, errores);
